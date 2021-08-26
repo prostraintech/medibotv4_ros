@@ -64,6 +64,7 @@ double speed_act_left = 0;                    //Actual speed for left wheel in m
 double speed_act_right = 0;                    //Command speed for left wheel in m/s 
 
 void setup() {
+  nh.getHardware()->setBaud(115200);
   nh.initNode();
   nh.subscribe(sub);
   nh.advertise(speed_pub);
