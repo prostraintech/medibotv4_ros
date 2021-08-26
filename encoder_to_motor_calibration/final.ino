@@ -37,8 +37,8 @@ PID PID2(&Input2, &Output2, &Setpoint2, Pk2, Ik2, Dk2, DIRECT); // PID setup 2
 
 float demand_left;
 float demand_right;
-float demandx=0;
-float demandz=0;
+float demandx=0; // in m/s
+float demandz=0; // in rad/s
 
 unsigned long currentMillis;
 unsigned long previousMillis;      
@@ -96,6 +96,42 @@ void loop() {
   currentMillis = millis();
   if(currentMillis - previousMillis >= LOOPTIME){
     previousMillis = currentMillis;
+//     if(Serial.available()>0){ // manual control of wheels via terminal
+//       char c = Serial.read();
+//       if(c=='a'){
+//         //0.5 m/s test
+//         demandx = 0.5; 
+//         demandz = 0; 
+//       }
+//       else if(c=='b'){
+//         //0.25 m/s test
+//         demandx = 0.25; 
+//         demandz = 0; 
+//       }
+//       else if(c=='c'){
+//         demandx = 0; //turn at 1 rad/s
+//         demandz = 1; 
+//       }
+//       else if(c=='d'){
+//         demandx = 0; //turn at -1 rad/s
+//         demandz = -1; 
+//       }
+//       else if(c=='e'){
+//         //drive at 0.25m/s and turn at 1 rad/s
+//         demandx = 0.25; 
+//         demandz = 1; 
+//       }
+//       else if(c=='f'){
+//         //the other way
+//         demandx = 0.25; 
+//         demandz = -1; 
+//       }
+//       else if(c=='z'){
+//         //stop motors
+//         demandx = 0; 
+//         demandz = 0; 
+//       }
+//     }
 
     //calculate the two values for differential drive of each wheel
     demand_left = demandx - (demandz*WHEEL_SEPARATION/2); 
