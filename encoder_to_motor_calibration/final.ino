@@ -97,42 +97,42 @@ void loop() {
   currentMillis = millis();
   if(currentMillis - previousMillis >= LOOPTIME){
     previousMillis = currentMillis;
-//     if(Serial.available()>0){ // manual control of wheels via terminal
-//       char c = Serial.read();
-//       if(c=='a'){
-//         //0.5 m/s test
-//         demandx = 0.5; 
-//         demandz = 0; 
-//       }
-//       else if(c=='b'){
-//         //0.25 m/s test
-//         demandx = 0.25; 
-//         demandz = 0; 
-//       }
-//       else if(c=='c'){
-//         demandx = 0; //turn at 1 rad/s
-//         demandz = 1; 
-//       }
-//       else if(c=='d'){
-//         demandx = 0; //turn at -1 rad/s
-//         demandz = -1; 
-//       }
-//       else if(c=='e'){
-//         //drive at 0.25m/s and turn at 1 rad/s
-//         demandx = 0.25; 
-//         demandz = 1; 
-//       }
-//       else if(c=='f'){
-//         //the other way
-//         demandx = 0.25; 
-//         demandz = -1; 
-//       }
-//       else if(c=='z'){
-//         //stop motors
-//         demandx = 0; 
-//         demandz = 0; 
-//       }
-//     }
+     if(Serial.available()>0){ // manual control of wheels via terminal
+       char c = Serial.read();
+       if(c=='a'){
+         //0.5 m/s test
+         demandx = -0.25; 
+         demandz = 0; 
+       }
+       else if(c=='b'){
+         //0.25 m/s test
+         demandx = 0.25; 
+         demandz = 0; 
+       }
+       else if(c=='c'){
+         demandx = 0; //turn at 1 rad/s
+         demandz = 1; 
+       }
+       else if(c=='d'){
+         demandx = 0; //turn at -1 rad/s
+         demandz = -1; 
+       }
+       else if(c=='e'){
+         //drive at 0.25m/s and turn at 1 rad/s
+         demandx = 0.25; 
+         demandz = 1; 
+       }
+       else if(c=='f'){
+         //the other way
+         demandx = 0.25; 
+         demandz = -1; 
+       }
+       else if(c=='z'){
+         //stop motors
+         demandx = 0; 
+         demandz = 0; 
+       }
+     }
 
     //calculate the two values for differential drive of each wheel
     demand_left = demandx - (demandz*WHEEL_SEPARATION/2); 
@@ -179,12 +179,14 @@ void loop() {
     //DRIVE MOTOR
     if(Output1>0){
       Output1a = abs(Output1);//left wheel forward
+      //Output1a = map(Output1a, 0, 100, 0, 255)
       analogWrite(LH_D1,Output1a);
       digitalWrite(LH_D2,LOW);
       digitalWrite(LH_D3,HIGH);
     }
     else if(Output1<0){
       Output1a = abs(Output1);//left wheel backward
+      //Output1a = map(Output1a, 0, 100, 0, 255)
       analogWrite(LH_D1,Output1a);
       digitalWrite(LH_D2,LOW);
       digitalWrite(LH_D3,LOW);
@@ -198,12 +200,15 @@ void loop() {
     //OTHER MOTOR
     if(Output2>0){
       Output2a = abs(Output2);//right wheel forward
-      analogWrite(RH_D1,Output1a);
+      //Output2a = map(Output2a, 0, 100, 0, 255)
+      analogWrite(RH_D1,Output2a);
       digitalWrite(RH_D2,LOW);
       digitalWrite(RH_D3,HIGH);
     }
-    else if(Output2<0){
-      analogWrite(RH_D1,Output1a);//right wheel backward
+    else if(Output2<0){//right wheel backward
+      Output2a = abs(Output2);
+      //Output2a = map(Output2a, 0, 100, 0, 255)
+      analogWrite(RH_D1,Output2a);
       digitalWrite(RH_D2,LOW);
       digitalWrite(RH_D3,LOW);
     }
