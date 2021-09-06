@@ -28,10 +28,10 @@ ros::NodeHandle  nh;
 #define RH_ENA 44 // right encoder A
 #define RH_ENB 43 // right encoder B   
 //velocity PID
-double Pk1 = 4, Ik1 = 0, Dk1 = 0.01;
+double Pk1 = 1, Ik1 = 0, Dk1 = 0.01;
 double Setpoint1, Input1, Output1, Output1a; // PID variables 1
 PID PID1(&Input1, &Output1, &Setpoint1, Pk1, Ik1, Dk1, DIRECT); // PID setup 1
-double Pk2 = 4, Ik2 = 0, Dk2 = 0.01;
+double Pk2 = 1, Ik2 = 0, Dk2 = 0.01;
 double Setpoint2, Input2, Output2, Output2a; // PID variables 2
 PID PID2(&Input2, &Output2, &Setpoint2, Pk2, Ik2, Dk2, DIRECT); // PID setup 2
 
@@ -280,19 +280,19 @@ void doEncoderRHA(){
   if(digitalRead(RH_ENA)==HIGH){
     //check channel B to see which way encoder is turning
     if(digitalRead(RH_ENB)==LOW){
-      encoderLH_Pos--; // CW
+      encoderRH_Pos--; // CW
     }
     else{
-      encoderLH_Pos++; // CCW
+      encoderRH_Pos++; // CCW
     }
   }
   else{ //must be a high-to-low edge on channel A
     //check channel B to see which way encoder is turning
     if(digitalRead(RH_ENB)==HIGH){
-      encoderLH_Pos--; // CW
+      encoderRH_Pos--; // CW
     }
     else{
-      encoderLH_Pos++; // CCW
+      encoderRH_Pos++; // CCW
     }
   }
 }
@@ -302,19 +302,19 @@ void doEncoderRHB(){
   if(digitalRead(RH_ENB)==HIGH){
     //check channel A to see which way encoder is turning
     if(digitalRead(RH_ENA)==HIGH){
-      encoderLH_Pos--; // CW
+      encoderRH_Pos--; // CW
     }
     else{
-      encoderLH_Pos++; // CCW
+      encoderRH_Pos++; // CCW
     }
   }
   else{ //must be a high-to-low edge on channel B
     //check channel A to see which way encoder is turning
     if(digitalRead(RH_ENA)==LOW){
-      encoderLH_Pos--; // CW
+      encoderRH_Pos--; // CW
     }
     else{
-      encoderLH_Pos++; // CCW
+      encoderRH_Pos++; // CCW
     }
   }
 }
