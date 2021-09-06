@@ -280,19 +280,19 @@ void doEncoderRHA(){
   if(digitalRead(RH_ENA)==HIGH){
     //check channel B to see which way encoder is turning
     if(digitalRead(RH_ENB)==LOW){
-      encoderRH_Pos--; // CW
+      encoderRH_Pos++; // CW
     }
     else{
-      encoderRH_Pos++; // CCW
+      encoderRH_Pos--; // CCW
     }
   }
   else{ //must be a high-to-low edge on channel A
     //check channel B to see which way encoder is turning
     if(digitalRead(RH_ENB)==HIGH){
-      encoderRH_Pos--; // CW
+      encoderRH_Pos++; // CW
     }
     else{
-      encoderRH_Pos++; // CCW
+      encoderRH_Pos--; // CCW
     }
   }
 }
@@ -302,19 +302,19 @@ void doEncoderRHB(){
   if(digitalRead(RH_ENB)==HIGH){
     //check channel A to see which way encoder is turning
     if(digitalRead(RH_ENA)==HIGH){
-      encoderRH_Pos--; // CW
+      encoderRH_Pos++; // CW
     }
     else{
-      encoderRH_Pos++; // CCW
+      encoderRH_Pos--; // CCW
     }
   }
   else{ //must be a high-to-low edge on channel B
     //check channel A to see which way encoder is turning
     if(digitalRead(RH_ENA)==LOW){
-      encoderRH_Pos--; // CW
+      encoderRH_Pos++; // CW
     }
     else{
-      encoderRH_Pos++; // CCW
+      encoderRH_Pos--; // CCW
     }
   }
 }
