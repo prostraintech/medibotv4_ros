@@ -181,15 +181,15 @@ void loop() {
     rwheel_pub.publish(&rwheel_msg);
     nh.spinOnce();
   }
-  // Stop the robot if there are no cmd_vel messages
-//   if((millis()/1000) - lastCmdVelReceived > 1) {
-//       analogWrite(LH_D1,0);//left wheel stop
-//       digitalWrite(LH_D2,HIGH);
-//       digitalWrite(BR,HIGH);
-//       analogWrite(RH_D1,0);//right wheel stop
-//       digitalWrite(RH_D2,HIGH);
-//       digitalWrite(BR,HIGH);
-//   }
+//   Stop the robot if there are no cmd_vel messages
+  if((millis()/1000) - lastCmdVelReceived > 1) {
+      analogWrite(LH_D1,0);//left wheel stop
+      digitalWrite(LH_D2,HIGH);
+      digitalWrite(BR,HIGH);
+      analogWrite(RH_D1,0);//right wheel stop
+      digitalWrite(RH_D2,HIGH);
+      digitalWrite(BR,HIGH);
+  }
 }
 
 
