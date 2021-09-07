@@ -1,16 +1,15 @@
 //wheel radius, r = 160mm = 0.16m
 //wheel separation, l = 498mm = 0.498m
 //lidar height from ground = 229.4mm
-#include <PID_v1.h>
 #include <ros.h>
-#include <ros/time.h>
 #include <geometry_msgs/Twist.h>
 #include <std_msgs/Int16.h>
+#include <PID_v1.h>
 ros::NodeHandle  nh;
 //diff drive parameters in metre
 #define WHEEL_SEPARATION 0.498
 #define WHEEL_RADIUS 0.16
-#define ENCODER_CPM 12900
+#define ENCODER_CPM 97
 #define LOOPTIME 10
 //motor pins
 #define LH_D1 3          // Left hand PWM
@@ -21,7 +20,7 @@ ros::NodeHandle  nh;
 #define RH_D2 26         // Right hand STOP
 #define RH_D3 25         // Right hand DIRECTION
 #define RH_A1 A5         // Right hand ANALOG
-#define BR = 29         // Brake
+#define BR 29         // Brake
 // wheel encoder pins
 #define LH_ENA 46 // left encoder A
 #define LH_ENB 45 // left encoder B         
@@ -60,10 +59,11 @@ void cmd_vel_callback( const geometry_msgs::Twist& twist){
 ros::Subscriber<geometry_msgs::Twist> sub("cmd_vel", cmd_vel_callback );
 std_msgs::Int16 lwheel_msg;
 std_msgs::Int16 rwheel_msg;
-ros::Publisher lwheel_pub("lwheel", &speed_msg);
-ros::Publisher rwheel_pub("rwheel", &speed_msg); 
+ros::Publisher lwheel_pub("lwheel", &lwheel_msg);
+ros::Publisher rwheel_pub("rwheel", &rwheel_msg); 
 double speed_act_left = 0;                    //Actual speed for left wheel in m/s
 double speed_act_right = 0;                    //Command speed for left wheel in m/s 
+
 
 void setup() {
   nh.getHardware()->setBaud(115200);
@@ -93,49 +93,49 @@ void setup() {
   PID2.SetOutputLimits(-100,100);
   PID2.SetSampleTime(10);
 
-  Serial.begin(115200);
+//  Serial.begin(115200);
 }
 
 void loop() {
   currentMillis = millis();
   if(currentMillis - previousMillis >= LOOPTIME){
     previousMillis = currentMillis;
-     if(Serial.available()>0){ // manual control of wheels via terminal
-       char c = Serial.read();
-       if(c=='a'){
-         //0.5 m/s test
-         demandx = -0.25; 
-         demandz = 0; 
-       }
-       else if(c=='b'){
-         //0.25 m/s test
-         demandx = 0.25; 
-         demandz = 0; 
-       }
-       else if(c=='c'){
-         demandx = 0; //turn at 1 rad/s
-         demandz = 1; 
-       }
-       else if(c=='d'){
-         demandx = 0; //turn at -1 rad/s
-         demandz = -1; 
-       }
-       else if(c=='e'){
-         //drive at 0.25m/s and turn at 1 rad/s
-         demandx = 0.25; 
-         demandz = 1; 
-       }
-       else if(c=='f'){
-         //the other way
-         demandx = 0.25; 
-         demandz = -1; 
-       }
-       else if(c=='z'){
-         //stop motors
-         demandx = 0; 
-         demandz = 0; 
-       }
-     }
+//     if(Serial.available()>0){ // manual control of wheels via terminal
+//       char c = Serial.read();
+//       if(c=='a'){
+//         //0.5 m/s test
+//         demandx = -0.25; 
+//         demandz = 0; 
+//       }
+//       else if(c=='b'){
+//         //0.25 m/s test
+//         demandx = 0.25; 
+//         demandz = 0; 
+//       }
+//       else if(c=='c'){
+//         demandx = 0; //turn at 1 rad/s
+//         demandz = 1; 
+//       }
+//       else if(c=='d'){
+//         demandx = 0; //turn at -1 rad/s
+//         demandz = -1; 
+//       }
+//       else if(c=='e'){
+//         //drive at 0.25m/s and turn at 1 rad/s
+//         demandx = 0.25; 
+//         demandz = 1; 
+//       }
+//       else if(c=='f'){
+//         //the other way
+//         demandx = 0.25; 
+//         demandz = -1; 
+//       }
+//       else if(c=='z'){
+//         //stop motors
+//         demandx = 0; 
+//         demandz = 0; 
+//       }
+//     }
 
     //calculate the two values for differential drive of each wheel
     demand_left = demandx - (demandz*WHEEL_SEPARATION/2); 
@@ -155,29 +155,21 @@ void loop() {
     encoderLH_Diff = encoderLH_Pos - encoderLH_Prev; // work out difference from last time
     encoderRH_Diff = encoderRH_Pos - encoderRH_Prev; // this is the current speed in counts per 10ms
 
-    speed_act_left = encoderLH_Diff/(ENCODER_CPM/100);                    
-    speed_act_right = encoderRH_Diff/(ENCODER_CPM/100); 
+    speed_act_left = encoderLH_Diff/float(ENCODER_CPM/100);                    
+    speed_act_right = encoderRH_Diff/float(ENCODER_CPM/100); 
 
-    encoderLH_Error = (demand_left*(ENCODER_CPM/100)) - encoderLH_Diff;// 12900 ticks in 1m = 129 ticks in 10ms, due to the 10 millis loop
-    encoderRH_Error = (demand_right*(ENCODER_CPM/100)) - encoderRH_Diff;
+    encoderLH_Error = (demand_left*float(ENCODER_CPM/100)) - encoderLH_Diff;// 97 ticks in 1m = 0.97 ticks in 10ms, due to the 10 millis loop
+    encoderRH_Error = (demand_right*float(ENCODER_CPM/100)) - encoderRH_Diff;
 
     encoderLH_Prev = encoderLH_Pos; // bookmark previous values
     encoderRH_Prev = encoderRH_Pos;
 
-    Setpoint1 = demand_left*(ENCODER_CPM/100); //drive wheel 1 at 129 counts per 10ms cycle
-    Setpoint2 = demand_right*(ENCODER_CPM/100); //drive wheel 2 at 129 counts per 10ms cycle
+    Setpoint1 = demand_left*float(ENCODER_CPM/100); //drive wheel 1 at 129 counts per 10ms cycle
+    Setpoint2 = demand_right*float(ENCODER_CPM/100); //drive wheel 2 at 129 counts per 10ms cycle
     Input1 = encoderLH_Diff;
     Input2 = encoderRH_Diff; 
     PID1.Compute();
     PID2.Compute();
-    
-    Serial.print(Setpoint2);
-    Serial.print(" , ");
-    Serial.print(encoderRH_Diff);
-    Serial.print(" , ");
-    Serial.print(encoderRH_Pos);
-    Serial.print(" , ");
-    Serial.println(Output2);
 
     //DRIVE MOTOR
     if(Output1>0){
@@ -197,7 +189,7 @@ void loop() {
     else{
       analogWrite(LH_D1,0);//left wheel stop
       digitalWrite(LH_D2,HIGH);
-      //digitalWrite(BR,HIGH);
+      digitalWrite(BR,HIGH);
     }
 
     //OTHER MOTOR
@@ -218,12 +210,12 @@ void loop() {
     else{
       analogWrite(RH_D1,0);//right wheel stop
       digitalWrite(RH_D2,HIGH);
-      //digitalWrite(BR,HIGH);
+      digitalWrite(BR,HIGH);
     }
+    lwheel_pub.publish(&lwheel_msg);
+    rwheel_pub.publish(&rwheel_msg);
+    nh.spinOnce();
   }
-  lwheel_pub.publish(&lwheel_msg);
-  rwheel_pub.publish(&lwheel_msg);
-  nh.spinOnce();
 }
 
 
@@ -249,6 +241,7 @@ void doEncoderLHA(){
       encoderLH_Pos--; // CCW
     }
   }
+  lwheel_msg.data = encoderLH_Pos;
 }
 
 void doEncoderLHB(){
@@ -271,6 +264,7 @@ void doEncoderLHB(){
       encoderLH_Pos--; // CCW
     }
   }
+  lwheel_msg.data = encoderLH_Pos;
 }
 
 //****************** encoder right ********************
@@ -294,6 +288,7 @@ void doEncoderRHA(){
       encoderRH_Pos--; // CCW
     }
   }
+  rwheel_msg.data = encoderRH_Pos;
 }
 
 void doEncoderRHB(){
@@ -316,4 +311,5 @@ void doEncoderRHB(){
       encoderRH_Pos--; // CCW
     }
   }
+  rwheel_msg.data = encoderRH_Pos;
 }
