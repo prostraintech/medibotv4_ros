@@ -1,23 +1,16 @@
 <?xml version="1.0" ?>
 <launch>
 
-  <node name="diff_tf" pkg="medibotv4_practice" type="diff_tf.py" />
+  <include file="$(find medibotv4_practice)/launch/serial_node.launch" />
 
-  <node name="serial_node" pkg="rosserial_python" type="serial_node.py" >
-    <param name="port" value="/dev/ttyACM0"/>
-    <param name="baud" value="115200"/>
-  </node>
+  <include file="$(find medibotv4_practice)/launch/diff_tf.launch" />
 
-  <node name="urg_node" pkg="urg_node" type="urg_node" output="screen">
-    <param name="ip_address" value=""/>
-    <param name="serial_port" value="/dev/ttyACM0"/>
-    <param name="serial_baud" value="115200"/>
-    <param name="frame_id" value="laser"/>
-    <param name="calibrate_time" value="true"/>
-    <param name="publish_intensity" value="false"/>
-    <param name="publish_multiecho" value="false"/>
-    <param name="angle_min" value="-1.5707963"/>
-    <param name="angle_max" value="1.5707963"/>
-  </node>
+  <include file="$(find medibotv4_practice)/launch/drive.launch" />
+
+  <include file="$(find medibotv4_practice)/launch/lidar.launch" />
+
+  <include file="$(find medibotv4_practice)/launch/realsense_left.launch" />
+
+  <include file="$(find medibotv4_practice)/launch/realsense_right.launch" />
 
 </launch>

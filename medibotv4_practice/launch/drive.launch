@@ -4,7 +4,7 @@
 
   <!-- <include file="$(find medibotv4_practice)/launch/serial_node.launch" /> -->
 
-  <rosparam param="ticks_meter">70</rosparam>
+  <rosparam param="ticks_meter">97</rosparam>
 
   <node pkg="differential_drive" type="pid_velocity.py" name="lpid_velocity">
   	<!-- output of left encoder ticks from arduino -->
@@ -45,11 +45,11 @@
   </node>
 
   <node pkg="differential_drive" type="twist_to_motors.py" name="twist_to_motors" output="screen">
-    <rosparam param="base_width">0.245</rosparam>
+    <rosparam param="base_width">0.498</rosparam>
   </node>
 
   <node pkg="differential_drive" type="diff_tf.py" name="diff_tf">
-  	<rosparam param="base_width">0.245</rosparam>
+  	<rosparam param="base_width">0.498</rosparam>
   </node>
 <!--  <node pkg="differential_drive" type="virtual_joystick.py" name="virtual_joystick" output="screen"/> -->
 </launch>
