@@ -38,7 +38,7 @@ float demand_left;
 float demand_right;
 float demandx=0; // in m/s
 float demandz=0; // in rad/s
-
+double lastCmdVelReceived = 0;
 unsigned long currentMillis;
 unsigned long previousMillis;      
 
@@ -52,6 +52,7 @@ float encoderLH_Prev;
 float encoderRH_Prev;
 
 void cmd_vel_callback( const geometry_msgs::Twist& twist){
+  lastCmdVelReceived = (millis()/1000);
   demandx = twist.linear.x;
   demandz = twist.angular.z;
 }
@@ -100,42 +101,6 @@ void loop() {
   currentMillis = millis();
   if(currentMillis - previousMillis >= LOOPTIME){
     previousMillis = currentMillis;
-//     if(Serial.available()>0){ // manual control of wheels via terminal
-//       char c = Serial.read();
-//       if(c=='a'){
-//         //0.5 m/s test
-//         demandx = -0.25; 
-//         demandz = 0; 
-//       }
-//       else if(c=='b'){
-//         //0.25 m/s test
-//         demandx = 0.25; 
-//         demandz = 0; 
-//       }
-//       else if(c=='c'){
-//         demandx = 0; //turn at 1 rad/s
-//         demandz = 1; 
-//       }
-//       else if(c=='d'){
-//         demandx = 0; //turn at -1 rad/s
-//         demandz = -1; 
-//       }
-//       else if(c=='e'){
-//         //drive at 0.25m/s and turn at 1 rad/s
-//         demandx = 0.25; 
-//         demandz = 1; 
-//       }
-//       else if(c=='f'){
-//         //the other way
-//         demandx = 0.25; 
-//         demandz = -1; 
-//       }
-//       else if(c=='z'){
-//         //stop motors
-//         demandx = 0; 
-//         demandz = 0; 
-//       }
-//     }
 
     //calculate the two values for differential drive of each wheel
     demand_left = demandx - (demandz*WHEEL_SEPARATION/2); 
@@ -216,6 +181,15 @@ void loop() {
     rwheel_pub.publish(&rwheel_msg);
     nh.spinOnce();
   }
+  // Stop the robot if there are no cmd_vel messages
+//   if((millis()/1000) - lastCmdVelReceived > 1) {
+//       analogWrite(LH_D1,0);//left wheel stop
+//       digitalWrite(LH_D2,HIGH);
+//       digitalWrite(BR,HIGH);
+//       analogWrite(RH_D1,0);//right wheel stop
+//       digitalWrite(RH_D2,HIGH);
+//       digitalWrite(BR,HIGH);
+//   }
 }
 
 
