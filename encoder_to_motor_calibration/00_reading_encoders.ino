@@ -1,15 +1,5 @@
 //ENCODER READING TEST
 #define LOOPTIME 10
-//motor pins
-#define LH_D1 3          // Left hand PWM
-#define LH_D2 28         // Left hand STOP
-#define LH_D3 27         // Left hand DIRECTION
-#define LH_A1 A4         // Left hand ANALOG
-#define RH_D1 4          // Right hand PWM
-#define RH_D2 26         // Right hand STOP
-#define RH_D3 25         // Right hand DIRECTION
-#define RH_A1 A5         // Right hand ANALOG
-#define BR = 29         // Brake
 // wheel encoder pins
 #define LH_ENA 46 // left encoder A
 #define LH_ENB 45 // left encoder B         
@@ -21,12 +11,6 @@ volatile long encoderLH_Pos = 0; // encoder left pos
 volatile long encoderRH_Pos = 0; // encoder right pos
 
 void setup() {
-  pinMode(RH_D1,OUTPUT); // motor PWM pins
-  pinMode(RH_D2,OUTPUT);
-  pinMode(RH_D3,OUTPUT);
-  pinMode(LH_D1,OUTPUT);
-  pinMode(LH_D2,OUTPUT);
-  pinMode(LH_D3,OUTPUT);
   pinMode(LH_ENA, INPUT_PULLUP); // encoder pins
   pinMode(LH_ENB, INPUT_PULLUP);
   pinMode(RH_ENA, INPUT_PULLUP);
