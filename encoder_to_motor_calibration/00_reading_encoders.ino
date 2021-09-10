@@ -15,13 +15,10 @@
 #define LH_ENB 45 // left encoder B         
 #define RH_ENA 44 // right encoder A
 #define RH_ENB 43 // right encoder B   
-
 unsigned long currentMillis;
 unsigned long previousMillis;      
-
 volatile long encoderLH_Pos = 0; // encoder left pos
 volatile long encoderRH_Pos = 0; // encoder right pos
-
 
 void setup() {
   pinMode(RH_D1,OUTPUT); // motor PWM pins
@@ -45,11 +42,9 @@ void loop() {
   currentMillis = millis();
   if(currentMillis - previousMillis >= LOOPTIME){
     previousMillis = currentMillis;
-    
     Serial.print(encoderLH_Pos);
     Serial.print(" , ");
     Serial.println(encoderRH_Pos);
-    
   }
 }
 
@@ -57,9 +52,7 @@ void loop() {
 //*************************encoders interrupt functions******************
 //****************** encoder left ********************
 void doEncoderLHA(){
-  //look for low-to-high on channel A
   if(digitalRead(LH_ENA)==HIGH){
-    //check channel B to see which way encoder is turning
     if(digitalRead(LH_ENB)==LOW){
       encoderLH_Pos++; // CW
     }
@@ -67,8 +60,7 @@ void doEncoderLHA(){
       encoderLH_Pos--; // CCW
     }
   }
-  else{ //must be a high-to-low edge on channel A
-    //check channel B to see which way encoder is turning
+  else{ 
     if(digitalRead(LH_ENB)==HIGH){
       encoderLH_Pos++; // CW
     }
@@ -77,11 +69,8 @@ void doEncoderLHA(){
     }
   }
 }
-
 void doEncoderLHB(){
-  //look for low-to-high on channel B
   if(digitalRead(LH_ENB)==HIGH){
-    //check channel A to see which way encoder is turning
     if(digitalRead(LH_ENA)==HIGH){
       encoderLH_Pos++; // CW
     }
@@ -89,8 +78,7 @@ void doEncoderLHB(){
       encoderLH_Pos--; // CCW
     }
   }
-  else{ //must be a high-to-low edge on channel B
-    //check channel A to see which way encoder is turning
+  else{ 
     if(digitalRead(LH_ENA)==LOW){
       encoderLH_Pos++; // CW
     }
@@ -102,9 +90,7 @@ void doEncoderLHB(){
 
 //****************** encoder right ********************
 void doEncoderRHA(){
-  //look for low-to-high on channel A
   if(digitalRead(RH_ENA)==HIGH){
-    //check channel B to see which way encoder is turning
     if(digitalRead(RH_ENB)==LOW){
       encoderRH_Pos++; // CW
     }
@@ -112,8 +98,7 @@ void doEncoderRHA(){
       encoderRH_Pos--; // CCW
     }
   }
-  else{ //must be a high-to-low edge on channel A
-    //check channel B to see which way encoder is turning
+  else{ 
     if(digitalRead(RH_ENB)==HIGH){
       encoderRH_Pos++; // CW
     }
@@ -122,11 +107,8 @@ void doEncoderRHA(){
     }
   }
 }
-
 void doEncoderRHB(){
-  //look for low-to-high on channel B
   if(digitalRead(RH_ENB)==HIGH){
-    //check channel A to see which way encoder is turning
     if(digitalRead(RH_ENA)==HIGH){
       encoderRH_Pos++; // CW
     }
@@ -134,8 +116,7 @@ void doEncoderRHB(){
       encoderRH_Pos--; // CCW
     }
   }
-  else{ //must be a high-to-low edge on channel B
-    //check channel A to see which way encoder is turning
+  else{ 
     if(digitalRead(RH_ENA)==LOW){
       encoderRH_Pos++; // CW
     }
