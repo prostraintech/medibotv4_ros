@@ -98,6 +98,7 @@ void setup() {
 }
 
 void loop() {
+  nh.spinOnce();
   currentMillis = millis();
   if(currentMillis - previousMillis >= LOOPTIME){
     previousMillis = currentMillis;
@@ -141,20 +142,20 @@ void loop() {
       Output1a = abs(Output1);//left wheel forward
       //Output1a = map(Output1a, 0, 100, 0, 255)
       analogWrite(LH_D1,Output1a);
-      digitalWrite(LH_D2,LOW);
-      digitalWrite(LH_D3,HIGH);
+      digitalWrite(LH_D2,HIGH);
+      digitalWrite(LH_D3,LOW);
     }
     else if(Output1<0){
       Output1a = abs(Output1);//left wheel backward
       //Output1a = map(Output1a, 0, 100, 0, 255)
-      analogWrite(LH_D1,Output1a);
-      digitalWrite(LH_D2,LOW);
-      digitalWrite(LH_D3,LOW);
+      analogWrite(LH_D1,abs(Output1a));
+      digitalWrite(LH_D2,HIGH);
+      digitalWrite(LH_D3,HIGH);
     }
     else{
-      analogWrite(LH_D1,0);//left wheel stop
-      digitalWrite(LH_D2,HIGH);
-      digitalWrite(BR,HIGH);
+      analogWrite(LH_D1,0);
+      digitalWrite(LH_D2,LOW);
+      //digitalWrite(BR,HIGH);
     }
 
     //OTHER MOTOR
@@ -162,34 +163,32 @@ void loop() {
       Output2a = abs(Output2);//right wheel forward
       //Output2a = map(Output2a, 0, 100, 0, 255)
       analogWrite(RH_D1,Output2a);
-      digitalWrite(RH_D2,LOW);
-      digitalWrite(RH_D3,HIGH);
+      digitalWrite(RH_D2,HIGH);
+      digitalWrite(RH_D3,LOW);
     }
     else if(Output2<0){//right wheel backward
       Output2a = abs(Output2);
       //Output2a = map(Output2a, 0, 100, 0, 255)
       analogWrite(RH_D1,Output2a);
-      digitalWrite(RH_D2,LOW);
-      digitalWrite(RH_D3,LOW);
+      digitalWrite(RH_D2,HIGH);
+      digitalWrite(RH_D3,HIGH);
     }
     else{
       analogWrite(RH_D1,0);//right wheel stop
-      digitalWrite(RH_D2,HIGH);
-      digitalWrite(BR,HIGH);
+      digitalWrite(RH_D2,LOW);
+      //digitalWrite(BR,HIGH);
     }
     lwheel_pub.publish(&lwheel_msg);
     rwheel_pub.publish(&rwheel_msg);
-    nh.spinOnce();
   }
 //   Stop the robot if there are no cmd_vel messages
-  if((millis()/1000) - lastCmdVelReceived > 1) {
-      analogWrite(LH_D1,0);//left wheel stop
-      digitalWrite(LH_D2,HIGH);
-      digitalWrite(BR,HIGH);
-      analogWrite(RH_D1,0);//right wheel stop
-      digitalWrite(RH_D2,HIGH);
-      digitalWrite(BR,HIGH);
-  }
+//   if((millis()/1000) - lastCmdVelReceived > 1) {
+//       analogWrite(LH_D1,0);//left wheel stop
+//       digitalWrite(LH_D2,LOW);
+//       analogWrite(RH_D1,0);//right wheel stop
+//       digitalWrite(RH_D2,LOW);
+//       digitalWrite(BR,HIGH);
+//   }
 }
 
 
