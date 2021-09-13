@@ -89,7 +89,7 @@ void loop() {
       digitalWrite(LH_D3,LOW);
     }
     else if(LH_PWM<0){//left wheel backward
-      analogWrite(LH_D1,LH_PWM);
+      analogWrite(LH_D1,abs(LH_PWM));
       digitalWrite(LH_D2,HIGH);
       digitalWrite(LH_D3,HIGH);
     }
@@ -105,7 +105,7 @@ void loop() {
       digitalWrite(RH_D3,LOW);
     }
     else if(RH_PWM<0){//right wheel backward
-      analogWrite(RH_D1,RH_PWM);
+      analogWrite(RH_D1,abs(RH_PWM));
       digitalWrite(RH_D2,HIGH);
       digitalWrite(RH_D3,HIGH);
     }
