@@ -1,15 +1,15 @@
 // TEST FOR DRIVING FORWARD 1 METRE
 #include <PID_v1.h>
 
-double Pk1 = 4;
-double Ik1 = 4;
-double Dk1 = 0.03;
+double Pk1 = 500;
+double Ik1 = 0;
+double Dk1 = 0;
 double Setpoint1, Input1, Output1, Output1a; // PID variables 1
 PID PID1(&Input1, &Output1, &Setpoint1, Pk1, Ik1, Dk1, DIRECT); // PID setup 1
 
-double Pk2 = 4;
-double Ik2 = 4;
-double Dk2 = 0.03;
+double Pk2 = 500;
+double Ik2 = 0;
+double Dk2 = 0;
 double Setpoint2, Input2, Output2, Output2a; // PID variables 2
 PID PID1(&Input2, &Output2, &Setpoint2, Pk2, Ik2, Dk2, DIRECT); // PID setup 2
 
@@ -19,37 +19,44 @@ float demand2;
 unsigned long currentMillis;
 unsigned long previousMillis;
 
-// wheel encoder interrupts
-#define encoder0PinA 2 // encoder 1 (0)
-#define encoder0PinB 3 //           (1)
+#define LH_D1 3          // Left hand PWM
+#define LH_D2 28         // Left hand STOP
+#define LH_D3 27         // Left hand DIRECTION
+#define LH_A1 A4         // Left hand ANALOG
+#define RH_D1 4          // Right hand PWM
+#define RH_D2 26         // Right hand STOP
+#define RH_D3 25         // Right hand DIRECTION
+#define RH_A1 A5         // Right hand ANALOG
+#define BR 29         // Brake
+// wheel encoder pins
+#define LH_ENA 46 // left encoder A
+#define LH_ENB 45 // left encoder B         
+#define RH_ENA 44 // right encoder A
+#define RH_ENB 43 // right encoder B 
 
-#define encoder1PinA 18 // encoder 2 (5)
-#define encoder1PinB 19 //           (4)
-
-volatile long encoder0Pos = 0; // encoder 1 pos
-volatile long encoder1Pos = 0; // encoder 2 pos
+volatile long encoderLH_Pos = 0; // encoder left pos
+volatile long encoderRH_Pos = 0; // encoder right pos
 
 void setup() {
-  pinMode(4, OUTPUT); // motor PWM pins
-  pinMode(5, OUTPUT);
-  pinMode(6, OUTPUT);
-  pinMode(7, OUTPUT);
-
-  pinMode(encoder0PinA, INPUT_PULLUP); // encoder pins
-  pinMode(encoder0PinB, INPUT_PULLUP);
-  
-  pinMode(encoder1PinA, INPUT_PULLUP);
-  pinMode(encoder1PinB, INPUT_PULLUP);
-
-  attachInterrupt(0, doEncoderA, CHANGE);
-  attachInterrupt(1, doEncoderB, CHANGE);
-  attachInterrupt(4, doEncoderC, CHANGE);
-  attachInterrupt(5, doEncoderD, CHANGE);
+  pinMode(RH_D1,OUTPUT); // motor PWM pins
+  pinMode(RH_D2,OUTPUT);
+  pinMode(RH_D3,OUTPUT);
+  pinMode(LH_D1,OUTPUT);
+  pinMode(LH_D2,OUTPUT);
+  pinMode(LH_D3,OUTPUT);
+  pinMode(BR,OUTPUT);
+  pinMode(LH_ENA, INPUT_PULLUP); // encoder pins
+  pinMode(LH_ENB, INPUT_PULLUP);
+  pinMode(RH_ENA, INPUT_PULLUP);
+  pinMode(RH_ENB, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(LH_ENA), doEncoderLHA, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(LH_ENB), doEncoderLHB, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(RH_ENA), doEncoderRHA, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(RH_ENB), doEncoderRHB, CHANGE);
 
   PID1.SetMode(AUTOMATIC);
   PID1.SetOutputLimits(-100,100);
   PID1.SetSampleTime(10);
-
   PID2.SetMode(AUTOMATIC);
   PID2.SetOutputLimits(-100,100);
   PID2.SetSampleTime(10);
@@ -66,8 +73,8 @@ void loop() {
       char c = Serial.read();
       if(c=='a'){
         //drive 1 meter test
-        demand1 = 14500; //how many encoder counts per meter? measured manually
-        demand2 = 14500; //how many encoder counts per meter? measured manually
+        demand1 = 97; //how many encoder counts per meter? measured manually
+        demand2 = 97; //how many encoder counts per meter? measured manually
       }
       else if(c=='z'){
         //drive to zero or stop
@@ -76,48 +83,58 @@ void loop() {
       }
     }
     
-    Serial.print(encoder0Pos);
+    Serial.print(encoderLH_Pos);
     Serial.print(" , ");
-    Serial.println(encoder1Pos);
+    Serial.println(encoderRH_Pos);
 
     Setpoint1 = demand1;
-    Input1 = encoder0Pos;
+    Input1 = encoderLH_Pos;
     PID1.Compute();
 
     Setpoint2 = demand2;
-    Input2 = encoder1Pos;
+    Input2 = encoderRH_Pos;
     PID2.Compute();
 
     //DRIVE MOTOR
     if(Output1>0){
-      Output1a = abs(Output1);//CW
-      analogWrite(6,Output1a);
-      analogWrite(7,0);
+      Output1a = abs(Output1);//left wheel forward
+      //Output1a = map(Output1a, 0, 100, 0, 255)
+      analogWrite(LH_D1,Output1a);
+      digitalWrite(LH_D2,HIGH);
+      digitalWrite(LH_D3,LOW);
     }
     else if(Output1<0){
-      Output1a = abs(Output1);//CCW
-      analogWrite(6,0);
-      analogWrite(7,Output1a);
+      Output1a = abs(Output1);//left wheel backward
+      //Output1a = map(Output1a, 0, 100, 0, 255)
+      analogWrite(LH_D1,abs(Output1a));
+      digitalWrite(LH_D2,HIGH);
+      digitalWrite(LH_D3,HIGH);
     }
     else{
-      analogWrite(6,0);//NOT MOVING
-      analogWrite(7,0);
+      analogWrite(LH_D1,0);//left wheel stop
+      digitalWrite(LH_D2,LOW);
+      //digitalWrite(BR,HIGH);
     }
 
     //OTHER MOTOR
     if(Output2>0){
-      Output2a = abs(Output2);//CW
-      analogWrite(5,Output2a);
-      analogWrite(4,0);
+      Output2a = abs(Output2);//right wheel forward
+      //Output2a = map(Output2a, 0, 100, 0, 255)
+      analogWrite(RH_D1,Output2a);
+      digitalWrite(RH_D2,HIGH);
+      digitalWrite(RH_D3,LOW);
     }
-    else if(Output2<0){
-      Output2a = abs(Output2);//CCW
-      analogWrite(5,0);
-      analogWrite(4,Output2a);
+    else if(Output2<0){//right wheel backward
+      Output2a = abs(Output2);
+      //Output2a = map(Output2a, 0, 100, 0, 255)
+      analogWrite(RH_D1,Output2a);
+      digitalWrite(RH_D2,HIGH);
+      digitalWrite(RH_D3,HIGH);
     }
     else{
-      analogWrite(5,0);//NOT MOVING
-      analogWrite(4,0);
+      analogWrite(RH_D1,0);//right wheel stop
+      digitalWrite(RH_D2,LOW);
+      //digitalWrite(BR,HIGH);
     }
   }
 }
@@ -125,92 +142,92 @@ void loop() {
 
 
 //*************************encoders interrupt functions******************
-//****************** encoder 1 ********************
-void doEncoderA(){
+//****************** encoder left ********************
+void doEncoderLHA(){
   //look for low-to-high on channel A
-  if(digitalRead(encoder0PinA)==HIGH){
+  if(digitalRead(LH_ENA)==HIGH){
     //check channel B to see which way encoder is turning
-    if(digitalRead(encoder0PinB)==LOW){
-      encoder0Pos++; // CW
+    if(digitalRead(LH_ENB)==LOW){
+      encoderLH_Pos++; // CW
     }
     else{
-      encoder0Pos--; // CCW
+      encoderLH_Pos--; // CCW
     }
   }
   else{ //must be a high-to-low edge on channel A
     //check channel B to see which way encoder is turning
-    if(digitalRead(encoder0PinB)==HIGH){
-      encoder0Pos++; // CW
+    if(digitalRead(LH_ENB)==HIGH){
+      encoderLH_Pos++; // CW
     }
     else{
-      encoder0Pos--; // CCW
+      encoderLH_Pos--; // CCW
     }
   }
 }
 
-void doEncoderB(){
+void doEncoderLHB(){
   //look for low-to-high on channel B
-  if(digitalRead(encoder0PinB)==HIGH){
+  if(digitalRead(LH_ENB)==HIGH){
     //check channel A to see which way encoder is turning
-    if(digitalRead(encoder0PinA)==HIGH){
-      encoder0Pos++; // CW
+    if(digitalRead(LH_ENA)==HIGH){
+      encoderLH_Pos++; // CW
     }
     else{
-      encoder0Pos--; // CCW
+      encoderLH_Pos--; // CCW
     }
   }
   else{ //must be a high-to-low edge on channel B
     //check channel A to see which way encoder is turning
-    if(digitalRead(encoder0PinA)==LOW){
-      encoder0Pos++; // CW
+    if(digitalRead(LH_ENA)==LOW){
+      encoderLH_Pos++; // CW
     }
     else{
-      encoder0Pos--; // CCW
+      encoderLH_Pos--; // CCW
     }
   }
 }
 
-//****************** encoder 2 ********************
-void doEncoderC(){
+//****************** encoder right ********************
+void doEncoderRHA(){
   //look for low-to-high on channel A
-  if(digitalRead(encoder1PinA)==HIGH){
+  if(digitalRead(RH_ENA)==HIGH){
     //check channel B to see which way encoder is turning
-    if(digitalRead(encoder1PinB)==LOW){
-      encoder0Pos--; // CW
+    if(digitalRead(RH_ENB)==LOW){
+      encoderRH_Pos++; // CW
     }
     else{
-      encoder0Pos++; // CCW
+      encoderRH_Pos--; // CCW
     }
   }
   else{ //must be a high-to-low edge on channel A
     //check channel B to see which way encoder is turning
-    if(digitalRead(encoder1PinB)==HIGH){
-      encoder0Pos--; // CW
+    if(digitalRead(RH_ENB)==HIGH){
+      encoderRH_Pos++; // CW
     }
     else{
-      encoder0Pos++; // CCW
+      encoderRH_Pos--; // CCW
     }
   }
 }
 
-void doEncoderD(){
+void doEncoderRHB(){
   //look for low-to-high on channel B
-  if(digitalRead(encoder1PinB)==HIGH){
+  if(digitalRead(RH_ENB)==HIGH){
     //check channel A to see which way encoder is turning
-    if(digitalRead(encoder1PinA)==HIGH){
-      encoder0Pos--; // CW
+    if(digitalRead(RH_ENA)==HIGH){
+      encoderRH_Pos++; // CW
     }
     else{
-      encoder0Pos++; // CCW
+      encoderRH_Pos--; // CCW
     }
   }
   else{ //must be a high-to-low edge on channel B
     //check channel A to see which way encoder is turning
-    if(digitalRead(encoder1PinA)==LOW){
-      encoder0Pos--; // CW
+    if(digitalRead(RH_ENA)==LOW){
+      encoderRH_Pos++; // CW
     }
     else{
-      encoder0Pos++; // CCW
+      encoderRH_Pos--; // CCW
     }
   }
 }
