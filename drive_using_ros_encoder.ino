@@ -74,8 +74,8 @@ void loop() {
   currentMillis = millis();
   if(currentMillis - previousMillis >= LOOPTIME){
     previousMillis = currentMillis;
-    int pwm = 70;
-    int pwm_turn = 60;
+    int pwm = 80;
+    int pwm_turn = 80;
     if(demandx<0 && demandz==0){//reverse
       analogWrite(LH_D1,pwm);
       digitalWrite(LH_D2,HIGH);
@@ -118,13 +118,7 @@ void loop() {
     lwheel_pub.publish(&lwheel_msg);
     rwheel_pub.publish(&rwheel_msg);
   }
-  else{
-      analogWrite(LH_D1,0);//left wheel stop
-      digitalWrite(LH_D2,LOW);
-      analogWrite(RH_D1,0);//right wheel stop
-      digitalWrite(RH_D2,LOW);
-      digitalWrite(BR,HIGH); 
-  }
+
 //     Stop the robot if there are no cmd_vel messages
 //   if((millis()/1000) - lastCmdVelReceived > 1) {
 //       analogWrite(LH_D1,0);//left wheel stop
