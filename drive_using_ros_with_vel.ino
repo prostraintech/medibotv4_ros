@@ -1,20 +1,25 @@
 // TEST FOR DRIVING at various velocities components (x linear and z angular)
-//with cmd_vel subscriber
+//with cmd_vel subscriber debug version
+//wheel radius, r = 160mm = 0.16m
+//wheel separation, l = 498mm = 0.498m
+//lidar height from ground = 229.4mm
+//diff drive parameters in metre
 #define USE_USBCON
 #include <ros.h>
 #include <geometry_msgs/Twist.h>
+#include <std_msgs/Int16.h>
 ros::NodeHandle  nh;
 #include <PID_v1.h>
 
-double Pk1 = 700;
+double Pk1 = 500;
 double Ik1 = 900;
-double Dk1 = 0;
+double Dk1 = 10;
 double Setpoint1, Input1, Output1, Output1a; // PID variables 1
 PID PID1(&Input1, &Output1, &Setpoint1, Pk1, Ik1, Dk1, DIRECT); // PID setup 1
 
-double Pk2 = 700;
+double Pk2 = 500;
 double Ik2 = 900;
-double Dk2 = 0;
+double Dk2 = 10;
 double Setpoint2, Input2, Output2, Output2a; // PID variables 2
 PID PID2(&Input2, &Output2, &Setpoint2, Pk2, Ik2, Dk2, DIRECT); // PID setup 2
 
@@ -58,11 +63,17 @@ void cmd_vel_callback( const geometry_msgs::Twist& twist){
 }
 
 ros::Subscriber<geometry_msgs::Twist> cmd_vel_sub("cmd_vel", cmd_vel_callback );
+std_msgs::Int16 lwheel_msg;
+ros::Publisher lwheel_pub("lwheel", &lwheel_msg);
+std_msgs::Int16 rwheel_msg;
+ros::Publisher rwheel_pub("rwheel", &rwheel_msg); 
 
 void setup() {
   nh.getHardware()->setBaud(115200);
   nh.initNode();
   nh.subscribe(cmd_vel_sub);
+  nh.advertise(lwheel_pub);
+  nh.advertise(rwheel_pub);
   pinMode(RH_D1,OUTPUT); // motor PWM pins
   pinMode(RH_D2,OUTPUT);
   pinMode(RH_D3,OUTPUT);
@@ -158,6 +169,8 @@ void loop() {
       digitalWrite(RH_D2,LOW);
       digitalWrite(BR,HIGH);
     }
+    lwheel_pub.publish(&lwheel_msg);
+    rwheel_pub.publish(&rwheel_msg);
   }
   //     Stop the robot if there are no cmd_vel messages
 //   if((millis()/1000) - lastCmdVelReceived > 1) {
@@ -193,6 +206,7 @@ void doEncoderLHA(){
       encoderLH_Pos--; // CCW
     }
   }
+  lwheel_msg.data = encoderLH_Pos;
 }
 
 void doEncoderLHB(){
@@ -215,6 +229,7 @@ void doEncoderLHB(){
       encoderLH_Pos--; // CCW
     }
   }
+  lwheel_msg.data = encoderLH_Pos;
 }
 
 //****************** encoder right ********************
@@ -238,6 +253,7 @@ void doEncoderRHA(){
       encoderRH_Pos--; // CCW
     }
   }
+  rwheel_msg.data = encoderRH_Pos;
 }
 
 void doEncoderRHB(){
@@ -260,4 +276,5 @@ void doEncoderRHB(){
       encoderRH_Pos--; // CCW
     }
   }
+  rwheel_msg.data = encoderRH_Pos;
 }
