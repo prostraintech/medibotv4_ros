@@ -6,14 +6,14 @@
 ros::NodeHandle  nh;
 #include <PID_v1.h>
 
-double Pk1 = 500;
-double Ik1 = 0;
+double Pk1 = 700;
+double Ik1 = 900;
 double Dk1 = 0;
 double Setpoint1, Input1, Output1, Output1a; // PID variables 1
 PID PID1(&Input1, &Output1, &Setpoint1, Pk1, Ik1, Dk1, DIRECT); // PID setup 1
 
-double Pk2 = 500;
-double Ik2 = 0;
+double Pk2 = 700;
+double Ik2 = 900;
 double Dk2 = 0;
 double Setpoint2, Input2, Output2, Output2a; // PID variables 2
 PID PID2(&Input2, &Output2, &Setpoint2, Pk2, Ik2, Dk2, DIRECT); // PID setup 2
@@ -103,27 +103,19 @@ void loop() {
     encoder0Diff = encoderLH_Pos - encoder0Prev; // work out difference from last time
     encoder1Diff = encoderRH_Pos - encoder1Prev; // this is the current speed in counts per 10ms
 
-    encoder0Error = (demand1*0.97) - encoder0Diff;
-    encoder1Error = (demand2*0.97) - encoder1Diff;
+    encoder0Error = (demand1*0.95) - encoder0Diff;
+    encoder1Error = (demand2*0.95) - encoder1Diff;
 
     encoder0Prev = encoderLH_Pos; // bookmark previous values
     encoder1Prev = encoderRH_Pos;
 
-    Setpoint1 = demand1*0.97;
+    Setpoint1 = demand1*0.95;
     Input1 = encoder0Diff;
     PID1.Compute();
 
-    Setpoint2 = demand2*0.97;
+    Setpoint2 = demand2*0.95;
     Input2 = encoder1Diff;
     PID2.Compute();
-
-    Serial.print(Setpoint2);
-    Serial.print(" , ");
-    Serial.print(encoder1Diff);
-    Serial.print(" , ");
-    Serial.print(encoderRH_Pos);
-    Serial.print(" , ");
-    Serial.println(Output2);
 
     //DRIVE MOTOR
     if(Output1>0){
@@ -143,7 +135,7 @@ void loop() {
     else{
       analogWrite(LH_D1,0);//left wheel stop
       digitalWrite(LH_D2,LOW);
-      //digitalWrite(BR,HIGH);
+      digitalWrite(BR,HIGH);
     }
 
     //OTHER MOTOR
@@ -164,7 +156,7 @@ void loop() {
     else{
       analogWrite(RH_D1,0);//right wheel stop
       digitalWrite(RH_D2,LOW);
-      //digitalWrite(BR,HIGH);
+      digitalWrite(BR,HIGH);
     }
   }
   //     Stop the robot if there are no cmd_vel messages
