@@ -1,6 +1,10 @@
 <?xml version="1.0" ?>
 <launch>
 
-  <node name="diff_tf" pkg="medibotv4_practice" type="diff_tf.py" />
+  <node pkg="differential_drive" type="diff_tf.py" name="diff_tf">
+    <rosparam param="base_width">0.996</rosparam>
+    <rosparam param="ticks_meter">95</rosparam>
+  </node>
 
 </launch>
+

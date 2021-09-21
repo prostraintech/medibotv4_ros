@@ -5,12 +5,22 @@
 
   <include file="$(find medibotv4_practice)/launch/diff_tf.launch" />
 
-  <include file="$(find medibotv4_practice)/launch/drive.launch" />
+<!--   <include file="$(find medibotv4_practice)/launch/drive.launch" /> -->
 
   <include file="$(find medibotv4_practice)/launch/lidar.launch" />
+  <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" args="0.35 0 0.2294 0 0 0  /base_link /laser  200"/>
 
-  <include file="$(find medibotv4_practice)/launch/realsense_left.launch" />
 
-  <include file="$(find medibotv4_practice)/launch/realsense_right.launch" />
+  <include file="$(find medibotv4_practice)/launch/gmapping.launch" />
+  <include file="$(find medibotv4_practice)/launch/navigation.launch" />
+
+
+<!--   <include file="$(find medibotv4_practice)/launch/realsense_left.launch" />
+  <include file="$(find medibotv4_practice)/launch/realsense_right.launch" /> -->
+
+  <!-- <node type="rviz" name="rviz" pkg="rviz" args="-d $(find medibotv4_practice)/config/default.rviz" output="screen" /> -->
+  <node type="rviz" name="rviz" pkg="rviz" args="-d $(find medibotv4_practice)/config/rviz_slam_base_local_planner.rviz" output="screen" />
+
+<!--   <node type="rqt_plot" name="rqt_plot" pkg="rqt_plot" output="screen" /> -->
 
 </launch>
