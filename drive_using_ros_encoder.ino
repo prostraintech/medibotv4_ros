@@ -76,7 +76,7 @@ void loop() {
     previousMillis = currentMillis;
     int pwm = 80;
     int pwm_turn = 80;
-    if(demandx<0 && demandz==0){//reverse
+    if(demandx<0 && abs(demandz)<=1){//reverse
       analogWrite(LH_D1,pwm);
       digitalWrite(LH_D2,HIGH);
       digitalWrite(LH_D3,HIGH);
@@ -84,7 +84,7 @@ void loop() {
       digitalWrite(RH_D2,HIGH);
       digitalWrite(RH_D3,HIGH);
     }
-    else if(demandx>0 && demandz==0){//forward
+    else if(demandx>0 && abs(demandz)<=1){//forward
       analogWrite(LH_D1,pwm);
       digitalWrite(LH_D2,HIGH);
       digitalWrite(LH_D3,LOW);
@@ -92,7 +92,7 @@ void loop() {
       digitalWrite(RH_D2,HIGH);
       digitalWrite(RH_D3,LOW);
     }
-    else if(demandx==0 && demandz>0){//left
+    else if(abs(demandx)<=0.1 && demandz>0){//left
       analogWrite(LH_D1,pwm_turn);
       digitalWrite(LH_D2,HIGH);
       digitalWrite(LH_D3,HIGH);
@@ -100,7 +100,7 @@ void loop() {
       digitalWrite(RH_D2,HIGH);
       digitalWrite(RH_D3,LOW);
     }
-    else if(demandx==0 && demandz<0){//right
+    else if(abs(demandx)<=0.1 && demandz<0){//right
       analogWrite(LH_D1,pwm_turn);
       digitalWrite(LH_D2,HIGH);
       digitalWrite(LH_D3,LOW);
