@@ -37,7 +37,7 @@ double lastCmdVelReceived = 0;
 void cmd_vel_callback( const geometry_msgs::Twist& twist){
   demandx = twist.linear.x;
   demandz = twist.angular.z;
-  lastCmdVelReceived = (millis()/1000);
+  lastCmdVelReceived = millis();
 }
 
 ros::Subscriber<geometry_msgs::Twist> sub("cmd_vel", cmd_vel_callback );
@@ -119,14 +119,14 @@ void loop() {
     rwheel_pub.publish(&rwheel_msg);
   }
 
-//     Stop the robot if there are no cmd_vel messages
-//   if((millis()/1000) - lastCmdVelReceived > 1) {
-//       analogWrite(LH_D1,0);//left wheel stop
-//       digitalWrite(LH_D2,LOW);
-//       analogWrite(RH_D1,0);//right wheel stop
-//       digitalWrite(RH_D2,LOW);
-//       digitalWrite(BR,HIGH);
-//   }
+    Stop the robot if there are no cmd_vel messages
+  if(millis() - lastCmdVelReceived > 600) {
+      analogWrite(LH_D1,0);//left wheel stop
+      digitalWrite(LH_D2,LOW);
+      analogWrite(RH_D1,0);//right wheel stop
+      digitalWrite(RH_D2,LOW);
+      digitalWrite(BR,HIGH);
+  }
 }
 
 
