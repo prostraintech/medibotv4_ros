@@ -119,8 +119,8 @@ void loop() {
     rwheel_pub.publish(&rwheel_msg);
   }
 
-    Stop the robot if there are no cmd_vel messages
-  if(millis() - lastCmdVelReceived > 600) {
+  //Stop the robot if there are no cmd_vel messages
+  if(millis() - lastCmdVelReceived > 500) {
       analogWrite(LH_D1,0);//left wheel stop
       digitalWrite(LH_D2,LOW);
       analogWrite(RH_D1,0);//right wheel stop
