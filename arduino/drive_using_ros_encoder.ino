@@ -74,8 +74,8 @@ void loop() {
   currentMillis = millis();
   if(currentMillis - previousMillis >= LOOPTIME){
     previousMillis = currentMillis;
-    int pwm = 80;
-    int pwm_turn = 80;
+    int pwm = 70;
+    int pwm_turn = 70;
     if(demandx<0 && abs(demandz)<=1){//reverse
       analogWrite(LH_D1,pwm);
       digitalWrite(LH_D2,HIGH);
