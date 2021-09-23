@@ -1,0 +1,57 @@
+<?xml version="1.0" ?>
+
+<launch>
+
+  <rosparam param="ticks_meter">95</rosparam>
+
+  <node pkg="differential_drive" type="pid_velocity.py" name="lpid_velocity">
+  	<!-- output of left encoder ticks from arduino -->
+      <remap from="wheel" to="lwheel"/>
+	<!-- left pwm value to arduino (motor) -->
+      <remap from="motor_cmd" to="lmotor_cmd"/>
+    <!-- demand left -->
+      <remap from="wheel_vtarget" to="lwheel_vtarget"/>
+    <!-- actual left wheel vel to tf -->
+      <remap from="wheel_vel" to="lwheel_vel"/>
+      <rosparam param="Kp">2000</rosparam>
+      <rosparam param="Ki">10000</rosparam>
+      <rosparam param="Kd">0</rosparam>
+      <rosparam param="out_min">-100</rosparam>
+      <rosparam param="out_max">100</rosparam>
+      <rosparam param="rate">80</rosparam>
+      <rosparam param="timeout_ticks">4</rosparam>
+      <rosparam param="rolling_pts">5</rosparam>
+  </node>
+
+  <node pkg="differential_drive" type="pid_velocity.py" name="rpid_velocity">
+  	<!-- output of right encoder ticks from arduino -->
+      <remap from="wheel" to="rwheel"/>
+    <!-- right pwm value to arduino (motor) -->
+      <remap from="motor_cmd" to="rmotor_cmd"/>
+	<!-- demand right -->
+      <remap from="wheel_vtarget" to="rwheel_vtarget"/>
+    <!-- actual right wheel vel to tf -->
+      <remap from="wheel_vel" to="rwheel_vel"/>
+      <rosparam param="Kp">2000</rosparam>
+      <rosparam param="Ki">10000</rosparam>
+      <rosparam param="Kd">0</rosparam>
+      <rosparam param="out_min">-100</rosparam>
+      <rosparam param="out_max">100</rosparam>
+      <rosparam param="rate">80</rosparam>
+      <rosparam param="timeout_ticks">4</rosparam>
+      <rosparam param="rolling_pts">5</rosparam>
+  </node>
+
+  <node pkg="differential_drive" type="twist_to_motors.py" name="twist_to_motors" output="screen">
+    <rosparam param="base_width">0.996</rosparam>
+    <remap from="twist" to="cmd_vel"/>
+  </node>
+
+  <node pkg="differential_drive" type="diff_tf.py" name="diff_tf">
+  	<rosparam param="base_width">0.996</rosparam>
+  </node>
+
+<!--   <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop" output="screen"/> -->
+
+<!--   <node pkg="differential_drive" type="virtual_joystick.py" name="virtual_joystick" output="screen"/> -->
+</launch>
