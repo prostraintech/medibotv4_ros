@@ -120,13 +120,13 @@ void loop() {
   }
 
   //Stop the robot if there are no cmd_vel messages
-  if(millis() - lastCmdVelReceived > 100) {
+  /*if(millis() - lastCmdVelReceived > 100) {
       analogWrite(LH_D1,0);//left wheel stop
       digitalWrite(LH_D2,LOW);
       analogWrite(RH_D1,0);//right wheel stop
       digitalWrite(RH_D2,LOW);
       digitalWrite(BR,HIGH);
-  }
+  }*/
 }
 
 
