@@ -43,7 +43,7 @@ function initVelocityPublisher() {
     // Init topic object
     cmdVel = new ROSLIB.Topic({
         ros: ros,
-        name: '/cmd_vel_mux/input/teleop',
+        name: '/cmd_vel',
         messageType: 'geometry_msgs/Twist'
     });
     // Register publisher within ROS system
@@ -59,7 +59,7 @@ function initTeleopKeyboard() {
         // Initialize the teleop.
         teleop = new KEYBOARDTELEOP.Teleop({
             ros: ros,
-            topic: '/cmd_vel_mux/input/teleop'
+            topic: '/cmd_vel'
         });
     }
 
