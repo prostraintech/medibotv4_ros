@@ -123,7 +123,6 @@ function setBattery(battery_status) {
     console.log('SetBattery Started');
     
 
-
     var listener = new ROSLIB.Topic({
         ros : ros,
         name : '/battery_charge',
@@ -135,16 +134,14 @@ function setBattery(battery_status) {
     battery_status.style = "width:"+message.data+"%";
     battery_status.innerHTML = message.data + '%';
 
-    var n = parseInt(message.data);
-
-    if (10 < n && n < 20){
-        console.log("Warning Battery Low");
-    }else if (parseFloat(message.data) < 10){
+    // var n = parseInt(message.data);
+    if(parseFloat(message.data==0)){
         console.log("Battery Empty");
+    }else if(parseFloat(message.data<=20)){
+        console.log("Warning Battery Low");
     }else{
         console.log("Battery Ok");
     }
-
 
     });
 
@@ -173,10 +170,10 @@ function setLoadFoodBtn() {
 }
 
 function setResetFoodBtn() {
-    console.log('Load Food Initialised');
+    console.log('Reset Food Initialised');
     resetfood_btn = document.getElementById('resetfood-btn');
     $( "#resetfood-btn" ).click(function(event) {
-        console.log('Load Food Clicked');
+        console.log('Reset Food Clicked');
         event.preventDefault(); // To prevent following the link (optional)
         if (resetfood_btn.innerHTML == ResetFood_STATE_READY){
             resetfood_btn.innerHTML = ResetFood_STATE_LOADING;
@@ -244,8 +241,6 @@ function LoadFood(add_object){
 
 function setMoveToTableBtn() {
     console.log('Move To Table Initialised');
-    
-
     
     $(".btn-table").click(function(event2){
         // Holds the product ID of the clicked element
