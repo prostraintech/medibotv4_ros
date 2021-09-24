@@ -18,7 +18,9 @@
         <arg name="webpath" value="$(arg webpath)"/>
     </include>
 
-
+    <node name="web_video_server" pkg="web_video_server" type="web_video_server" >
+        <param name="port" value="8080"/>
+    </node>
 
 
 </launch>
