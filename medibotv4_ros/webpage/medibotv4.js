@@ -15,6 +15,45 @@ var ResetFood_STATE_READY = "RESET FOOD"
 var ResetFood_STATE_LOADING = "Reseting..."
 
 
+function changePwm(dpwm, dpwm_turn) {
+    pwm_msg.data = pwm_msg.data + dpwm;
+    pwm_turn_msg.data = pwm_turn_msg.data + dpwm_turn;
+    console.log('pwm='+pwm_msg.data+' , pwm_turn='+pwm_turn_msg.data);
+    pwmPublisher.publish(pwm_msg);
+    pwmTurnPublisher.publish(pwm_turn_msg);
+}
+
+function initPwmPublisher() {
+    // Init message with zero values.
+    pwm_msg = new ROSLIB.Message({
+        data: 80
+    });
+    // Init topic object
+    pwmPublisher = new ROSLIB.Topic({
+        ros: ros,
+        name: '/pwm',
+        messageType: 'std_msgs/Int16'
+    });
+    // Register publisher within ROS system
+    pwmPublisher.advertise();
+}
+
+function initPwmTurnPublisher() {
+    // Init message with zero values.
+    pwm_turn_msg = new ROSLIB.Message({
+        data: 60
+    });
+    // Init topic object
+    pwmTurnPublisher = new ROSLIB.Topic({
+        ros: ros,
+        name: '/pwm_turn',
+        messageType: 'std_msgs/Int16'
+    });
+    // Register publisher within ROS system
+    pwmTurnPublisher.advertise();
+}
+
+
 function moveAction(linear, angular) {
     if (linear !== undefined && angular !== undefined) {
         twist.linear.x = linear;
@@ -355,6 +394,8 @@ window.onload = function () {
     usb_cam_video.src = "http://" + robot_IP + ":8080/stream?topic=/usb_cam/image_raw&type=mjpeg&quality=80";
 
     initVelocityPublisher();
+    initPwmPublisher();
+    initPwmTurnPublisher();
     // get handle for video placeholder
     video = document.getElementById('robot-image');
     // Populate video source 
