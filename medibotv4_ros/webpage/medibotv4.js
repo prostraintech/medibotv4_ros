@@ -349,7 +349,10 @@ window.onload = function () {
     console.log('Connection to websocket server closed.');
     });
     
-    
+    // get handle for video placeholder
+    usb_cam_video = document.getElementById('usb-cam-video');
+    // Populate video source 
+    usb_cam_video.src = "http://" + robot_IP + ":8080/stream?topic=/usb_cam/image_raw&type=mjpeg&quality=80";
 
     initVelocityPublisher();
     // get handle for video placeholder
