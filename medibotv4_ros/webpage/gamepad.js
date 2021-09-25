@@ -1,95 +1,106 @@
 const refreshRate = 50;
 var pressed = 0;
-var cnow = 0;
-var clast = 1;
-
-
 
 window.addEventListener("gamepadconnected", (event) => {
-  console.log("A gamepad connected:");
-  //console.log(event.gamepad);
+  console.log("A gamepad connected");
   repGP = window.setInterval(getGamepadState, refreshRate);
 });
 
 window.addEventListener("gamepaddisconnected", (event) => {
-  console.log("A gamepad disconnected:");
-  //console.log(event.gamepad);
+  console.log("A gamepad disconnected");
   window.clearInterval(repGP);
 });
 
 
-function getGamepadState() {
-
-  // Returns up to 4 gamepads.
-  const gamepads = navigator.getGamepads();
-
-  // We take the first one, for simplicity
-  const gamepad = gamepads[0];
-
+function getGamepadState(){
+  const gamepad = navigator.getGamepads()[0];
   // Escape if no gamepad was found
   if (!gamepad) {
     console.log('No gamepad found.');
     return;
   }
 
-  var xAxis = gamepad.axes[0];
-  var yAxis = gamepad.axes[1];
-  var pointTurnAxis = gamepad.axes[5];
+  if(gamepad.id=='046d-c21d-Logitech Gamepad F310'){
+    //LOGITECH F310 CONTROLLER - START
+    //AXES AND BUTTONS ASSIGNMENT
+    //AXIS 6: DPAD LEFT/RIGHT, AXIS 7: DPAD UP/DOWN
+    //B0: A, B1: B, B2: X, B3:Y
+    var xAxis = gamepad.axes[6];
+    var yAxis = gamepad.axes[7];
+    var aButton = gamepad.buttons[0];
+    var bButton = gamepad.buttons[1];
+    var xButton = gamepad.buttons[2];
+    var yButton = gamepad.buttons[3];
 
-  if (buttonPressed(gamepad.buttons[2])) {
-    socket.emit('connect', 1);
-    connect();
+    if(yAxis<0.0){
+      console.log('forward');
+      moveAction(0.5, 0.0);
+    }
+    else if(yAxis>0.0){
+      console.log('reverse');
+      moveAction(-0.5, 0.0);
+    }
+    else if(xAxis<0.0){
+      console.log('left');
+      moveAction(0.0, 1.0);
+    }
+    else if(xAxis>0.0){
+      console.log('right');
+      moveAction(0.0, -1.0);
+    }
+    else if(buttonPressed(yButton)){
+      yButtonChange();
+    }
+    else if(buttonPressed(xButton)){
+      xButtonChange();
+    }
+    else if(buttonPressed(aButton)){
+      aButtonChange();
+    }
+    else if(buttonPressed(bButton)){
+      bButtonChange();
+    }
+    else{
+      console.log('stop');
+      moveAction(0.0, 0.0);
+    }
+    //LOGITECH F310 CONTROLLER - END
   }
+  else{
+    //LOGITECH X3D JOYSTICK - START
+    var xAxis = gamepad.axes[0];
+    var yAxis = gamepad.axes[1];
+    var pointTurnAxis = gamepad.axes[5];
 
-  else if (buttonPressed(gamepad.buttons[3])) {
-    socket.emit('connect', 0);
-    disconnect();
-  }
-
-  
-  else if (buttonPressed(gamepad.buttons[0])) {
-    cnow = 0;
-    
-    if (yAxis < -0.1 && pointTurnAxis < 0.5 && pointTurnAxis > -0.5)  //straight slow
-    {
-      socket.emit('navi', 1);
-      console.log('forward - 1');
+    if (buttonPressed(gamepad.buttons[0])) {
+      if (yAxis < -0.1 && pointTurnAxis < 0.5 && pointTurnAxis > -0.5){
+        console.log('forward');
+        moveAction(0.5, 0.0);
+      }
+      else if (yAxis > 0.1 && pointTurnAxis < 0.8 && pointTurnAxis > -0.8){
+        console.log('reverse');
+        moveAction(-0.5, 0.0);
+      }
+      else if (pointTurnAxis > 0.8){
+        console.log('left');
+        moveAction(0.0, 1.0);
+      }
+      else if (pointTurnAxis < -0.8){
+        console.log('right');
+        moveAction(0.0, -1.0);
+      }
+      else{
+        console.log('stop');
+        moveAction(0.0, 0.0);
+      }
     }
-
-    else if (yAxis > 0.1 && pointTurnAxis < 0.8 && pointTurnAxis > -0.8)  //reverse slow
-    {
-      socket.emit('navi', 3);
-      console.log('reverse - 3');
-    }
-
-    else if (pointTurnAxis > 0.8)       //rotate right
-    {
-      socket.emit('navi', 4);
-      console.log('right - 4');
-    }
-
-    else if (pointTurnAxis < -0.8)       //rotate left
-    {
-      socket.emit('navi', 5);
-      console.log('left - 5');
-    }
-
     else {
-      socket.emit('navi', 6);
-      console.log('stop - 6');
+      console.log('stop');
+      moveAction(0.0, 0.0);
     }
-    console.log('DMS pressed');
-
+    //LOGITECH X3D JOYSTICK - END
   }
-
-  else {
-
-    socket.emit('navi', 6);
-  }
-
-
 }
-
 
 
 function buttonPressed(b) {
@@ -99,3 +110,19 @@ function buttonPressed(b) {
   }
   return b == 1.0;
 }
+
+function debounce(func, timeout = 300){
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => { func.apply(this, args); }, timeout);
+  };
+}
+
+const yButtonChange = debounce(() => changePwm(10,0));
+const xButtonChange = debounce(() => changePwm(-10,0));
+const bButtonChange = debounce(() => changePwm(0,10));
+const aButtonChange = debounce(() => changePwm(0,-10));
+
+
+

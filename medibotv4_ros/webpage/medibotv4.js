@@ -6,51 +6,106 @@ var manager;
 var teleop;
 var ros;
 
-var battery_status;
-var loadfoodClient;
 
-var LoadFood_STATE_READY = "LOAD FOOD"
-var LoadFood_STATE_LOADING = "Calibrating..."
-var ResetFood_STATE_READY = "RESET FOOD"
-var ResetFood_STATE_LOADING = "Reseting..."
+
+
+function setPwm(pwm_id,pwm_turn_id) {
+
+    var pwmSubscriber = new ROSLIB.Topic({
+        ros : ros,
+        name : '/pwm',
+        messageType : 'std_msgs/Int16'
+    });
+
+    var pwmTurnSubscriber = new ROSLIB.Topic({
+        ros : ros,
+        name : '/pwm_turn',
+        messageType : 'std_msgs/Int16'
+    });
+
+    pwmSubscriber.subscribe(function(message) {
+        pwm_id.style = "width:"+Math.floor(message.data/255*100)+"%";
+        pwm_id.innerHTML = message.data + ' / 255';
+        if(message.data<100){
+            $(pwm_id).removeClass("progress-bar bg-warning");
+            $(pwm_id).addClass("progress-bar bg-success");
+        }
+        else if(message.data>=100){
+            $(pwm_id).removeClass("progress-bar bg-success");
+            $(pwm_id).addClass("progress-bar bg-warning");
+        }
+    });
+
+    pwmTurnSubscriber.subscribe(function(message) {
+        pwm_turn_id.style = "width:"+Math.floor(message.data/255*100)+"%";
+        pwm_turn_id.innerHTML = message.data + ' / 255';
+        if(message.data<100){
+            $(pwm_turn_id).removeClass("progress-bar bg-warning");
+            $(pwm_turn_id).addClass("progress-bar bg-success");   
+        }
+        else if(message.data>=100){
+            $(pwm_turn_id).removeClass("progress-bar bg-success");
+            $(pwm_turn_id).addClass("progress-bar bg-warning");
+        }
+    });
+
+    console.log('Pwm Subscribers Initialized.');
+}
+
+
+function initPwmPublisher() {
+    pwm_msg = new ROSLIB.Message({
+        data: 80
+    });
+    pwmPublisher = new ROSLIB.Topic({
+        ros: ros,
+        name: '/pwm',
+        messageType: 'std_msgs/Int16'
+    });
+    pwmPublisher.advertise();
+    pwmPublisher.publish(pwm_msg);
+
+    pwm_turn_msg = new ROSLIB.Message({
+        data: 60
+    });
+    pwmTurnPublisher = new ROSLIB.Topic({
+        ros: ros,
+        name: '/pwm_turn',
+        messageType: 'std_msgs/Int16'
+    });
+    pwmTurnPublisher.advertise();
+    pwmTurnPublisher.publish(pwm_turn_msg);
+    console.log('Pwm Publishers Initialized.');
+}
 
 
 function changePwm(dpwm, dpwm_turn) {
     pwm_msg.data = pwm_msg.data + dpwm;
     pwm_turn_msg.data = pwm_turn_msg.data + dpwm_turn;
     console.log('pwm='+pwm_msg.data+' , pwm_turn='+pwm_turn_msg.data);
-    pwmPublisher.publish(pwm_msg);
-    pwmTurnPublisher.publish(pwm_turn_msg);
+    if(dpwm){pwmPublisher.publish(pwm_msg);}
+    if(dpwm_turn){pwmTurnPublisher.publish(pwm_turn_msg);}
 }
 
-function initPwmPublisher() {
-    // Init message with zero values.
-    pwm_msg = new ROSLIB.Message({
-        data: 80
-    });
-    // Init topic object
-    pwmPublisher = new ROSLIB.Topic({
-        ros: ros,
-        name: '/pwm',
-        messageType: 'std_msgs/Int16'
-    });
-    // Register publisher within ROS system
-    pwmPublisher.advertise();
-}
 
-function initPwmTurnPublisher() {
-    // Init message with zero values.
-    pwm_turn_msg = new ROSLIB.Message({
-        data: 60
-    });
-    // Init topic object
-    pwmTurnPublisher = new ROSLIB.Topic({
-        ros: ros,
-        name: '/pwm_turn',
-        messageType: 'std_msgs/Int16'
-    });
-    // Register publisher within ROS system
-    pwmTurnPublisher.advertise();
+function setPwmBtn() {
+    $(".btn-pwm").click(function(event2){
+        // Holds the product ID of the clicked element
+        event2.preventDefault(); // To prevent following the link (optional)
+        var temp = this.id.split("-");
+
+        if(temp[0]=="pwm"){
+            if(temp[1]=="up"){changePwm(10,0);}
+            else{changePwm(-10,0);}
+        }
+        else if(temp[0]=="pwmturn"){
+            if(temp[1]=="up"){changePwm(0,10);}
+            else{changePwm(0,-10);}
+        }
+
+        
+      });
+
 }
 
 
@@ -64,6 +119,7 @@ function moveAction(linear, angular) {
     }
     cmdVel.publish(twist);
 }
+
 
 function initVelocityPublisher() {
     // Init message with zero values.
@@ -87,6 +143,7 @@ function initVelocityPublisher() {
     });
     // Register publisher within ROS system
     cmdVel.advertise();
+    console.log('cmdVel Publisher Initialized.');
 }
 
 
@@ -101,12 +158,7 @@ function initTeleopKeyboard() {
             topic: '/cmd_vel'
         });
     }
-
-    // Add event listener for slider moves
-    robotSpeedRange = document.getElementById("robot-speed");
-    robotSpeedRange.oninput = function () {
-        teleop.scale = robotSpeedRange.value / 100
-    }
+    console.log('TeleopKeyboard Initialized.');
 }
 
 
@@ -121,8 +173,9 @@ function createJoystick() {
             position: { left: 50 + '%', top: 105 + 'px' },
             mode: 'static',
             size: 200,
-            color: '#0066ff',
-            restJoystick: true
+            color: '#ff0000',
+            restJoystick: true,
+            restOpacity: 0.8
         };
         manager = nipplejs.create(options);
         // event listener for joystick move
@@ -154,223 +207,25 @@ function createJoystick() {
             moveAction(0, 0);
         });
     }
-}
-
-// Setup battery status
-// Subscribing to a Topic
-function setBattery(battery_status) {
-    console.log('SetBattery Started');
-    
-
-    var listener = new ROSLIB.Topic({
-        ros : ros,
-        name : '/battery_charge',
-        messageType : 'std_msgs/Float32'
-    });
-
-    listener.subscribe(function(message) {
-    //console.log('Received message on ' + listener.name + ': ' + message.data);
-    battery_status.style = "width:"+message.data+"%";
-    battery_status.innerHTML = message.data + '%';
-
-    // var n = parseInt(message.data);
-    if(parseFloat(message.data==0)){
-        console.log("Battery Empty");
-    }else if(parseFloat(message.data<=20)){
-        console.log("Warning Battery Low");
-    }else{
-        console.log("Battery Ok");
-    }
-
-    });
-
-    console.log('SetBattery Finished');
-}
-
-function setLoadFoodBtn() {
-    console.log('Load Food Initialised');
-    loadfood_btn = document.getElementById('loadfood-btn');
-    $( "#loadfood-btn" ).click(function(event) {
-        console.log('Load Food Clicked');
-        event.preventDefault(); // To prevent following the link (optional)
-        if (loadfood_btn.innerHTML == LoadFood_STATE_READY){
-            loadfood_btn.innerHTML = LoadFood_STATE_LOADING;
-            $(loadfood_btn).removeClass("btn-success");
-            $(loadfood_btn).addClass("btn-warning");
-            load_food_results = LoadFood(true);
-            
-        }else{
-            console.log('CALIBRATING STATUS='+loadfood_btn.innerHTML);
-        }
-        
-         
-      });
-
-}
-
-function setResetFoodBtn() {
-    console.log('Reset Food Initialised');
-    resetfood_btn = document.getElementById('resetfood-btn');
-    $( "#resetfood-btn" ).click(function(event) {
-        console.log('Reset Food Clicked');
-        event.preventDefault(); // To prevent following the link (optional)
-        if (resetfood_btn.innerHTML == ResetFood_STATE_READY){
-            resetfood_btn.innerHTML = ResetFood_STATE_LOADING;
-            $(resetfood_btn).removeClass("btn-success");
-            $(resetfood_btn).addClass("btn-warning");
-            load_food_results = LoadFood(false);
-
-        }else{
-            console.log('CALIBRATING STATUS='+resetfood_btn.innerHTML);
-        }
-
-
-      });
-
+    console.log('Web Joystick created.');
 }
 
 
-
-// Calling a service
-
-function LoadFood(add_object){
-    loadfoodClient = new ROSLIB.Service({
-        ros : ros,
-        name : '/loadfood_server',
-        serviceType : 'std_srvs/SetBool'
-      });
-
-
-    var request = new ROSLIB.ServiceRequest({});
-    request.data = add_object;
-    var success_value;
-    var message_value;
-    loadfoodClient.callService(request, function(result) {
-        success_value = result.success;
-        message_value = result.message;
-        console.log('Result for service call on '
-            + loadfoodClient.name
-            + ': '
-            + success_value
-            + ':'
-            + message_value);
-
-        if (add_object){
-            console.log('Load Food Finished');
-            loadfood_btn = document.getElementById('loadfood-btn');
-            $(loadfood_btn).removeClass("btn-warning");
-            $(loadfood_btn).addClass("btn-success");
-            loadfood_btn.innerHTML = LoadFood_STATE_READY;
-        }else{
-            console.log('Reset Food Done');
-            resetfood_btn = document.getElementById('resetfood-btn');
-            $(resetfood_btn).removeClass("btn-warning");
-            $(resetfood_btn).addClass("btn-info");
-            resetfood_btn.innerHTML = ResetFood_STATE_READY;
-        }
-
-    });
-
-    
-
-    return [success_value, message_value];
+function ImageExist(src,alt){
+   var img = new Image();
+   img.src = src;
+   if(img.height!=0){
+     return src;
+   }
+   else{
+    return alt;
+   }
 }
-
-
-
-function setMoveToTableBtn() {
-    console.log('Move To Table Initialised');
-    
-    $(".btn-table").click(function(event2){
-        // Holds the product ID of the clicked element
-        event2.preventDefault(); // To prevent following the link (optional)
-        var tableId = this.id;
-        var res = tableId.split("-");
-        var table_number = res[1];
-
-        var tableinnerHTML = this.innerHTML;
-        console.log("Generic Table ID===>"+tableId);
-        console.log("Generic Table innerHTML===>"+tableinnerHTML);
-
-        table_btn = document.getElementById(tableId);
-        event2.preventDefault(); // To prevent following the link (optional)
-        //if (table_btn.innerHTML == "T1"){
-        if ($(this).hasClass( 'active' )){
-            console.log('MOVING to Table='+table_number);            
-        }else{
-            table_btn.innerHTML = "MOVING TO T"+table_number;
-            $(this).toggleClass('active');
-            $(table_btn).removeClass("btn-success");
-            $(table_btn).addClass("btn-warning");
-            MoveToTable(parseInt(table_number));
-            
-        }
-        
-      });
-
-}
-
-// Calling action
-function MoveToTable(table_number){
-
-    var moveToTableClient = new ROSLIB.ActionClient({
-        ros : ros,
-        serverName : '/move_to_table_as',
-        actionName : 'actionlib/TestAction'
-      });
-
-    var goal = new ROSLIB.Goal({
-    actionClient : moveToTableClient,
-    goalMessage : {
-        goal : table_number
-    }
-    });
-    
-    goal.on('feedback', function(feedback) {
-        console.log('Feedback: ' + feedback.feedback);
-        movetotable_progress = document.getElementById('movetotable-progress');
-        movetotable_progress.style = "width:"+feedback.feedback+"%";
-        movetotable_progress.innerHTML = feedback.feedback + '%';
-    });
-    
-    goal.on('result', function(result) {
-        console.log('Final Result: ' + result.result);
-        table_btn = document.getElementById('table-'+table_number+'-btn');
-        $(table_btn).removeClass("btn-warning");
-        $(table_btn).addClass("btn-success");
-        $(table_btn).toggleClass('active');   
-        table_btn.innerHTML = "T"+table_number;
-        movetotable_progress = document.getElementById('movetotable-progress');
-        movetotable_progress.style = "width:0%";
-        movetotable_progress.innerHTML = '0%';
-        success_value = result.result
-    });
-
-    
-    goal.send();
-    
-    
-    $( "#table-cancel-btn" ).click(function(event3) {
-        console.log('Cancel Move Clicked');
-        event3.preventDefault();
-        moveToTableClient.cancel();
-            
-        });
-    
-
-
-}
-
-
-  
 
 
 window.onload = function () {
     // determine robot address automatically
     robot_IP = location.hostname;
-    // set robot address statically
-    //robot_IP = "10.5.10.117";
-
     // // Init handle for rosbridge_websocket
     ros = new ROSLIB.Ros({
         url: "ws://" + robot_IP + ":9090"
@@ -378,48 +233,25 @@ window.onload = function () {
 
     ros.on('connection', function() {
         console.log('Connected to websocket server.');
-    });
-    
-    ros.on('error', function(error) {
-    console.log('Error connecting to websocket server: ', error);
-    });
-
-    ros.on('close', function() {
-    console.log('Connection to websocket server closed.');
-    });
-    
-    // get handle for video placeholder
-    usb_cam_video = document.getElementById('usb-cam-video');
-    // Populate video source 
-    usb_cam_video.src = "http://" + robot_IP + ":8080/stream?topic=/usb_cam/image_raw&type=mjpeg&quality=80";
-
-    initVelocityPublisher();
-    initPwmPublisher();
-    initPwmTurnPublisher();
-    // get handle for video placeholder
-    video = document.getElementById('robot-image');
-    // Populate video source 
-    //video.src = "http://" + robot_IP + ":8080/stream?topic=/pan_and_tilt/main_cam/image_raw&type=mjpeg&quality=80";
-    video.src = "images/medibotv4.png";
-    video.onload = function () {
-        // joystick and keyboard controls will be available only when video is correctly loaded
+        // load robot image
+        robot_image = document.getElementById('robot-image');
+        robot_image.src = "images/medibotv4.png";
+        //initialization
+        initVelocityPublisher();
+        initPwmPublisher();
+        setPwm(document.getElementById('pwm-bar'),document.getElementById('pwmturn-bar'));
+        setPwmBtn();
         createJoystick();
         initTeleopKeyboard();
-    };
+        // load video
+        usb_cam_video = document.getElementById('usb-cam-video');
+        usb_cam_video.src = ImageExist("http://" + robot_IP + ":8080/stream?topic=/usb_cam/image_raw&type=mjpeg&quality=80","https://storage.googleapis.com/support-forums-api/attachment/thread-12960146-16368021293171254521.PNG");
+    });
+    ros.on('error', function(error) {
+        console.log('Error connecting to websocket server: ', error);
+    });
+    ros.on('close', function() {
+        console.log('Connection to websocket server closed.');
+    });
 
-    // get handle for video placeholder
-    battery_status = document.getElementById('battery-status');
-    battery_status.style = "width:10%";
-    battery_status.innerHTML = '10%';
-    setBattery(battery_status);
-
-    
-    //loadfood = document.getElementById('loadfood-btn');
-    setLoadFoodBtn();
-    setResetFoodBtn();
-
-    // Start the Move to table action client
-    setMoveToTableBtn();
-    
-    
 }
