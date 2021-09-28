@@ -28,6 +28,8 @@ ros::NodeHandle  nh;
 #define RH_ENB 43 // right encoder B 
 float demandx=0; // in m/s
 float demandz=0; // in rad/s
+int pwm = 80; 
+int pwm_turn = 60;
 volatile long encoderLH_Pos = 0; // encoder left pos
 volatile long encoderRH_Pos = 0; // encoder right pos
 unsigned long currentMillis;
@@ -40,7 +42,18 @@ void cmd_vel_callback( const geometry_msgs::Twist& twist){
   lastCmdVelReceived = millis();
 }
 
-ros::Subscriber<geometry_msgs::Twist> sub("cmd_vel", cmd_vel_callback );
+void pwm_callback( const std_msgs::Int16& pwm_msg){
+  pwm = pwm_msg.data;
+}
+
+void pwm_turn_callback( const std_msgs::Int16& pwm_turn_msg){
+  pwm_turn = pwm_turn_msg.data;
+}
+
+
+ros::Subscriber<geometry_msgs::Twist> cmd_vel_sub("cmd_vel", cmd_vel_callback);
+ros::Subscriber<std_msgs::Int16> pwm_sub("pwm", pwm_callback);
+ros::Subscriber<std_msgs::Int16> pwm_turn_sub("pwm_turn", pwm_turn_callback);
 std_msgs::Int16 lwheel_msg;
 ros::Publisher lwheel_pub("lwheel", &lwheel_msg);
 std_msgs::Int16 rwheel_msg;
@@ -49,7 +62,9 @@ ros::Publisher rwheel_pub("rwheel", &rwheel_msg);
 void setup() {
   nh.getHardware()->setBaud(115200);
   nh.initNode();
-  nh.subscribe(sub);
+  nh.subscribe(cmd_vel_sub);
+  nh.subscribe(pwm_sub);
+  nh.subscribe(pwm_turn_sub);
   nh.advertise(lwheel_pub);
   nh.advertise(rwheel_pub);
   pinMode(RH_D1,OUTPUT); // motor PWM pins
@@ -74,8 +89,6 @@ void loop() {
   currentMillis = millis();
   if(currentMillis - previousMillis >= LOOPTIME){
     previousMillis = currentMillis;
-    int pwm = 70;
-    int pwm_turn = 70;
     if(demandx<0 && abs(demandz)<=1){//reverse
       analogWrite(LH_D1,pwm);
       digitalWrite(LH_D2,HIGH);

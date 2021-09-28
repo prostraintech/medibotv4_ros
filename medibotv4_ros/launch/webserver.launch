@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
 
-    <!-- To access the page: http://localhost:8085/medibotv4_practice/medibotv4.html -->
-    <!-- http://10.121.168.83:8085/medibotv4_practice/medibotv4.html -->
+    <!-- To access the page: http://ip:8085/medibotv4_ros/medibotv4.html -->
     
     <arg name="name" default="medibotv4_web_node"/>
     <arg name="port" default="8085"/> <!-- avoid to use apache default port -->
