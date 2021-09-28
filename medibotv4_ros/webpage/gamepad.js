@@ -82,12 +82,24 @@ function getGamepadState(){
         moveAction(-0.5, 0.0);
       }
       else if (pointTurnAxis > 0.8){
+        console.log('right');
+        moveAction(0.0, -1.0);
+      }
+      else if (pointTurnAxis < -0.8){
         console.log('left');
         moveAction(0.0, 1.0);
       }
-      else if (pointTurnAxis < -0.8){
-        console.log('right');
-        moveAction(0.0, -1.0);
+      else if(buttonPressed(gamepad.buttons[4])){
+        yButtonChange();
+      }
+      else if(buttonPressed(gamepad.buttons[2])){
+        xButtonChange();
+      }
+      else if(buttonPressed(gamepad.buttons[3])){
+        aButtonChange();
+      }
+      else if(buttonPressed(gamepad.buttons[5])){
+        bButtonChange();
       }
       else{
         console.log('stop');

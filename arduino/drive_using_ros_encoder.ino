@@ -1,26 +1,16 @@
-//wheel radius, r = 160mm = 0.16m
-//wheel separation, l = 498mm = 0.498m
-//lidar height from ground = 229.4mm
-//diff drive parameters in metre
 #define USE_USBCON
 #include <ros.h>
 #include <std_msgs/Int16.h>
 #include <geometry_msgs/Twist.h>
 ros::NodeHandle  nh;
-#define WHEEL_SEPARATION 0.498
-#define WHEEL_RADIUS 0.16
-#define ENCODER_CPM 97
-#define LOOPTIME 10
 //motor pins
 #define LH_D1 3          // Left hand PWM
 #define LH_D2 28         // Left hand STOP
 #define LH_D3 27         // Left hand DIRECTION
-#define LH_A1 A4         // Left hand ANALOG
 #define RH_D1 4          // Right hand PWM
 #define RH_D2 26         // Right hand STOP
 #define RH_D3 25         // Right hand DIRECTION
-#define RH_A1 A5         // Right hand ANALOG
-#define BR 29         // Brake
+#define BRAKE 29         // Brake
 // wheel encoder pins
 #define LH_ENA 46 // left encoder A
 #define LH_ENB 45 // left encoder B         
@@ -35,6 +25,7 @@ volatile long encoderRH_Pos = 0; // encoder right pos
 unsigned long currentMillis;
 unsigned long previousMillis;  
 double lastCmdVelReceived = 0;
+void Move(double LH_PWM, double RH_PWM);
 
 void cmd_vel_callback( const geometry_msgs::Twist& twist){
   demandx = twist.linear.x;
@@ -49,7 +40,6 @@ void pwm_callback( const std_msgs::Int16& pwm_msg){
 void pwm_turn_callback( const std_msgs::Int16& pwm_turn_msg){
   pwm_turn = pwm_turn_msg.data;
 }
-
 
 ros::Subscriber<geometry_msgs::Twist> cmd_vel_sub("cmd_vel", cmd_vel_callback);
 ros::Subscriber<std_msgs::Int16> pwm_sub("pwm", pwm_callback);
@@ -87,53 +77,29 @@ void setup() {
 void loop() {
   nh.spinOnce();
   currentMillis = millis();
-  if(currentMillis - previousMillis >= LOOPTIME){
+  if(currentMillis - previousMillis >= 10){
     previousMillis = currentMillis;
-    if(demandx<0 && abs(demandz)<=1){//reverse
-      analogWrite(LH_D1,pwm);
-      digitalWrite(LH_D2,HIGH);
-      digitalWrite(LH_D3,HIGH);
-      analogWrite(RH_D1,pwm);
-      digitalWrite(RH_D2,HIGH);
-      digitalWrite(RH_D3,HIGH);
+    if(demandx>0 && abs(demandz)<=1){//forward
+      Move(pwm,pwm);
     }
-    else if(demandx>0 && abs(demandz)<=1){//forward
-      analogWrite(LH_D1,pwm);
-      digitalWrite(LH_D2,HIGH);
-      digitalWrite(LH_D3,LOW);
-      analogWrite(RH_D1,pwm);
-      digitalWrite(RH_D2,HIGH);
-      digitalWrite(RH_D3,LOW);
+    if(demandx<0 && abs(demandz)<=1){//reverse
+      Move(-pwm,-pwm);
     }
     else if(abs(demandx)<=0.1 && demandz>0){//left
-      analogWrite(LH_D1,pwm_turn);
-      digitalWrite(LH_D2,HIGH);
-      digitalWrite(LH_D3,HIGH);
-      analogWrite(RH_D1,pwm_turn);
-      digitalWrite(RH_D2,HIGH);
-      digitalWrite(RH_D3,LOW);
+      Move(-pwm_turn,pwm_turn);
     }
     else if(abs(demandx)<=0.1 && demandz<0){//right
-      analogWrite(LH_D1,pwm_turn);
-      digitalWrite(LH_D2,HIGH);
-      digitalWrite(LH_D3,LOW);
-      analogWrite(RH_D1,pwm_turn);
-      digitalWrite(RH_D2,HIGH);
-      digitalWrite(RH_D3,HIGH);
+      Move(pwm_turn,-pwm_turn);
     }
     else if(demandx==0 && demandz==0){
-      analogWrite(LH_D1,0);//left wheel stop
-      digitalWrite(LH_D2,LOW);
-      analogWrite(RH_D1,0);//right wheel stop
-      digitalWrite(RH_D2,LOW);
-      digitalWrite(BR,HIGH);
+      Move(0,0);
     }
     lwheel_pub.publish(&lwheel_msg);
     rwheel_pub.publish(&rwheel_msg);
   }
 
   //Stop the robot if there are no cmd_vel messages
-  /*if(millis() - lastCmdVelReceived > 100) {
+  /*if(millis() - lastCmdVelReceived > 50) {
       analogWrite(LH_D1,0);//left wheel stop
       digitalWrite(LH_D2,LOW);
       analogWrite(RH_D1,0);//right wheel stop
@@ -236,4 +202,38 @@ void doEncoderRHB(){
     }
   }
   rwheel_msg.data = encoderRH_Pos;
+}
+
+void Move(double LH_PWM, double RH_PWM){
+    if(LH_PWM>0){//left wheel forward
+      analogWrite(LH_D1,LH_PWM);
+      digitalWrite(LH_D2,HIGH);
+      digitalWrite(LH_D3,LOW);
+    }
+    else if(LH_PWM<0){//left wheel backward
+      analogWrite(LH_D1,abs(LH_PWM));
+      digitalWrite(LH_D2,HIGH);
+      digitalWrite(LH_D3,HIGH);
+    }
+    else{//left wheel stop
+      analogWrite(LH_D1,0);
+      digitalWrite(LH_D2,LOW);
+      digitalWrite(BRAKE,HIGH);
+    }
+
+    if(RH_PWM>0){//right wheel forward
+      analogWrite(RH_D1,RH_PWM);
+      digitalWrite(RH_D2,HIGH);
+      digitalWrite(RH_D3,LOW);
+    }
+    else if(RH_PWM<0){//right wheel backward
+      analogWrite(RH_D1,abs(RH_PWM));
+      digitalWrite(RH_D2,HIGH);
+      digitalWrite(RH_D3,HIGH);
+    }
+    else{//right wheel stop
+      analogWrite(RH_D1,0);
+      digitalWrite(RH_D2,LOW);
+      digitalWrite(BRAKE,HIGH);
+    }
 }
