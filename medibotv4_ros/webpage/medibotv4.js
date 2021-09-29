@@ -245,7 +245,7 @@ window.onload = function () {
         initTeleopKeyboard();
         // load video
         usb_cam_video = document.getElementById('usb-cam-video');
-        usb_cam_video.src = ImageExist("http://" + robot_IP + ":8080/stream?topic=/usb_cam/image_raw&type=mjpeg&quality=80","http://" + robot_IP + ":8080/stream?topic=/usb_cam/image_raw&type=mjpeg&quality=80");
+        usb_cam_video.src = ImageExist("http://" + robot_IP + ":8080/stream?topic=/cam0/image_raw&type=mjpeg&quality=20","http://" + robot_IP + ":8080/stream?topic=/cam0/image_raw&type=mjpeg&quality=20");
     });
     ros.on('error', function(error) {
         console.log('Error connecting to websocket server: ', error);
