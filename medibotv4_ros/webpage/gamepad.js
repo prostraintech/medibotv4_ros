@@ -1,4 +1,4 @@
-const refreshRate = 10;
+const refreshRate = 50;
 var pressed = 0;
 
 window.addEventListener("gamepadconnected", (event) => {
@@ -95,7 +95,7 @@ function getGamepadState(){
         moveAction(0.0, 1.0);
       }
       else{
-        console.log('stop');
+        console.log('stop pressed');
         moveAction(0.0, 0.0);
       }
     }
