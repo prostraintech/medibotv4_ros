@@ -13,7 +13,12 @@ window.addEventListener("gamepaddisconnected", (event) => {
 
 
 function getGamepadState(){
-  const gamepad = navigator.getGamepads()[0];
+   // Returns up to 4 gamepads.
+  const gamepads = navigator.getGamepads();
+
+  // We take the first one, for simplicity
+  const gamepad = gamepads[0];
+
   // Escape if no gamepad was found
   if (!gamepad) {
     console.log('No gamepad found.');
