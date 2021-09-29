@@ -25,7 +25,7 @@
 
 <include file="$(find medibotv4_ros)/launch/webserver.launch" />
 
-<include file="$(find medibotv4_ros)/launch/usb_cam.launch" />
+<include file="$(find medibotv4_ros)/launch/ip_cam.launch" />
 
 
 </launch>
