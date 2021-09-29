@@ -1,4 +1,4 @@
-const refreshRate = 50;
+const refreshRate = 10;
 var pressed = 0;
 
 window.addEventListener("gamepadconnected", (event) => {
@@ -66,11 +66,11 @@ function getGamepadState(){
     }
     //LOGITECH F310 CONTROLLER - END
   }
-  else{
+  else if(gamepad.id=='046d-c215-Logitech Logitech Extreme 3D'){
     //LOGITECH X3D JOYSTICK - START
     var xAxis = gamepad.axes[0];
     var yAxis = gamepad.axes[1];
-    var pointTurnAxis = gamepad.axes[5];
+    var pointTurnAxis = gamepad.axes[2];
 
     if (buttonPressed(gamepad.buttons[0])) {
       if (yAxis < -0.1 && pointTurnAxis < 0.5 && pointTurnAxis > -0.5){
@@ -89,22 +89,22 @@ function getGamepadState(){
         console.log('left');
         moveAction(0.0, 1.0);
       }
-      else if(buttonPressed(gamepad.buttons[4])){
-        yButtonChange();
-      }
-      else if(buttonPressed(gamepad.buttons[2])){
-        xButtonChange();
-      }
-      else if(buttonPressed(gamepad.buttons[3])){
-        aButtonChange();
-      }
-      else if(buttonPressed(gamepad.buttons[5])){
-        bButtonChange();
-      }
       else{
         console.log('stop');
         moveAction(0.0, 0.0);
       }
+    }
+    else if(buttonPressed(gamepad.buttons[4])){
+      yButtonChange();
+    }
+    else if(buttonPressed(gamepad.buttons[2])){
+      xButtonChange();
+    }
+    else if(buttonPressed(gamepad.buttons[3])){
+      aButtonChange();
+    }
+    else if(buttonPressed(gamepad.buttons[5])){
+      bButtonChange();
     }
     else {
       console.log('stop');
