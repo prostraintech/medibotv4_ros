@@ -44,6 +44,7 @@ ros::Publisher lwheel_pub("lwheel", &lwheel_msg);
 std_msgs::Int16 rwheel_msg;
 ros::Publisher rwheel_pub("rwheel", &rwheel_msg); 
 
+
 int joystick, movement;
 
 int CS_STT = 42, CS_STP = 41, CS_FWD = 40, CS_RVR = 32, CS_RGT = 31, CS_LFT = 30;           // Digital Input Console
@@ -93,7 +94,7 @@ void setup() {
   pinMode(LH_D2,OUTPUT);pinMode(LH_D3,OUTPUT);
   pinMode(RH_D2,OUTPUT);pinMode(RH_D3,OUTPUT);
   pinMode(LH_D1, OUTPUT);pinMode(RH_D1, OUTPUT);
-  //
+  
   // analogWrite(RH_D1,25);analogWrite(LH_D1,25);
   // digitalWrite(RH_D2,HIGH);digitalWrite(RH_D3,HIGH);
   // digitalWrite(LH_D2,HIGH);digitalWrite(LH_D3,HIGH);
