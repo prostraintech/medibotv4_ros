@@ -1,4 +1,4 @@
-const refreshRate = 50;
+const refreshRate = 10;
 var pressed = 0;
 
 window.addEventListener("gamepadconnected", (event) => {
