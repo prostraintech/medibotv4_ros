@@ -9,6 +9,7 @@
   #define USE_USBCON
 #endif
 */
+#define USE_USBCON
 #include <ros.h>
 #include <geometry_msgs/Twist.h>
 #include "DCMotor.h"
@@ -53,17 +54,25 @@ void DifferentialDriveRobot::move(const double lin, const double ang) {
 	double u_l = (lin - ang * this->wheel_distance/2.0) / this->wheel_radius;
 
 	if (u_r > 0) {
-		motor_right->CW(map(static_cast<INT_PWM>(u_r), 0, this->bound_right, 0, MAX_VALUE));
+		//motor_right->CW(map(static_cast<INT_PWM>(u_r), 0, this->bound_right, 0, MAX_VALUE));
+		Serial.println("PWM RIGHT:");
+		Serial.print(map(static_cast<INT_PWM>(u_r), 0, this->bound_right, 0, MAX_VALUE));
 	} 
 	else {
-		motor_right->CCW(map(static_cast<INT_PWM>(-u_r), 0, this->bound_right, 0, MAX_VALUE));
+		//motor_right->CCW(map(static_cast<INT_PWM>(-u_r), 0, this->bound_right, 0, MAX_VALUE));
+		Serial.println("PWM RIGHT:");
+		Serial.print(map(static_cast<INT_PWM>(-u_r), 0, this->bound_right, 0, MAX_VALUE));
 	}
 
 	if (u_l > 0) {
-		motor_left->CCW(map(static_cast<INT_PWM>(u_l), 0, this->bound_left, 0, MAX_VALUE));
+		//motor_left->CCW(map(static_cast<INT_PWM>(u_l), 0, this->bound_left, 0, MAX_VALUE));
+		Serial.println("PWM LEFT:");
+		Serial.print(map(static_cast<INT_PWM>(u_l), 0, this->bound_left, 0, MAX_VALUE));
 	} 
 	else {
-		motor_left->CW(map(static_cast<INT_PWM>(-u_l), 0, this->bound_left, 0, MAX_VALUE));
+		//motor_left->CW(map(static_cast<INT_PWM>(-u_l), 0, this->bound_left, 0, MAX_VALUE));
+		Serial.println("PWM LEFT:");
+		Serial.print(map(static_cast<INT_PWM>(-u_l), 0, this->bound_left, 0, MAX_VALUE));
 		
 	}
 }
