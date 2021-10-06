@@ -1,5 +1,5 @@
-BOARD=${1:-"due"}
-FILE=${2:-flashbot}
+BOARD=${2:-"due"}
+FILE=${1:-flashbot}
 
 if [ $BOARD == "due" ]
 then
