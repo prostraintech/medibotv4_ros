@@ -1,28 +1,47 @@
 
-#define MAX_PWM 255
-
 class Motor{
-public:
-  volatile long encoder_Pos = 0;
-  Motor(int, int);//pan tilt motor 
-  Motor(int, int, int);//driving motor 
-  Motor(int, int, int, int, int);//driving motor with encoder
-  void Rotate(int);
-  long getEncoderPos();
-private:
-  //motor pins  
-  int D1;//pwm value
-  int D2;//status, high=move , low=stop
-  int D3;//direction, low=forward, high=backward
-  //encoder pins
-  int ENA;
-  int ENB;
-  void initMotorPins();
-  int protectOutput(int);
-  void initEncoderPins();
-  void doEncoderA();
-  void doEncoderB();
-  bool drive; //true=driving , false=pantilt
+  static Motor *instanceA;
+  static Motor *instanceB;
+
+  void init() {
+        instanceA = this;
+        attachInterrupt(digitalPinToInterrupt(this->ENA), ISRA, CHANGE);
+        instanceB = this;
+        attachInterrupt(digitalPinToInterrupt(this->ENA), ISRB, CHANGE);
+  }
+
+  // Forward to non-static member function.
+  static void ISRA() {
+      instanceA->doEncoderA();
+  }
+
+  static void ISRB() {
+      instanceA->doEncoderB();
+  }
+
+
+
+  public:
+    Motor(int, int);//pan tilt motor 
+    Motor(int, int, int);//driving motor 
+    Motor(int, int, int, int, int);//driving motor with encoder
+    void Rotate(int);
+    long getEncoderPos();
+  private:
+    //motor pins  
+    int D1;//pwm value
+    int D2;//status, high=move , low=stop
+    int D3;//direction, low=forward, high=backward
+    //encoder pins
+    int ENA;
+    int ENB;
+    void initMotorPins();
+    int protectOutput(int);
+    void initEncoderPins();
+    void doEncoderA();
+    void doEncoderB();
+    volatile long encoder_Pos = 0;
+    bool drive; //true=driving , false=pantilt
 };
 
 Motor::Motor(int D1, int D2){
@@ -70,19 +89,18 @@ void Motor::Rotate(int pwm){
 
 int Motor::protectOutput(int val){
   // For safety reasons
-  (val>MAX_PWM)? val = MAX_PWM : val;
+  (val>150)? val = 150 : val;
   return val;
 }
 
 void Motor::initEncoderPins(){
   pinMode(this->ENA, INPUT_PULLUP);
   pinMode(this->ENB, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(this->ENA), doEncoderA, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(this->ENB), doEncoderB, CHANGE);
+  // attachInterrupt(digitalPinToInterrupt(this->ENA), ISRA, CHANGE);
+  // attachInterrupt(digitalPinToInterrupt(this->ENB), ISRB, CHANGE);
 }
 
-void Motor::doEncoderA()
-{
+void Motor::doEncoderA(){
   if(digitalRead(this->ENA)==HIGH){
     (digitalRead(this->ENB)==LOW)? this->encoder_Pos++ : this->encoder_Pos--;
   }
@@ -100,7 +118,16 @@ void Motor::doEncoderB(){
   }
 }
 
+// static void Motor::ISRA(){
+//   instanceA->doEncoderA();
+// }
+
+// static void Motor::ISRB(){
+//   instanceB->doEncoderB();
+// }
+
+
+
 long Motor::getEncoderPos(){
   return this->encoder_Pos;
 }
-

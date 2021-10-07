@@ -6,6 +6,9 @@ public:
 private:
   char colour;
   void initLEDPins();
+  int R;
+  int G;
+  int B;
 };
 
 LED::LED(int R, int G, int B){
@@ -34,6 +37,3 @@ void LED::Emit(char colour){
 	digitalWrite(this->G, G);
 	digitalWrite(this->B, B);
 }
-
-
-

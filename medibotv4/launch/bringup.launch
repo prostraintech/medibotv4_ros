@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <launch>
 
-  <include file="$(find medibotv4)/launch/serial_node.launch" />
+<!--   <include file="$(find medibotv4)/launch/serial_node.launch" /> -->
 
 <!--   <include file="$(find medibotv4)/launch/diff_tf.launch" /> -->
 
@@ -25,7 +25,10 @@
 
 <include file="$(find medibotv4)/launch/webserver.launch" />
 
-<include file="$(find medibotv4)/launch/ip_cam.launch" />
+<include file="$(find medibotv4)/launch/usb_cam.launch" />
+
+
+<!-- <include file="$(find medibotv4)/launch/ip_cam.launch" /> -->
 
 
 </launch>
