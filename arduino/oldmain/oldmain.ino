@@ -11,31 +11,48 @@ bool USING_ARDUINO_SERIAL = false;
 #include <geometry_msgs/Twist.h>
 #include <PID_v1.h>
 ros::NodeHandle nh;
-int pwm = 80, pwm_turn = 60;
-double demandx = 0, demandz = 0, lastCmdVelReceived = 0;
-float Ldiff, Lerror, Lprev, Rdiff, Rerror, Rprev;
+int pwm = 80; 
+int pwm_turn = 60;
+double lastCmdVelReceived = 0;
+double demandx = 0; // in m/s
+double demandz = 0; // in rad/s
 double Lkp=500, Lki=900, Lkd=0, Linput, Loutput, Lsetpoint;
 double Rkp=500, Rki=900, Rkd=0, Rinput, Routput, Rsetpoint;
 PID LH_pid(&Linput, &Loutput, &Lsetpoint, Lkp, Lki, Lkd, DIRECT);
 PID RH_pid(&Rinput, &Routput, &Rsetpoint, Rkp, Rki, Rkd, DIRECT);
-void cmd_vel_callback(const geometry_msgs::Twist& twist);
-void pwm_callback(const std_msgs::Int16& pwm_msg);
-void pwm_turn_callback(const std_msgs::Int16& pwm_turn_msg);
-void pwm_control_callback(const std_msgs::Bool& pwm_control_msg);
-std_msgs::Int16 lwheel_msg;
-std_msgs::Int16 rwheel_msg;
-ros::Publisher lwheel_pub("lwheel", &lwheel_msg);
-ros::Publisher rwheel_pub("rwheel", &rwheel_msg);
+float Ldiff, Lerror, Lprev;
+float Rdiff, Rerror, Rprev;
+
+void cmd_vel_callback( const geometry_msgs::Twist& twist){
+  demandx = twist.linear.x;
+  demandz = twist.angular.z;
+  lastCmdVelReceived = millis();
+}
+void pwm_callback( const std_msgs::Int16& pwm_msg){
+  pwm = pwm_msg.data;
+}
+void pwm_turn_callback( const std_msgs::Int16& pwm_turn_msg){
+  pwm_turn = pwm_turn_msg.data;
+}
+void pwm_control_callback( const std_msgs::Bool& pwm_control_msg){
+  USING_ROS_PWM = pwm_control_msg.data;
+  USING_ROS_DIFF = !pwm_control_msg.data;
+}
 ros::Subscriber<geometry_msgs::Twist> cmd_vel_sub("cmd_vel", cmd_vel_callback);
 ros::Subscriber<std_msgs::Int16> pwm_sub("pwm", pwm_callback);
 ros::Subscriber<std_msgs::Int16> pwm_turn_sub("pwm_turn", pwm_turn_callback);
 ros::Subscriber<std_msgs::Bool> pwm_control_sub("pwm_control", pwm_control_callback);
+std_msgs::Int16 lwheel_msg;
+ros::Publisher lwheel_pub("lwheel", &lwheel_msg);
+std_msgs::Int16 rwheel_msg;
+ros::Publisher rwheel_pub("rwheel", &rwheel_msg);
 
 //----------------------------GENERAL INITIALIZATION--------------------------------//
 #include "Config.h"
 #include "Motor.h"
 #include "LED.h"
-unsigned long currentMillis, previousMillis;
+unsigned long currentMillis;
+unsigned long previousMillis;
 Motor LH_motor(LH_D1, LH_D2, LH_D3, LH_ENA, LH_ENB);
 Motor RH_motor(RH_D1, RH_D2, RH_D3, RH_ENA, RH_ENB);
 Motor PAN_motor(PAN_D1, PAN_D2);
@@ -43,18 +60,9 @@ Motor TILT_motor(TILT_D1, TILT_D2);
 LED LH_led(LED_R_LH,LED_G_LH,LED_B_LH);
 LED RH_led(LED_R_RH,LED_G_RH,LED_B_RH);
 void Move(int lpwm, int rpwm);
-void LH_ISRA();
-void LH_ISRB();
-void RH_ISRA();
-void RH_ISRB();
-//----------------------------------------------------------------------------------//
-
+//------------------------------------------------------------------------------//
 
 void setup(){
-  attachInterrupt(digitalPinToInterrupt(LH_motor.getEncoderA()), LH_ISRA, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(LH_motor.getEncoderB()), LH_ISRB, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(RH_motor.getEncoderA()), RH_ISRA, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(RH_motor.getEncoderB()), RH_ISRB, CHANGE);
   /////////////ARDUINO SERIAL SECTION////////////
   if(USING_ARDUINO_SERIAL){
     Serial.begin(115200);
@@ -121,6 +129,7 @@ void loop(){
         Move(0, 0);
       }
     }
+
     if(USING_ROS_DIFF){
       //---------------------METHOD 1 (Open-loop)----------------------//
       
@@ -193,8 +202,6 @@ void loop(){
 }
 
 
-////////////FUNCTION DEFINITIONS////////////////
-
 void Move(int lpwm, int rpwm){
   LH_motor.Rotate(lpwm);
   RH_motor.Rotate(rpwm);
@@ -204,36 +211,4 @@ void Move(int lpwm, int rpwm){
   else{
       LH_led.Emit('b');RH_led.Emit('b');
   }
-}
-
-void LH_ISRA(){
-  LH_motor.doEncoderA();
-}
-
-void LH_ISRB(){
-  LH_motor.doEncoderB();
-}
-
-void RH_ISRA(){
-  RH_motor.doEncoderA();
-}
-
-void RH_ISRB(){
-  RH_motor.doEncoderB();
-}
-
-void cmd_vel_callback( const geometry_msgs::Twist& twist){
-  demandx = twist.linear.x;
-  demandz = twist.angular.z;
-  lastCmdVelReceived = millis();
-}
-void pwm_callback( const std_msgs::Int16& pwm_msg){
-  pwm = pwm_msg.data;
-}
-void pwm_turn_callback( const std_msgs::Int16& pwm_turn_msg){
-  pwm_turn = pwm_turn_msg.data;
-}
-void pwm_control_callback( const std_msgs::Bool& pwm_control_msg){
-  USING_ROS_PWM = pwm_control_msg.data;
-  USING_ROS_DIFF = !pwm_control_msg.data;
 }

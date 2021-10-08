@@ -25,7 +25,9 @@
 
 <include file="$(find medibotv4)/launch/webserver.launch" />
 
-<include file="$(find medibotv4)/launch/usb_cam.launch" />
+<node type="map_server" name="map_server" pkg="map_server" args="$(find medibotv4)/maps/gpcl.yaml"/>
+
+<!-- <include file="$(find medibotv4)/launch/usb_cam.launch" /> -->
 
 
 <!-- <include file="$(find medibotv4)/launch/ip_cam.launch" /> -->

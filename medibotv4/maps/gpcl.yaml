@@ -1,0 +1,8 @@
+free_thresh: 0.196
+height: 480
+image: gpcl.pgm
+negate: 0
+occupied_thresh: 0.65
+origin: [43.300000000000004, 41.75, 0.0]
+resolution: 0.05
+width: 640

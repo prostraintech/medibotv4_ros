@@ -1,15 +1,32 @@
 
 class Motor{
+  static Motor *instanceA;
+  static Motor *instanceB;
+
+  void init() {
+        instanceA = this;
+        attachInterrupt(digitalPinToInterrupt(this->ENA), ISRA, CHANGE);
+        instanceB = this;
+        attachInterrupt(digitalPinToInterrupt(this->ENA), ISRB, CHANGE);
+  }
+
+  // Forward to non-static member function.
+  static void ISRA() {
+      instanceA->doEncoderA();
+  }
+
+  static void ISRB() {
+      instanceA->doEncoderB();
+  }
+
+
+
   public:
     Motor(int, int);//pan tilt motor 
     Motor(int, int, int);//driving motor 
     Motor(int, int, int, int, int);//driving motor with encoder
     void Rotate(int);
     long getEncoderPos();
-    int getEncoderA();
-    int getEncoderB();
-    void doEncoderA();
-    void doEncoderB();
   private:
     //motor pins  
     int D1;//pwm value
@@ -21,6 +38,8 @@ class Motor{
     void initMotorPins();
     int protectOutput(int);
     void initEncoderPins();
+    void doEncoderA();
+    void doEncoderB();
     volatile long encoder_Pos = 0;
     bool drive; //true=driving , false=pantilt
 };
@@ -77,6 +96,8 @@ int Motor::protectOutput(int val){
 void Motor::initEncoderPins(){
   pinMode(this->ENA, INPUT_PULLUP);
   pinMode(this->ENB, INPUT_PULLUP);
+  // attachInterrupt(digitalPinToInterrupt(this->ENA), ISRA, CHANGE);
+  // attachInterrupt(digitalPinToInterrupt(this->ENB), ISRB, CHANGE);
 }
 
 void Motor::doEncoderA(){
@@ -97,14 +118,16 @@ void Motor::doEncoderB(){
   }
 }
 
+// static void Motor::ISRA(){
+//   instanceA->doEncoderA();
+// }
+
+// static void Motor::ISRB(){
+//   instanceB->doEncoderB();
+// }
+
+
+
 long Motor::getEncoderPos(){
   return this->encoder_Pos;
-}
-
-int Motor::getEncoderA(){
-  return this->ENA;
-}
-
-int Motor::getEncoderB(){
-  return this->ENB;
 }

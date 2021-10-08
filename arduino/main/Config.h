@@ -31,6 +31,7 @@
 #define WHEEL_SEPARATION 0.498
 #define WHEEL_DIAMETER 0.32
 #define WHEEL_RADIUS 0.16
-#define MIN_PWM 0
+#define MIN_PWM 40
 #define MAX_PWM 100
-#define MAX_VEL 0.25
+#define MIN_VEL 0
+#define MAX_VEL 0.5
