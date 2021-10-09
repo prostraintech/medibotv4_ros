@@ -1,36 +1,30 @@
 <?xml version="1.0" ?>
 <launch>
 
-<!--   <include file="$(find medibotv4)/launch/serial_node.launch" /> -->
+<!-- <include file="$(find medibotv4)/launch/base/serial_node.launch" /> -->
 
-<!--   <include file="$(find medibotv4)/launch/diff_tf.launch" /> -->
+<include file="$(find medibotv4)/launch/base/diff_tf.launch" />
 
-<!--   <include file="$(find medibotv4)/launch/drive.launch" /> -->
+<node type="robot_pose_publisher" name="robot_pose_publisher" pkg="medibotv4"/>
 
-<!--   <include file="$(find medibotv4)/launch/lidar.launch" />
-  <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" args="0.35 0 0.2294 0 0 0  /base_link /laser  200"/> -->
+<!--   <include file="$(find medibotv4)/launch/base/drive.launch" /> -->
 
+<!--   <include file="$(find medibotv4)/launch/base/lidar.launch" /> -->
+  <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" args="0.35 0 0.2294 0 0 0  /base_link /laser  200"/>
 
-<!--   <include file="$(find medibotv4)/launch/gmapping.launch" />
-  <include file="$(find medibotv4)/launch/navigation.launch" /> -->
+<!-- <include file="$(find medibotv4)/launch/base/realsense_left.launch" />
+<include file="$(find medibotv4)/launch/base/realsense_right.launch" /> -->
 
+<!-- <include file="$(find medibotv4)/launch/base/usb_cam.launch" /> -->
 
-<!--   <include file="$(find medibotv4)/launch/realsense_left.launch" />
-  <include file="$(find medibotv4)/launch/realsense_right.launch" /> -->
+<!-- <include file="$(find medibotv4)/launch/base/ip_cam.launch" /> -->
 
-  <!-- <node type="rviz" name="rviz" pkg="rviz" args="-d $(find medibotv4)/config/default.rviz" output="screen" /> -->
-<!--   <node type="rviz" name="rviz" pkg="rviz" args="-d $(find medibotv4)/config/rviz_slam_base_local_planner.rviz" output="screen" /> -->
+<include file="$(find medibotv4)/launch/base/webserver.launch" />
 
-<!--   <node type="rqt_plot" name="rqt_plot" pkg="rqt_plot" output="screen" /> -->
+<include file="$(find medibotv4)/launch/mapping/gmapping.launch" />
 
-<include file="$(find medibotv4)/launch/webserver.launch" />
+<!-- <include file="$(find medibotv4)/launch/navigation/exploration.launch" /> -->
 
-<node type="map_server" name="map_server" pkg="map_server" args="$(find medibotv4)/maps/gpcl.yaml"/>
-
-<!-- <include file="$(find medibotv4)/launch/usb_cam.launch" /> -->
-
-
-<!-- <include file="$(find medibotv4)/launch/ip_cam.launch" /> -->
-
+<!-- <include file="$(find medibotv4)/launch/navigation/navigation.launch" />  -->
 
 </launch>

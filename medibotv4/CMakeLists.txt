@@ -10,6 +10,9 @@ project(medibotv4)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
+  geometry_msgs 
+  roscpp 
+  tf
 )
 
 ## System dependencies are found with CMake's conventions
@@ -133,6 +136,11 @@ include_directories(
 # add_executable(${PROJECT_NAME}_node src/medibotv4_node.cpp)
 add_executable(diff_sim src/diff_sim.cpp)
 target_link_libraries(diff_sim ${catkin_LIBRARIES})
+add_executable(roslauncher src/roslauncher.cpp)
+target_link_libraries(roslauncher ${catkin_LIBRARIES})
+add_executable(robot_pose_publisher src/robot_pose_publisher.cpp)
+target_link_libraries(robot_pose_publisher ${catkin_LIBRARIES})
+
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
