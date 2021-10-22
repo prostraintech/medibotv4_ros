@@ -13,6 +13,8 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs 
   roscpp 
   tf
+  std_msgs
+  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -56,11 +58,10 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
+add_service_files(
+ FILES
+ SaveSpotService.srv
+)
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -70,10 +71,10 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
-# )
+generate_messages(
+  DEPENDENCIES
+  std_msgs  # Or other packages containing msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -106,7 +107,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS
-  CATKIN_DEPENDS roscpp
+  CATKIN_DEPENDS roscpp rospy
 )
 
 ###########
@@ -136,10 +137,13 @@ include_directories(
 # add_executable(${PROJECT_NAME}_node src/medibotv4_node.cpp)
 add_executable(diff_sim src/diff_sim.cpp)
 target_link_libraries(diff_sim ${catkin_LIBRARIES})
-add_executable(roslauncher src/roslauncher.cpp)
-target_link_libraries(roslauncher ${catkin_LIBRARIES})
 add_executable(robot_pose_publisher src/robot_pose_publisher.cpp)
 target_link_libraries(robot_pose_publisher ${catkin_LIBRARIES})
+
+add_executable(roslauncher src/node_server/roslauncher.cpp)
+target_link_libraries(roslauncher ${catkin_LIBRARIES})
+add_executable(roskiller src/node_server/roskiller.cpp)
+target_link_libraries(roskiller ${catkin_LIBRARIES})
 
 
 ## Rename C++ executable without prefix

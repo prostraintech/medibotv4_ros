@@ -2,6 +2,7 @@
 
 
 TODO LIST:
+- [ ] Robot footprint
 - [ ] Arduino encoder library
 - [ ] Closed-loop motor control
 - [ ] Encoder odometry correction

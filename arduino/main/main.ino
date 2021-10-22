@@ -14,18 +14,18 @@ ros::NodeHandle nh;
 int pwm = 80, pwm_turn = 60;
 double demandx = 0, demandz = 0, lastCmdVelReceived = 0;
 float Ldiff, Lerror, Lprev, Rdiff, Rerror, Rprev;
-double Lkp=500, Lki=900, Lkd=0, Linput, Loutput, Lsetpoint;
-double Rkp=500, Rki=900, Rkd=0, Rinput, Routput, Rsetpoint;
-PID LH_pid(&Linput, &Loutput, &Lsetpoint, Lkp, Lki, Lkd, DIRECT);
-PID RH_pid(&Rinput, &Routput, &Rsetpoint, Rkp, Rki, Rkd, DIRECT);
+double LKp=1, LKi=0, LKd=0, Linput, Loutput, Lsetpoint;
+double RKp=1, RKi=0, RKd=0, Rinput, Routput, Rsetpoint;
+PID LH_pid(&Linput, &Loutput, &Lsetpoint, LKp, LKi, LKd, DIRECT);
+PID RH_pid(&Rinput, &Routput, &Rsetpoint, RKp, RKi, RKd, DIRECT);
 void cmd_vel_callback(const geometry_msgs::Twist& twist);
 void pwm_callback(const std_msgs::Int16& pwm_msg);
 void pwm_turn_callback(const std_msgs::Int16& pwm_turn_msg);
 void pwm_control_callback(const std_msgs::Bool& pwm_control_msg);
 std_msgs::Int16 lwheel_msg;
 std_msgs::Int16 rwheel_msg;
-ros::Publisher lwheel_pub("lwheel", &lwheel_msg);
-ros::Publisher rwheel_pub("rwheel", &rwheel_msg);
+ros::Publisher lwheel_pub("lwheel_ticks", &lwheel_msg);
+ros::Publisher rwheel_pub("rwheel_ticks", &rwheel_msg);
 ros::Subscriber<geometry_msgs::Twist> cmd_vel_sub("cmd_vel", cmd_vel_callback);
 ros::Subscriber<std_msgs::Int16> pwm_sub("pwm", pwm_callback);
 ros::Subscriber<std_msgs::Int16> pwm_turn_sub("pwm_turn", pwm_turn_callback);
@@ -70,10 +70,10 @@ void setup(){
     nh.advertise(rwheel_pub);
     LH_pid.SetMode(AUTOMATIC);
     LH_pid.SetOutputLimits(-100,100);
-    LH_pid.SetSampleTime(10);
+    LH_pid.SetSampleTime(1);
     RH_pid.SetMode(AUTOMATIC);
     RH_pid.SetOutputLimits(-100,100);
-    RH_pid.SetSampleTime(10);
+    RH_pid.SetSampleTime(1);
   }
 }
 
@@ -162,8 +162,8 @@ void loop(){
       // double right_vel = demandx + (demandz*WHEEL_SEPARATION/2);
       // Ldiff = LH_motor.getEncoderPos() - Lprev; 
       // Rdiff = RH_motor.getEncoderPos() - Rprev; 
-      // Lerror = (demand1*0.95) - Ldiff;
-      // Rerror = (demand2*0.95) - Rdiff;
+      // Lerror = (left_vel*0.95) - Ldiff;
+      // Rerror = (right_vel*0.95) - Rdiff;
       // Lprev = LH_motor.getEncoderPos(); 
       // Rprev = RH_motor.getEncoderPos();
       // Lsetpoint = left_vel*0.95;
@@ -185,10 +185,9 @@ void loop(){
 
   if(USING_ROS_PWM || USING_ROS_DIFF){
     //Stop the robot if there are no cmd_vel messages
-    if(millis() - lastCmdVelReceived > 500){
-      Move(0, 0);
-      LH_led.Emit('w');RH_led.Emit('w');
-    } 
+    // if(millis() - lastCmdVelReceived > 500){
+    //   Move(0, 0);
+    // } 
   }
 }
 

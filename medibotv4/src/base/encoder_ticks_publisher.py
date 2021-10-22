@@ -17,7 +17,7 @@ def talker():
         pubr.publish(msgr)
         rate.sleep()
     	msgl.data+=1
-        msgr.data+=-1
+        msgr.data+=1
 
 if __name__ == '__main__':
     try:
