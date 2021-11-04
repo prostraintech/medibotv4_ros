@@ -1,10 +1,9 @@
 
 class Motor{
   public:
-    Motor(int, int);//pan tilt motor 
-    Motor(int, int, int);//driving motor 
+    Motor(int, int, int);//pan tilt motor with encoder
     Motor(int, int, int, int, int);//driving motor with encoder
-    void Rotate(int);
+    void Rotate(int, int, int);
     long getEncoderPos();
     int getEncoderA();
     int getEncoderB();
@@ -25,28 +24,24 @@ class Motor{
     bool drive; //true=driving , false=pantilt
 };
 
-Motor::Motor(int D1, int D2){
+Motor::Motor(int D1, int D2, int ENA){
   this->D1 = D1;
   this->D2 = D2;
   this->drive = false;
   Motor::initMotorPins();
+  this->ENA = ENA;
 }
 
-Motor::Motor(int D1, int D2, int D3){
+Motor::Motor(int D1, int D2, int D3, int ENA, int ENB){
   this->D1 = D1;
   this->D2 = D2;
   this->D3 = D3;
   this->drive = true;
   Motor::initMotorPins();
-}
-
-Motor::Motor(int D1, int D2, int D3, int ENA, int ENB)
-  : Motor::Motor(D1, D2, D3){
   this->ENA = ENA;
   this->ENB = ENB;
   Motor::initEncoderPins();
 }
-
 
 void Motor::initMotorPins(){
   pinMode(this->D1, OUTPUT);
@@ -55,7 +50,7 @@ void Motor::initMotorPins(){
   Motor::Rotate(0);
 }
 
-void Motor::Rotate(int pwm){
+void Motor::Rotate(int pwm, int lower_lim=0, upper_lim=0){
   if(this->drive){
     analogWrite(this->D1, protectOutput(abs(pwm)));
     digitalWrite(this->D2, pwm!=0);
@@ -63,7 +58,12 @@ void Motor::Rotate(int pwm){
     //digitalWrite(BRAKE,HIGH);
   }
   else{
-    digitalWrite(this->D1, pwm!=0);
+    if(analogRead(this->ENA) > lower_lim && analogRead(this->ENA) < upper_lim){
+      digitalWrite(this->D1, pwm!=0);
+    }
+    else{
+      digitalWrite(this->D1, 0);
+    }
     digitalWrite(this->D2, pwm>0);
   }
 }

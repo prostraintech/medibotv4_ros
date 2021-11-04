@@ -10,6 +10,6 @@ TODO LIST:
 - [ ] Twist multiplexer
 - [ ] Odometry + IMU
 - [ ] Pointcloud -> Nav Stack / Depth -> Laserscan
-- [ ] Arduino libraries from local subfolder
+- [x] Arduino libraries from local subfolder
 - [ ] Installation scripts
 - [ ] robot_upstart

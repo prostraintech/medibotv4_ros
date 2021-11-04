@@ -1,33 +1,59 @@
 #pragma once
-//driving motor and encoder pins
-#define LH_D1 3          
-#define LH_D2 28      
-#define LH_D3 27   
-#define LH_ENA 46 
-#define LH_ENB 45     
-#define RH_D1 4          
-#define RH_D2 26         
-#define RH_D3 25         
-#define RH_ENA 44 
-#define RH_ENB 43 
-#define BRAKE 29   
-//pan tilt motor pins
+//DRIVING MOTOR PINS
+#define LH_D1 5
+#define LH_D2 26
+#define LH_D3 25
+#define LH_ENA 44
+#define LH_ENB 43
+#define RH_D1 4
+#define RH_D2 28
+#define RH_D3 27      
+#define RH_ENA 46
+#define RH_ENB 45
+#define BRAKE 29
+//PAN & TILT MOTOR PINS
 #define PAN_D1 24
 #define PAN_D2 23
-#define TILT_D1 22
-#define TILT_D2 2
-//LED pins
-#define LED_R_LH 7 
+#define PAN_EN A4
+#define TILT_D1 2
+#define TILT_D2 3
+#define TILT_EN A5
+#define PAN_LEFT_LIM 350
+#define PAN_RIGHT_LIM 550
+#define TILT_UP_LIM 455
+#define TILT_DOWN_LIM 550
+//LED PINS
+#define LED_R_LH 7
 #define LED_G_LH 8
 #define LED_B_LH 9
-#define LED_R_RH 10 
+#define LED_R_RH 10
 #define LED_G_RH 11
 #define LED_B_RH 12
-
-//General Constants
+//SENSOR PINS
+#define IR1 A0
+#define IR2 A1
+#define IR3 A2
+#define SON1 A3
+#define CSENS A6
+#define LSR1 42
+#define LSR2 41
+#define LSR3 40
+//SWITCH PINS
+#define SW_MODE 38
+#define ESTOP 39
+//PENDANT PINS
+#define CS_STT 66
+#define CS_STP 67
+#define CS_FWD 68
+#define CS_RVR 69
+#define CS_LFT 48
+#define CS_RGT 49
+//GENERAL CONSTANT
 #define LOOPTIME 10
-//ROS Constants
-#define COUNT_PER_METER 95
+#define MOTOR_SPEED 80
+#define DIFF_MOTOR_SPEED 60
+//ROS CONSTANT
+#define TICKS_PER_METER 95
 #define WHEEL_SEPARATION 0.498
 #define WHEEL_DIAMETER 0.32
 #define WHEEL_RADIUS 0.16
