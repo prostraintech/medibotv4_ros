@@ -53,6 +53,7 @@
 #define MOTOR_SPEED 80
 #define DIFF_MOTOR_SPEED 60
 //ROS CONSTANT
+#define CMD_VEL_TIMEOUT 1000
 #define TICKS_PER_METER 95
 #define WHEEL_SEPARATION 0.498
 #define WHEEL_DIAMETER 0.32
@@ -61,3 +62,9 @@
 #define MAX_PWM 100
 #define MIN_VEL 0
 #define MAX_VEL 0.5
+#define LH_KP 1
+#define LH_KI 0
+#define LH_KD 0
+#define RH_KP 1
+#define RH_KI 0
+#define RH_KD 0

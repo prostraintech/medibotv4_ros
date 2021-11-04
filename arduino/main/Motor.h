@@ -47,10 +47,9 @@ void Motor::initMotorPins(){
   pinMode(this->D1, OUTPUT);
   pinMode(this->D2, OUTPUT);
   if(this->drive) pinMode(this->D3, OUTPUT);
-  Motor::Rotate(0);
 }
 
-void Motor::Rotate(int pwm, int lower_lim=0, upper_lim=0){
+void Motor::Rotate(int pwm, int lower_lim=0, int upper_lim=0){
   if(this->drive){
     analogWrite(this->D1, protectOutput(abs(pwm)));
     digitalWrite(this->D2, pwm!=0);
