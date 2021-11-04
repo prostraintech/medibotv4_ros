@@ -7,6 +7,9 @@ TODO LIST:
 - [ ] Closed-loop motor control
 - [ ] Encoder odometry correction
 - [ ] Udev rules
+- [ ] Twist multiplexer
+- [ ] Odometry + IMU
+- [ ] Pointcloud -> Nav Stack / Depth -> Laserscan
 - [ ] Arduino libraries from local subfolder
 - [ ] Installation scripts
 - [ ] robot_upstart

@@ -8,9 +8,14 @@
     <param name="calibrate_time" value="false"/>
     <param name="publish_intensity" value="false"/>
     <param name="publish_multiecho" value="false"/>
-    <!-- 90 degree angle -->
-    <param name="angle_min" value="-1.5707963"/>
-    <param name="angle_max" value="1.5707963"/>
+
+    <!-- 90+90=180 degree angle -->
+<!--     <param name="angle_min" value="-1.5707963"/>
+    <param name="angle_max" value="1.5707963"/> -->
+
+    <!-- 135+135=270 degree angle -->
+    <param name="angle_min" value="-2.35619"/>
+    <param name="angle_max" value="2.35619"/>
   </node>
 </launch>
 
