@@ -30,21 +30,21 @@ void LED::Emit(char colour){
 	int R, G, B;
 	switch(this->colour){
 		case 'w':
-			R=254; G=254; B=254; break; //white
+			R=255; G=255; B=255 break; //white
     case 'r':
-      R=254; G=0; B=0; break; //red
+      R=255; G=0; B=0; break; //red
     case 'g':
-      R=0; G=254; B=0; break; //green
+      R=0; G=255; B=0; break; //green
 		case 'b':
-			R=0; G=0; B=254; break; //blue
+			R=0; G=0; B=255; break; //blue
 	}
-	digitalWrite(this->R, R);
-	digitalWrite(this->G, G);
-	digitalWrite(this->B, B);
+	digitalWrite(this->R, 255-R);
+	digitalWrite(this->G, 255-G);
+	digitalWrite(this->B, 255-B);
 }
 
 void LED::Emit(int r, int g, int b){
-  digitalWrite(this->R, r);
-  digitalWrite(this->G, g);
-  digitalWrite(this->B, b);
+  digitalWrite(this->R, 255-r);
+  digitalWrite(this->G, 255-g);
+  digitalWrite(this->B, 255-b);
 }
