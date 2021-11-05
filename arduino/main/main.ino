@@ -4,7 +4,7 @@ bool USING_ROS_DIFF = false;
 //------------------------------------------------------------------------------//
 //----------------------------ROS INITIALIZATION--------------------------------//
 
-#define USE_USBCON
+//#define USE_USBCON
 #include <ros.h>
 #include <std_msgs/Bool.h>
 #include <std_msgs/Int16.h>
@@ -75,12 +75,14 @@ void setup(){
   ////////////ROS SECTION////////////
   if(USING_ROS_PWM ||USING_ROS_DIFF){
     nh.getHardware()->setBaud(115200);
-    nh.initNode();
+    nh.initNode('arduino_node');
     nh.subscribe(cmd_vel_sub);
     nh.subscribe(pwm_sub);
     nh.subscribe(pwm_turn_sub);
+    nh.subscribe(pwm_control_sub);
     nh.advertise(lwheel_pub);
     nh.advertise(rwheel_pub);
+    nh.advertise(sensor_state_pub);
     LH_pid.SetMode(AUTOMATIC);
     LH_pid.SetOutputLimits(-MAX_PWM, MAX_PWM);
     LH_pid.SetSampleTime(1);
