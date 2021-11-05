@@ -9,6 +9,7 @@ bool USING_ROS_DIFF = false;
 #include <std_msgs/Bool.h>
 #include <std_msgs/Int16.h>
 #include <geometry_msgs/Twist.h>
+#include <medibotv4/SensorState.h>
 #include <PID_v1.h>
 ros::NodeHandle nh;
 int pwm = 60, pwm_turn = 40;
@@ -19,8 +20,10 @@ void pwm_turn_callback(const std_msgs::Int16& pwm_turn_msg);
 void pwm_control_callback(const std_msgs::Bool& pwm_control_msg);
 std_msgs::Int16 lwheel_msg;
 std_msgs::Int16 rwheel_msg;
+medibotv4::SensorState sensor_state_msg;
 ros::Publisher lwheel_pub("lwheel_ticks", &lwheel_msg);
 ros::Publisher rwheel_pub("rwheel_ticks", &rwheel_msg);
+ros::Publisher sensor_state_pub("sensor_state", &sensor_state_msg);
 ros::Subscriber<geometry_msgs::Twist> cmd_vel_sub("cmd_vel", cmd_vel_callback);
 ros::Subscriber<std_msgs::Int16> pwm_sub("pwm", pwm_callback);
 ros::Subscriber<std_msgs::Int16> pwm_turn_sub("pwm_turn", pwm_turn_callback);
@@ -93,7 +96,7 @@ void loop(){
   if(currentMillis - previousMillis >= LOOPTIME){
     previousMillis = currentMillis;
 
-    
+
 
     //RESCUE MODE
     if(!digitalRead(SW_MODE)){
@@ -202,11 +205,28 @@ void loop(){
         // Move(Loutput,Routput);
       }
     }
-
+    //Publishing data to ROS
     lwheel_msg.data = LH_motor.getEncoderPos();
     lwheel_pub.publish(&lwheel_msg);
     rwheel_msg.data = RH_motor.getEncoderPos();
     rwheel_pub.publish(&rwheel_msg);
+    sensor_state_msg.ir1 = analogRead(IR1);
+    sensor_state_msg.ir2 = analogRead(IR2);
+    sensor_state_msg.ir3 = analogRead(IR3);
+    sensor_state_msg.sonar = analogRead(SON1);
+    sensor_state_msg.cliff = analogRead(CSENS);
+    sensor_state_msg.laser1 = digitalRead(LSR1);
+    sensor_state_msg.laser2 = digitalRead(LSR2);
+    sensor_state_msg.laser3 = digitalRead(LSR3);
+    sensor_state_msg.switch_mode = digitalRead(SW_MODE);
+    sensor_state_msg.estop = digitalRead(ESTOP);
+    sensor_state_msg.cs_stt = digitalRead(CS_STT);
+    sensor_state_msg.cs_stp = digitalRead(CS_STP);
+    sensor_state_msg.cs_fwd = digitalRead(CS_FWD);
+    sensor_state_msg.cs_rvr = digitalRead(CS_RVR);
+    sensor_state_msg.cs_lft = digitalRead(CS_LFT);
+    sensor_state_msg.cs_rgt = digitalRead(CS_RGT);
+    sensor_state_pub.publish(&sensor_state_msg);
     //Stop the robot if there are no cmd_vel messages
     if(millis() - lastCmdVelReceived > CMD_VEL_TIMEOUT){
       Move(0, 0);
