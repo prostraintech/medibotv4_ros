@@ -57,7 +57,13 @@ void Motor::Rotate(int pwm, int lower_lim=0, int upper_lim=0){
     //digitalWrite(BRAKE,HIGH);
   }
   else{
-    if(analogRead(this->ENA) > lower_lim && analogRead(this->ENA) < upper_lim){
+    if(analogRead(this->ENA)>lower_lim && analogRead(this->ENA)<upper_lim){
+      digitalWrite(this->D1, pwm!=0);
+    }
+    else if(analogRead(this->ENA)==lower_lim && pwm<0){
+      digitalWrite(this->D1, pwm!=0);
+    }
+    else if(analogRead(this->ENA)==upper_lim && pwm>0){
       digitalWrite(this->D1, pwm!=0);
     }
     else{

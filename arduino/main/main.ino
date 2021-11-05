@@ -1,26 +1,9 @@
 //------------------------------------------------------------------------------//
-bool USING_ROS_PWM = false;  
+bool USING_ROS_PWM = true;  
 bool USING_ROS_DIFF = false; 
-bool USING_ARDUINO_SERIAL = true;  
 //------------------------------------------------------------------------------//
-//----------------------------GENERAL INITIALIZATION--------------------------------//
-#include "Config.h"
-#include "Motor.h"
-#include "LED.h"
-unsigned long currentMillis, previousMillis;
-Motor LH_motor(LH_D1, LH_D2, LH_D3, LH_ENA, LH_ENB);
-Motor RH_motor(RH_D1, RH_D2, RH_D3, RH_ENA, RH_ENB);
-Motor PAN_motor(PAN_D1, PAN_D2, PAN_EN);
-Motor TILT_motor(TILT_D1, TILT_D2, TILT_EN);
-LED LH_led(LED_R_LH, LED_G_LH, LED_B_LH);
-LED RH_led(LED_R_RH, LED_G_RH, LED_B_RH);
-void Move(int lpwm, int rpwm);
-void LH_ISRA();
-void LH_ISRB();
-void RH_ISRA();
-void RH_ISRB();
-void EMG_STOP();
 //----------------------------ROS INITIALIZATION--------------------------------//
+
 #define USE_USBCON
 #include <ros.h>
 #include <std_msgs/Bool.h>
@@ -28,13 +11,8 @@ void EMG_STOP();
 #include <geometry_msgs/Twist.h>
 #include <PID_v1.h>
 ros::NodeHandle nh;
-int pwm = 80, pwm_turn = 60;
+int pwm = 60, pwm_turn = 40;
 double demandx = 0, demandz = 0, lastCmdVelReceived = 0;
-float Ldiff, Lerror, Lprev, Rdiff, Rerror, Rprev;
-double Linput, Loutput, Lsetpoint;
-double Rinput, Routput, Rsetpoint;
-PID LH_pid(&Linput, &Loutput, &Lsetpoint, LH_KP, LH_KI, LH_KD, DIRECT);
-PID RH_pid(&Rinput, &Routput, &Rsetpoint, RH_KP, RH_KI, RH_KD, DIRECT);
 void cmd_vel_callback(const geometry_msgs::Twist& twist);
 void pwm_callback(const std_msgs::Int16& pwm_msg);
 void pwm_turn_callback(const std_msgs::Int16& pwm_turn_msg);
@@ -47,6 +25,30 @@ ros::Subscriber<geometry_msgs::Twist> cmd_vel_sub("cmd_vel", cmd_vel_callback);
 ros::Subscriber<std_msgs::Int16> pwm_sub("pwm", pwm_callback);
 ros::Subscriber<std_msgs::Int16> pwm_turn_sub("pwm_turn", pwm_turn_callback);
 ros::Subscriber<std_msgs::Bool> pwm_control_sub("pwm_control", pwm_control_callback);
+
+//----------------------------GENERAL INITIALIZATION--------------------------------//
+
+#include "Config.h"
+#include "Motor.h"
+#include "LED.h"
+unsigned long currentMillis, previousMillis;
+float Ldiff, Lerror, Lprev, Rdiff, Rerror, Rprev;
+double Linput, Loutput, Lsetpoint;
+double Rinput, Routput, Rsetpoint;
+PID LH_pid(&Linput, &Loutput, &Lsetpoint, LH_KP, LH_KI, LH_KD, DIRECT);
+PID RH_pid(&Rinput, &Routput, &Rsetpoint, RH_KP, RH_KI, RH_KD, DIRECT);
+Motor LH_motor(LH_D1, LH_D2, LH_D3, LH_ENA, LH_ENB);
+Motor RH_motor(RH_D1, RH_D2, RH_D3, RH_ENA, RH_ENB);
+Motor PAN_motor(PAN_D1, PAN_D2, PAN_EN);
+Motor TILT_motor(TILT_D1, TILT_D2, TILT_EN);
+LED LH_led(LED_R_LH, LED_G_LH, LED_B_LH);
+LED RH_led(LED_R_RH, LED_G_RH, LED_B_RH);
+void Move(int lpwm, int rpwm);
+void LH_ISRA();
+void LH_ISRB();
+void RH_ISRA();
+void RH_ISRB();
+void EMG_STOP();
 //----------------------------------------------------------------------------------//
 
 
@@ -66,11 +68,7 @@ void setup(){
   attachInterrupt(digitalPinToInterrupt(LH_motor.getEncoderB()), LH_ISRB, CHANGE);
   attachInterrupt(digitalPinToInterrupt(RH_motor.getEncoderA()), RH_ISRA, CHANGE);
   attachInterrupt(digitalPinToInterrupt(RH_motor.getEncoderB()), RH_ISRB, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(ESTOP), EMG_STOP, HIGH);
-  /////////////ARDUINO SERIAL SECTION////////////
-  if(USING_ARDUINO_SERIAL){
-    Serial.begin(115200);
-  }
+  //attachInterrupt(digitalPinToInterrupt(ESTOP), EMG_STOP, HIGH);
   ////////////ROS SECTION////////////
   if(USING_ROS_PWM ||USING_ROS_DIFF){
     nh.getHardware()->setBaud(115200);
@@ -90,7 +88,7 @@ void setup(){
 }
 
 void loop(){
-  if(USING_ROS_PWM || USING_ROS_DIFF) nh.spinOnce();
+  nh.spinOnce();
   currentMillis = millis();
   if(currentMillis - previousMillis >= LOOPTIME){
     previousMillis = currentMillis;
@@ -98,16 +96,16 @@ void loop(){
     //RESCUE MODE
     while(!digitalRead(SW_MODE)){
       if(!digitalRead(CS_FWD) && digitalRead(CS_RVR) && digitalRead(CS_LFT) && digitalRead(CS_RGT) && digitalRead(CS_STT) && digitalRead(CS_STP)){
-        Move(-MOTOR_SPEED, MOTOR_SPEED);//forward
+        Move(MOTOR_SPEED, MOTOR_SPEED);//forward
       }
       else if(digitalRead(CS_FWD) && !digitalRead(CS_RVR) && digitalRead(CS_LFT) && digitalRead(CS_RGT) && digitalRead(CS_STT) && digitalRead(CS_STP)){
-        Move(MOTOR_SPEED, -MOTOR_SPEED);//reverse
+        Move(-MOTOR_SPEED, -MOTOR_SPEED);//reverse
       }
       else if(digitalRead(CS_FWD) && digitalRead(CS_RVR) && !digitalRead(CS_LFT) && digitalRead(CS_RGT) && digitalRead(CS_STT) && digitalRead(CS_STP)){
-        Move(DIFF_MOTOR_SPEED, DIFF_MOTOR_SPEED);//left
+        Move(-DIFF_MOTOR_SPEED, DIFF_MOTOR_SPEED);//left
       }
       else if(digitalRead(CS_FWD) && digitalRead(CS_RVR) && digitalRead(CS_LFT) && !digitalRead(CS_RGT) && digitalRead(CS_STT) && digitalRead(CS_STP)){
-        Move(-DIFF_MOTOR_SPEED, -DIFF_MOTOR_SPEED);//right
+        Move(DIFF_MOTOR_SPEED, -DIFF_MOTOR_SPEED);//right
       }
       else if(digitalRead(CS_FWD) && digitalRead(CS_RVR) && !digitalRead(CS_LFT) && digitalRead(CS_RGT) && !digitalRead(CS_STT) && digitalRead(CS_STP)){
         PAN_motor.Rotate(1, PAN_LEFT_LIM, PAN_RIGHT_LIM);//pan left
@@ -130,29 +128,6 @@ void loop(){
 
     //REMOTE MODE
     while(digitalRead(SW_MODE)){
-      /////////////ARDUINO SERIAL SECTION////////////
-      if(USING_ARDUINO_SERIAL){
-        if(Serial.available()>0){ 
-          char c = Serial.read();
-          if(c=='w'){
-            Move(MOTOR_SPEED, MOTOR_SPEED);//forward
-          }
-          if(c=='s'){
-            Move(-MOTOR_SPEED, -MOTOR_SPEED);//reverse
-          }
-          else if(c=='a'){
-            Move(-DIFF_MOTOR_SPEED, DIFF_MOTOR_SPEED);//left
-          }
-          else if(c=='d'){
-            Move(DIFF_MOTOR_SPEED, -DIFF_MOTOR_SPEED);//right
-          }
-          else{
-            Move(0, 0);//stop
-            PAN_motor.Rotate(0);//stop pan
-            TILT_motor.Rotate(0);//stop tilt
-          }
-        }
-      }
       ////////////ROS SECTION////////////////
       if(USING_ROS_PWM){
         if(demandx>0 && abs(demandz)<1){
@@ -226,20 +201,15 @@ void loop(){
       }
     }
 
-    if(USING_ROS_PWM || USING_ROS_DIFF){
-      lwheel_msg.data = LH_motor.getEncoderPos();
-      lwheel_pub.publish(&lwheel_msg);
-      rwheel_msg.data = RH_motor.getEncoderPos();
-      rwheel_pub.publish(&rwheel_msg);
-    }
-
-    if(USING_ROS_PWM || USING_ROS_DIFF){
-      //Stop the robot if there are no cmd_vel messages
-      if(millis() - lastCmdVelReceived > CMD_VEL_TIMEOUT){
-        Move(0, 0);
-        PAN_motor.Rotate(0);//stop pan
-        TILT_motor.Rotate(0);//stop tilt
-      } 
+    lwheel_msg.data = LH_motor.getEncoderPos();
+    lwheel_pub.publish(&lwheel_msg);
+    rwheel_msg.data = RH_motor.getEncoderPos();
+    rwheel_pub.publish(&rwheel_msg);
+    //Stop the robot if there are no cmd_vel messages
+    if(millis() - lastCmdVelReceived > CMD_VEL_TIMEOUT){
+      Move(0, 0);
+      PAN_motor.Rotate(0);//stop pan
+      TILT_motor.Rotate(0);//stop tilt
     }
   }
 }
@@ -248,7 +218,7 @@ void loop(){
 ////////////FUNCTION DEFINITIONS////////////////
 
 void Move(int lpwm, int rpwm){
-  LH_motor.Rotate(lpwm);
+  LH_motor.Rotate(-lpwm);
   RH_motor.Rotate(rpwm);
   if(lpwm==0 && rpwm==0){
     LH_led.Emit('w');RH_led.Emit('w');
@@ -277,6 +247,7 @@ void RH_ISRB(){
 void EMG_STOP(){
   PAN_motor.Rotate(0);
   TILT_motor.Rotate(0);
+  Move(0, 0);
   LH_led.Emit('r');RH_led.Emit('r');
 }
 
