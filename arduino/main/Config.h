@@ -23,12 +23,12 @@
 #define TILT_UP_LIM 455
 #define TILT_DOWN_LIM 550
 //LED PINS
-#define LED_R_LH 7
-#define LED_G_LH 8
-#define LED_B_LH 9
-#define LED_R_RH 10
-#define LED_G_RH 11
-#define LED_B_RH 12
+#define LED_R_RH 7
+#define LED_G_RH 8
+#define LED_B_RH 9
+#define LED_R_LH 10
+#define LED_G_LH 11
+#define LED_B_LH 12
 //SENSOR PINS
 #define IR1 A0
 #define IR2 A1
