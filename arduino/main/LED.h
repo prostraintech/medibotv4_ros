@@ -29,7 +29,7 @@ void LED::Emit(char colour){
 	int R, G, B;
 	switch(colour){
 		case 'w':
-			R=255; G=255; B=255 break; //white
+			R=255; G=255; B=255; break; //white
     case 'r':
       R=255; G=0; B=0; break; //red
     case 'g':
