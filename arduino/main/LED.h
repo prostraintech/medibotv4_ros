@@ -5,7 +5,6 @@ public:
   void Emit(char);
   void Emit(int, int, int);
 private:
-  char colour;
   void initLEDPins();
   int R;
   int G;
@@ -28,7 +27,7 @@ void LED::initLEDPins(){
 	
 void LED::Emit(char colour){
 	int R, G, B;
-	switch(this->colour){
+	switch(colour){
 		case 'w':
 			R=255; G=255; B=255 break; //white
     case 'r':
