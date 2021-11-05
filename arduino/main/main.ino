@@ -93,8 +93,10 @@ void loop(){
   if(currentMillis - previousMillis >= LOOPTIME){
     previousMillis = currentMillis;
 
+    
+
     //RESCUE MODE
-    while(!digitalRead(SW_MODE)){
+    if(!digitalRead(SW_MODE)){
       if(!digitalRead(CS_FWD) && digitalRead(CS_RVR) && digitalRead(CS_LFT) && digitalRead(CS_RGT) && digitalRead(CS_STT) && digitalRead(CS_STP)){
         Move(MOTOR_SPEED, MOTOR_SPEED);//forward
       }
@@ -127,7 +129,7 @@ void loop(){
     }
 
     //REMOTE MODE
-    while(digitalRead(SW_MODE)){
+    if(digitalRead(SW_MODE)){
       ////////////ROS SECTION////////////////
       if(USING_ROS_PWM){
         if(demandx>0 && abs(demandz)<1){
