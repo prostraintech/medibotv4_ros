@@ -75,7 +75,7 @@ void setup(){
   ////////////ROS SECTION////////////
   if(USING_ROS_PWM ||USING_ROS_DIFF){
     nh.getHardware()->setBaud(115200);
-    nh.initNode('arduino_node');
+    nh.initNode();
     nh.subscribe(cmd_vel_sub);
     nh.subscribe(pwm_sub);
     nh.subscribe(pwm_turn_sub);
