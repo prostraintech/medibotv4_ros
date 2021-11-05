@@ -1,0 +1,17 @@
+std_msgs/Header header
+float32 ir1
+float32 ir2
+float32 ir3
+float32 sonar
+float32 cliff
+Bool laser1
+Bool laser2
+Bool laser3
+Bool switch_mode
+Bool estop
+Bool cs_stt
+Bool cs_stp
+Bool cs_fwd
+Bool cs_rvr
+Bool cs_lft
+Bool cs_rgt
