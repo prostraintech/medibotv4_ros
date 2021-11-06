@@ -1,17 +1,15 @@
-//------------------------------------------------------------------------------//
-bool USING_ROS_PWM = true;  
-bool USING_ROS_DIFF = false; 
-//------------------------------------------------------------------------------//
+
 //----------------------------ROS INITIALIZATION--------------------------------//
 
-//#define USE_USBCON
+#define USE_USBCON
 #include <ros.h>
 #include <std_msgs/Bool.h>
 #include <std_msgs/Int16.h>
 #include <geometry_msgs/Twist.h>
 #include <medibotv4/SensorState.h>
 #include <PID_v1.h>
-ros::NodeHandle nh;
+bool USING_ROS_PWM = true;  
+bool USING_ROS_DIFF = false; 
 int pwm = 60, pwm_turn = 40;
 double demandx = 0, demandz = 0, lastCmdVelReceived = 0;
 void cmd_vel_callback(const geometry_msgs::Twist& twist);
@@ -21,6 +19,7 @@ void pwm_control_callback(const std_msgs::Bool& pwm_control_msg);
 std_msgs::Int16 lwheel_msg;
 std_msgs::Int16 rwheel_msg;
 medibotv4::SensorState sensor_state_msg;
+ros::NodeHandle nh;
 ros::Publisher lwheel_pub("lwheel_ticks", &lwheel_msg);
 ros::Publisher rwheel_pub("rwheel_ticks", &rwheel_msg);
 ros::Publisher sensor_state_pub("sensor_state", &sensor_state_msg);
@@ -53,8 +52,6 @@ void RH_ISRA();
 void RH_ISRB();
 void EMG_STOP();
 //----------------------------------------------------------------------------------//
-
-
 void setup(){
   pinMode(SW_MODE, INPUT_PULLUP);
   pinMode(ESTOP, INPUT_PULLUP);
@@ -73,23 +70,21 @@ void setup(){
   attachInterrupt(digitalPinToInterrupt(RH_motor.getEncoderB()), RH_ISRB, CHANGE);
   //attachInterrupt(digitalPinToInterrupt(ESTOP), EMG_STOP, HIGH);
   ////////////ROS SECTION////////////
-  if(USING_ROS_PWM ||USING_ROS_DIFF){
-    nh.getHardware()->setBaud(115200);
-    nh.initNode();
-    nh.subscribe(cmd_vel_sub);
-    nh.subscribe(pwm_sub);
-    nh.subscribe(pwm_turn_sub);
-    nh.subscribe(pwm_control_sub);
-    nh.advertise(lwheel_pub);
-    nh.advertise(rwheel_pub);
-    nh.advertise(sensor_state_pub);
-    LH_pid.SetMode(AUTOMATIC);
-    LH_pid.SetOutputLimits(-MAX_PWM, MAX_PWM);
-    LH_pid.SetSampleTime(1);
-    RH_pid.SetMode(AUTOMATIC);
-    RH_pid.SetOutputLimits(-MAX_PWM, MAX_PWM);
-    RH_pid.SetSampleTime(1);
-  }
+  nh.getHardware()->setBaud(115200);
+  nh.initNode();
+  nh.subscribe(cmd_vel_sub);
+  nh.subscribe(pwm_sub);
+  nh.subscribe(pwm_turn_sub);
+  nh.subscribe(pwm_control_sub);
+  nh.advertise(lwheel_pub);
+  nh.advertise(rwheel_pub);
+  nh.advertise(sensor_state_pub);
+  LH_pid.SetMode(AUTOMATIC);
+  LH_pid.SetOutputLimits(-MAX_PWM, MAX_PWM);
+  LH_pid.SetSampleTime(1);
+  RH_pid.SetMode(AUTOMATIC);
+  RH_pid.SetOutputLimits(-MAX_PWM, MAX_PWM);
+  RH_pid.SetSampleTime(1);
 }
 
 void loop(){
@@ -97,8 +92,6 @@ void loop(){
   currentMillis = millis();
   if(currentMillis - previousMillis >= LOOPTIME){
     previousMillis = currentMillis;
-
-
 
     //RESCUE MODE
     if(!digitalRead(SW_MODE)){
@@ -135,7 +128,6 @@ void loop(){
 
     //REMOTE MODE
     if(digitalRead(SW_MODE)){
-      ////////////ROS SECTION////////////////
       if(USING_ROS_PWM){
         if(demandx>0 && abs(demandz)<1){
           Move(pwm, pwm);//forward
@@ -209,9 +201,7 @@ void loop(){
     }
     //Publishing data to ROS
     lwheel_msg.data = LH_motor.getEncoderPos();
-    lwheel_pub.publish(&lwheel_msg);
     rwheel_msg.data = RH_motor.getEncoderPos();
-    rwheel_pub.publish(&rwheel_msg);
     sensor_state_msg.ir1 = analogRead(IR1);
     sensor_state_msg.ir2 = analogRead(IR2);
     sensor_state_msg.ir3 = analogRead(IR3);
@@ -228,6 +218,8 @@ void loop(){
     sensor_state_msg.cs_rvr = digitalRead(CS_RVR);
     sensor_state_msg.cs_lft = digitalRead(CS_LFT);
     sensor_state_msg.cs_rgt = digitalRead(CS_RGT);
+    lwheel_pub.publish(&lwheel_msg);
+    rwheel_pub.publish(&rwheel_msg);
     sensor_state_pub.publish(&sensor_state_msg);
     //Stop the robot if there are no cmd_vel messages
     if(millis() - lastCmdVelReceived > CMD_VEL_TIMEOUT){
@@ -242,14 +234,22 @@ void loop(){
 ////////////FUNCTION DEFINITIONS////////////////
 
 void Move(int lpwm, int rpwm){
-  LH_motor.Rotate(-lpwm);
-  RH_motor.Rotate(rpwm);
   if(lpwm==0 && rpwm==0){
     LH_led.Emit('w');RH_led.Emit('w');
   }
   else{
-    LH_led.Emit('b');RH_led.Emit('b');
+    if(lpwm<rpwm){
+      LH_led.Emit('b');RH_led.Emit('w');
+    }
+    else if(lpwm>rpwm){
+      LH_led.Emit('w');RH_led.Emit('b');
+    }
+    else{
+      LH_led.Emit('b');RH_led.Emit('b');
+    }
   }
+  LH_motor.Rotate(-lpwm);
+  RH_motor.Rotate(rpwm);
 }
 
 void LH_ISRA(){
