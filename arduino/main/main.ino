@@ -199,34 +199,34 @@ void loop(){
         // Move(Loutput,Routput);
       }
     }
-    //Publishing data to ROS
-    lwheel_msg.data = LH_motor.getEncoderPos();
-    rwheel_msg.data = RH_motor.getEncoderPos();
-    sensor_state_msg.ir1 = analogRead(IR1);
-    sensor_state_msg.ir2 = analogRead(IR2);
-    sensor_state_msg.ir3 = analogRead(IR3);
-    sensor_state_msg.sonar = analogRead(SON1);
-    sensor_state_msg.cliff = analogRead(CSENS);
-    sensor_state_msg.laser1 = digitalRead(LSR1);
-    sensor_state_msg.laser2 = digitalRead(LSR2);
-    sensor_state_msg.laser3 = digitalRead(LSR3);
-    sensor_state_msg.switch_mode = digitalRead(SW_MODE);
-    sensor_state_msg.estop = digitalRead(ESTOP);
-    sensor_state_msg.cs_stt = digitalRead(CS_STT);
-    sensor_state_msg.cs_stp = digitalRead(CS_STP);
-    sensor_state_msg.cs_fwd = digitalRead(CS_FWD);
-    sensor_state_msg.cs_rvr = digitalRead(CS_RVR);
-    sensor_state_msg.cs_lft = digitalRead(CS_LFT);
-    sensor_state_msg.cs_rgt = digitalRead(CS_RGT);
-    lwheel_pub.publish(&lwheel_msg);
-    rwheel_pub.publish(&rwheel_msg);
-    sensor_state_pub.publish(&sensor_state_msg);
-    //Stop the robot if there are no cmd_vel messages
-    if(millis() - lastCmdVelReceived > CMD_VEL_TIMEOUT){
-      Move(0, 0);
-      PAN_motor.Rotate(0);//stop pan
-      TILT_motor.Rotate(0);//stop tilt
-    }
+  }
+  //Publishing data to ROS
+  lwheel_msg.data = LH_motor.getEncoderPos();
+  rwheel_msg.data = RH_motor.getEncoderPos();
+  sensor_state_msg.ir1 = analogRead(IR1);
+  sensor_state_msg.ir2 = analogRead(IR2);
+  sensor_state_msg.ir3 = analogRead(IR3);
+  sensor_state_msg.sonar = analogRead(SON1);
+  sensor_state_msg.cliff = analogRead(CSENS);
+  sensor_state_msg.laser1 = digitalRead(LSR1);
+  sensor_state_msg.laser2 = digitalRead(LSR2);
+  sensor_state_msg.laser3 = digitalRead(LSR3);
+  sensor_state_msg.switch_mode = digitalRead(SW_MODE);
+  sensor_state_msg.estop = digitalRead(ESTOP);
+  sensor_state_msg.cs_stt = digitalRead(CS_STT);
+  sensor_state_msg.cs_stp = digitalRead(CS_STP);
+  sensor_state_msg.cs_fwd = digitalRead(CS_FWD);
+  sensor_state_msg.cs_rvr = digitalRead(CS_RVR);
+  sensor_state_msg.cs_lft = digitalRead(CS_LFT);
+  sensor_state_msg.cs_rgt = digitalRead(CS_RGT);
+  lwheel_pub.publish(&lwheel_msg);
+  rwheel_pub.publish(&rwheel_msg);
+  sensor_state_pub.publish(&sensor_state_msg);
+  //Stop the robot if there are no cmd_vel messages
+  if(millis() - lastCmdVelReceived > CMD_VEL_TIMEOUT){
+    Move(0, 0);
+    PAN_motor.Rotate(0);//stop pan
+    TILT_motor.Rotate(0);//stop tilt
   }
 }
 
