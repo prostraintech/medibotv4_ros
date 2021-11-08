@@ -1,6 +1,7 @@
 
 //----------------------------ROS INITIALIZATION--------------------------------//
 
+#define _SAM3XA_
 #define USE_USBCON
 #include <ros.h>
 #include <std_msgs/Bool.h>
