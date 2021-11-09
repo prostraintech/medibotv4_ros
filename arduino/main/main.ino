@@ -11,7 +11,7 @@
 #include <PID_v1.h>
 bool USING_ROS_PWM = true;  
 bool USING_ROS_DIFF = false; 
-int pwm = 60, pwm_turn = 40;
+int pwm = 30, pwm_turn = 30;
 double demandx = 0, demandz = 0, lastCmdVelReceived = 0;
 void cmd_vel_callback(const geometry_msgs::Twist& twist);
 void pwm_callback(const std_msgs::Int16& pwm_msg);
@@ -69,7 +69,7 @@ void setup(){
   attachInterrupt(digitalPinToInterrupt(LH_motor.getEncoderB()), LH_ISRB, CHANGE);
   attachInterrupt(digitalPinToInterrupt(RH_motor.getEncoderA()), RH_ISRA, CHANGE);
   attachInterrupt(digitalPinToInterrupt(RH_motor.getEncoderB()), RH_ISRB, CHANGE);
-  //attachInterrupt(digitalPinToInterrupt(ESTOP), EMG_STOP, HIGH);
+  attachInterrupt(digitalPinToInterrupt(ESTOP), EMG_STOP, HIGH);
   ////////////ROS SECTION////////////
   nh.getHardware()->setBaud(115200);
   nh.initNode();
@@ -240,10 +240,10 @@ void Move(int lpwm, int rpwm){
   }
   else{
     if(lpwm<rpwm){
-      LH_led.Emit('b');RH_led.Emit('w');
+      LH_led.Emit('w');RH_led.Emit('b');
     }
     else if(lpwm>rpwm){
-      LH_led.Emit('w');RH_led.Emit('b');
+      LH_led.Emit('b');RH_led.Emit('w');
     }
     else{
       LH_led.Emit('b');RH_led.Emit('b');
