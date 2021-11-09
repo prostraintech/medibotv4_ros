@@ -199,6 +199,12 @@ void loop(){
         // RH_pid.Compute();
         // Move(Loutput,Routput);
       }
+      //Stop the robot if there are no cmd_vel messages
+      if(millis() - lastCmdVelReceived > CMD_VEL_TIMEOUT){
+        Move(0, 0);
+        PAN_motor.Rotate(0);//stop pan
+        TILT_motor.Rotate(0);//stop tilt
+      }
     }
   }
   //Publishing data to ROS
@@ -223,12 +229,6 @@ void loop(){
   lwheel_pub.publish(&lwheel_msg);
   rwheel_pub.publish(&rwheel_msg);
   sensor_state_pub.publish(&sensor_state_msg);
-  //Stop the robot if there are no cmd_vel messages
-  if(millis() - lastCmdVelReceived > CMD_VEL_TIMEOUT){
-    Move(0, 0);
-    PAN_motor.Rotate(0);//stop pan
-    TILT_motor.Rotate(0);//stop tilt
-  }
 }
 
 
