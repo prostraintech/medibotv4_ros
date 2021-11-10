@@ -53,7 +53,7 @@ void Motor::Rotate(int pwm, int lower_lim=0, int upper_lim=0){
   if(this->drive){
     //Inverted pwm values
     //analogWrite(this->D1, protectOutput(abs(255-pwm)));
-    analogWrite(this->D1, abs(255-pwm));
+    analogWrite(this->D1, 255-abs(pwm));
     digitalWrite(this->D2, pwm!=0);
     digitalWrite(this->D3, pwm<0);
     //digitalWrite(BRAKE,HIGH);
