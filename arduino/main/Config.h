@@ -23,12 +23,12 @@
 #define TILT_UP_LIM 455
 #define TILT_DOWN_LIM 550
 //LED PINS
-#define LED_R_LH 7
-#define LED_G_LH 8
-#define LED_B_LH 9
-#define LED_R_RH 10
-#define LED_G_RH 11
-#define LED_B_RH 12
+#define LED_R_RH 7
+#define LED_G_RH 8
+#define LED_B_RH 9
+#define LED_R_LH 10
+#define LED_G_LH 11
+#define LED_B_LH 12
 //SENSOR PINS
 #define IR1 A0
 #define IR2 A1
@@ -50,15 +50,15 @@
 #define CS_RGT 49
 //GENERAL CONSTANT
 #define LOOPTIME 10
-#define MOTOR_SPEED 180
-#define DIFF_MOTOR_SPEED 200
+#define MOTOR_SPEED 75
+#define DIFF_MOTOR_SPEED 55
 //ROS CONSTANT
-#define CMD_VEL_TIMEOUT 200
+#define CMD_VEL_TIMEOUT 300
 #define TICKS_PER_METER 95
 #define WHEEL_SEPARATION 0.498
 #define WHEEL_DIAMETER 0.32
 #define WHEEL_RADIUS 0.16
-#define MIN_PWM 40
+#define MIN_PWM 55
 #define MAX_PWM 100
 #define MIN_VEL 0
 #define MAX_VEL 0.5

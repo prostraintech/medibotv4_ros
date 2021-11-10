@@ -11,7 +11,7 @@
 #include <PID_v1.h>
 bool USING_ROS_PWM = true;  
 bool USING_ROS_DIFF = false; 
-int pwm = 30, pwm_turn = 30;
+int pwm = 75, pwm_turn = 55;
 double demandx = 0, demandz = 0, lastCmdVelReceived = 0;
 void cmd_vel_callback(const geometry_msgs::Twist& twist);
 void pwm_callback(const std_msgs::Int16& pwm_msg);
@@ -208,8 +208,6 @@ void loop(){
     }
   }
   //Publishing data to ROS
-  lwheel_msg.data = LH_motor.getEncoderPos();
-  rwheel_msg.data = RH_motor.getEncoderPos();
   sensor_state_msg.ir1 = analogRead(IR1);
   sensor_state_msg.ir2 = analogRead(IR2);
   sensor_state_msg.ir3 = analogRead(IR3);
@@ -240,10 +238,10 @@ void Move(int lpwm, int rpwm){
   }
   else{
     if(lpwm<rpwm){
-      LH_led.Emit('w');RH_led.Emit('b');
+      LH_led.Emit('b');RH_led.Emit('w');
     }
     else if(lpwm>rpwm){
-      LH_led.Emit('b');RH_led.Emit('w');
+      LH_led.Emit('w');RH_led.Emit('b');
     }
     else{
       LH_led.Emit('b');RH_led.Emit('b');
@@ -255,18 +253,22 @@ void Move(int lpwm, int rpwm){
 
 void LH_ISRA(){
   LH_motor.doEncoderA();
+  lwheel_msg.data = LH_motor.getEncoderPos();
 }
 
 void LH_ISRB(){
   LH_motor.doEncoderB();
+  lwheel_msg.data = LH_motor.getEncoderPos();
 }
 
 void RH_ISRA(){
   RH_motor.doEncoderA();
+  rwheel_msg.data = RH_motor.getEncoderPos();
 }
 
 void RH_ISRB(){
   RH_motor.doEncoderB();
+  rwheel_msg.data = RH_motor.getEncoderPos();
 }
 
 void EMG_STOP(){
