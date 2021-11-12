@@ -7,7 +7,7 @@
 
 <!-- <node type="robot_pose_publisher" name="robot_pose_publisher" pkg="medibotv4"/> -->
 
-<include file="$(find medibotv4)/launch/base/lidar.launch" />
+<!-- <include file="$(find medibotv4)/launch/base/lidar.launch" /> -->
 <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" args="0.35 0 0.2294 0 0 0  /base_link /laser  200"/>
 
 <!-- <include file="$(find medibotv4)/launch/base/realsense_left.launch" />
