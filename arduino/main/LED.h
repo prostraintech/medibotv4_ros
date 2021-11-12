@@ -36,6 +36,8 @@ void LED::Emit(char colour){
       R=0; G=255; B=0; break; //green
 		case 'b':
 			R=0; G=0; B=255; break; //blue
+    case 'y':
+      R=255; G=255; B=0; break; //yellow
 	}
 	digitalWrite(this->R, 255-R);
 	digitalWrite(this->G, 255-G);

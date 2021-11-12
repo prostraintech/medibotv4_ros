@@ -233,18 +233,21 @@ void loop(){
 ////////////FUNCTION DEFINITIONS////////////////
 
 void Move(int lpwm, int rpwm){
+  char mv_clr = 'b', stp_clr ='w';
+  nh.connected()? stp_clr='w' : stp_clr ='y';
+
   if(lpwm==0 && rpwm==0){
-    LH_led.Emit('w');RH_led.Emit('w');
+    LH_led.Emit(stp_clr);RH_led.Emit(stp_clr);
   }
   else{
     if(lpwm<rpwm){
-      LH_led.Emit('b');RH_led.Emit('w');
+      LH_led.Emit(mv_clr);RH_led.Emit(stp_clr);
     }
     else if(lpwm>rpwm){
-      LH_led.Emit('w');RH_led.Emit('b');
+      LH_led.Emit(stp_clr);RH_led.Emit(mv_clr);
     }
     else{
-      LH_led.Emit('b');RH_led.Emit('b');
+      LH_led.Emit(mv_clr);RH_led.Emit(mv_clr);
     }
   }
   LH_motor.Rotate(-lpwm);
