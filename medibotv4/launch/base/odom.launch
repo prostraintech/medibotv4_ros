@@ -5,7 +5,6 @@
     <rosparam param="base_width">0.498</rosparam>
     <rosparam param="ticks_meter">95</rosparam>
   </node>
-
 <!--   <node pkg="medibotv4" type="diff_tf_temp.py" name="diff_tf">
     <rosparam param="base_width">0.498</rosparam>
     <rosparam param="ticks_meter">95</rosparam>
