@@ -47,6 +47,8 @@ Motor TILT_motor(TILT_D1, TILT_D2, TILT_EN);
 LED LH_led(LED_R_LH, LED_G_LH, LED_B_LH);
 LED RH_led(LED_R_RH, LED_G_RH, LED_B_RH);
 void Move(int lpwm, int rpwm);
+void Encoder_LH_ENA();
+void Encoder_RH_ENA();
 void LH_ISRA();
 void LH_ISRB();
 void RH_ISRA();
@@ -69,10 +71,16 @@ void setup(){
   pinMode(LH_ENB, INPUT_PULLUP);
   pinMode(RH_ENA, INPUT_PULLUP);
   pinMode(RH_ENB, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(LH_ENA), LH_ISRA, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(LH_ENB), LH_ISRB, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(RH_ENA), RH_ISRA, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(RH_ENB), RH_ISRB, CHANGE);
+  ///test encoder interrupt
+  attachInterrupt(digitalPinToInterrupt(RH_ENA), Encoder_RH_ENA, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(LH_ENA), Encoder_LH_ENA, CHANGE);
+  volatile int encoder_RH = 0;
+  volatile int encoder_LH = 0;
+  ///test encoder interrupt
+  // attachInterrupt(digitalPinToInterrupt(LH_ENA), LH_ISRA, CHANGE);
+  // attachInterrupt(digitalPinToInterrupt(LH_ENB), LH_ISRB, CHANGE);
+  // attachInterrupt(digitalPinToInterrupt(RH_ENA), RH_ISRA, CHANGE);
+  // attachInterrupt(digitalPinToInterrupt(RH_ENB), RH_ISRB, CHANGE);
   attachInterrupt(digitalPinToInterrupt(ESTOP), EMG_STOP, HIGH);
   ////////////ROS SECTION////////////
   nh.getHardware()->setBaud(115200);
@@ -256,6 +264,26 @@ void Move(int lpwm, int rpwm){
   }
   LH_motor.Rotate(-lpwm);
   RH_motor.Rotate(rpwm);
+}
+
+void Encoder_LH_ENA(){
+  if(digitalRead(LH_ENB) == digitalRead(LH_ENA)){
+    encoder_LH = encoder_LH - 1;
+  }
+  else{
+    encoder_LH = encoder_LH + 1;
+  }
+  lwheel_msg.data = encoder_LH;
+}
+
+void Encoder_RH_ENA(){
+  if(digitalRead(RH_ENB) == digitalRead(RH_ENA)){
+    encoder_RH = encoder_RH - 1;
+  }
+  else{
+    encoder_RH = encoder_RH + 1;
+  }
+  rwheel_msg.data = encoder_RH;
 }
 
 void LH_ISRA(){
