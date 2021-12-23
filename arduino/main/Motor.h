@@ -40,7 +40,7 @@ Motor::Motor(int D1, int D2, int D3, int ENA, int ENB){
   Motor::initMotorPins();
   this->ENA = ENA;
   this->ENB = ENB;
-  Motor::initEncoderPins();
+  //Motor::initEncoderPins();
 }
 
 void Motor::initMotorPins(){
@@ -52,7 +52,7 @@ void Motor::initMotorPins(){
 void Motor::Rotate(int pwm, int lower_lim=0, int upper_lim=0){
   if(this->drive){
     //Inverted pwm values
-    //analogWrite(this->D1, protectOutput(abs(255-pwm)));
+    //analogWrite(this->D1, 255-protectOutput(abs(pwm)));
     analogWrite(this->D1, 255-abs(pwm));
     digitalWrite(this->D2, pwm!=0);
     digitalWrite(this->D3, pwm<0);

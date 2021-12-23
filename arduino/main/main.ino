@@ -65,10 +65,14 @@ void setup(){
   pinMode(CS_RGT, INPUT_PULLUP);
   pinMode(CS_STT, INPUT_PULLUP);
   pinMode(CS_STP, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(LH_motor.getEncoderA()), LH_ISRA, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(LH_motor.getEncoderB()), LH_ISRB, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(RH_motor.getEncoderA()), RH_ISRA, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(RH_motor.getEncoderB()), RH_ISRB, CHANGE);
+  pinMode(LH_ENA, INPUT_PULLUP);
+  pinMode(LH_ENB, INPUT_PULLUP);
+  pinMode(RH_ENA, INPUT_PULLUP);
+  pinMode(RH_ENB, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(LH_ENA), LH_ISRA, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(LH_ENB), LH_ISRB, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(RH_ENA), RH_ISRA, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(RH_ENB), RH_ISRB, CHANGE);
   attachInterrupt(digitalPinToInterrupt(ESTOP), EMG_STOP, HIGH);
   ////////////ROS SECTION////////////
   nh.getHardware()->setBaud(115200);
@@ -234,7 +238,7 @@ void loop(){
 
 void Move(int lpwm, int rpwm){
   char mv_clr = 'b', stp_clr ='w';
-  nh.connected()? stp_clr='w' : stp_clr ='y';
+  stp_clr = nh.connected()? 'w':'y';
 
   if(lpwm==0 && rpwm==0){
     LH_led.Emit(stp_clr);RH_led.Emit(stp_clr);
