@@ -54,6 +54,8 @@ void LH_ISRB();
 void RH_ISRA();
 void RH_ISRB();
 void EMG_STOP();
+volatile int encoder_RH = 0;
+volatile int encoder_LH = 0;
 //----------------------------------------------------------------------------------//
 void setup(){
   pinMode(SW_MODE, INPUT_PULLUP);
@@ -74,8 +76,6 @@ void setup(){
   ///test encoder interrupt
   attachInterrupt(digitalPinToInterrupt(RH_ENA), Encoder_RH_ENA, CHANGE);
   attachInterrupt(digitalPinToInterrupt(LH_ENA), Encoder_LH_ENA, CHANGE);
-  volatile int encoder_RH = 0;
-  volatile int encoder_LH = 0;
   ///test encoder interrupt
   // attachInterrupt(digitalPinToInterrupt(LH_ENA), LH_ISRA, CHANGE);
   // attachInterrupt(digitalPinToInterrupt(LH_ENB), LH_ISRB, CHANGE);
