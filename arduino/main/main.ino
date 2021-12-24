@@ -191,7 +191,7 @@ void loop(){
         right_pwm = right_pwm<MIN_PWM?MIN_PWM:right_pwm;
         int lsign=(left_vel>0)?1:((left_vel<0)?-1:0);
         int rsign=(right_vel>0)?1:((right_vel<0)?-1:0);
-        Move(lsign*left_pwm,lsign*right_pwm);
+        Move(lsign*left_pwm,rsign*right_pwm);
         
         //---------------------METHOD 4 (Closed-loop)----------------------//
 
