@@ -74,13 +74,13 @@ void setup(){
   pinMode(RH_ENA, INPUT_PULLUP);
   pinMode(RH_ENB, INPUT_PULLUP);
   ///test encoder interrupt
-  attachInterrupt(digitalPinToInterrupt(RH_ENA), Encoder_RH_ENA, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(LH_ENA), Encoder_LH_ENA, CHANGE);
+  // attachInterrupt(digitalPinToInterrupt(RH_ENA), Encoder_RH_ENA, CHANGE);
+  // attachInterrupt(digitalPinToInterrupt(LH_ENA), Encoder_LH_ENA, CHANGE);
   ///test encoder interrupt
-  // attachInterrupt(digitalPinToInterrupt(LH_ENA), LH_ISRA, CHANGE);
-  // attachInterrupt(digitalPinToInterrupt(LH_ENB), LH_ISRB, CHANGE);
-  // attachInterrupt(digitalPinToInterrupt(RH_ENA), RH_ISRA, CHANGE);
-  // attachInterrupt(digitalPinToInterrupt(RH_ENB), RH_ISRB, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(LH_ENA), LH_ISRA, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(LH_ENB), LH_ISRB, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(RH_ENA), RH_ISRA, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(RH_ENB), RH_ISRB, CHANGE);
   attachInterrupt(digitalPinToInterrupt(ESTOP), EMG_STOP, HIGH);
   ////////////ROS SECTION////////////
   nh.getHardware()->setBaud(115200);
