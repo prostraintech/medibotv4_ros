@@ -9,8 +9,8 @@
 #include <geometry_msgs/Twist.h>
 #include <medibotv4/SensorState.h>
 #include <PID_v1.h>
-bool USING_ROS_PWM = true;  
-bool USING_ROS_DIFF = false; 
+bool USING_ROS_PWM = false;  
+bool USING_ROS_DIFF = true; 
 int pwm = 75, pwm_turn = 55;
 double demandx = 0, demandz = 0, lastCmdVelReceived = 0;
 void cmd_vel_callback(const geometry_msgs::Twist& twist);

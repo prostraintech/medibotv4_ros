@@ -17,6 +17,8 @@
 <!--     <param name="angle_min" value="-2.35619"/>
     <param name="angle_max" value="2.35619"/> -->
   </node>
+
+  <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" args="0.34 0 0.2294 0 0 0  /base_link /laser  200"/>
 </launch>
 
 

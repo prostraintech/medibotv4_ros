@@ -5,10 +5,15 @@
 
 <include file="$(find medibotv4)/launch/base/odom.launch" />
 
-<!-- <node type="robot_pose_publisher" name="robot_pose_publisher" pkg="medibotv4"/> -->
-
 <include file="$(find medibotv4)/launch/base/lidar.launch" />
-<node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" args="0.35 0 0.2294 0 0 0  /base_link /laser  200"/>
+
+<!-- <include file="$(find medibotv4)/launch/mapping/gmapping.launch" /> -->
+
+<!-- <include file="$(find medibotv4)/launch/navigation/exploration.launch" /> -->
+
+<!-- <include file="$(find medibotv4)/launch/navigation/navigation.launch" />  -->
+
+<!-- <node type="robot_pose_publisher" name="robot_pose_publisher" pkg="medibotv4"/> -->
 
 <!-- <include file="$(find medibotv4)/launch/base/realsense_left.launch" />
 <include file="$(find medibotv4)/launch/base/realsense_right.launch" /> -->
@@ -19,10 +24,5 @@
 
 <!-- <include file="$(find medibotv4)/launch/base/webserver.launch" /> -->
 
-<!-- <include file="$(find medibotv4)/launch/mapping/gmapping.launch" /> -->
-
-<!-- <include file="$(find medibotv4)/launch/navigation/exploration.launch" /> -->
-
-<!-- <include file="$(find medibotv4)/launch/navigation/navigation.launch" />  -->
 
 </launch>
