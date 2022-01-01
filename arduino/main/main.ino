@@ -10,7 +10,8 @@
 #include <medibotv4/SensorState.h>
 #include <PID_v1.h>
 bool USING_ROS_PWM = false;  
-bool USING_ROS_DIFF = true; 
+bool USING_ROS_DIFF = true;
+double max_speed = (2*PI*WHEEL_RADIUS*MOTOR_RPM)/60
 int pwm = 75, pwm_turn = 55;
 double demandx = 0, demandz = 0, lastCmdVelReceived = 0;
 void cmd_vel_callback(const geometry_msgs::Twist& twist);
@@ -185,10 +186,12 @@ void loop(){
 
         double  left_vel = demandx - (demandz*WHEEL_SEPARATION/2);
         double right_vel = demandx + (demandz*WHEEL_SEPARATION/2);
-        double  left_pwm = fabs(left_vel*MAX_PWM/MAX_VEL);
-        double right_pwm = fabs(right_vel*MAX_PWM/MAX_VEL);
-        left_pwm  = left_pwm<MIN_PWM?MIN_PWM:left_pwm;
-        right_pwm = right_pwm<MIN_PWM?MIN_PWM:right_pwm;
+        // double  left_pwm = fabs(left_vel*MAX_PWM/MAX_VEL);
+        // double right_pwm = fabs(right_vel*MAX_PWM/MAX_VEL);
+        // left_pwm  = left_pwm<MIN_PWM?MIN_PWM:left_pwm;
+        // right_pwm = right_pwm<MIN_PWM?MIN_PWM:right_pwm;
+        double  left_pwm = min(fabs(( left_vel/max_speed)*255),MAX_PWM);
+        double right_pwm = min(fabs((right_vel/max_speed)*255),MAX_PWM);
         int lsign=(left_vel>0)?1:((left_vel<0)?-1:0);
         int rsign=(right_vel>0)?1:((right_vel<0)?-1:0);
         Move(lsign*left_pwm,rsign*right_pwm);
@@ -199,20 +202,22 @@ void loop(){
         // double right_vel = demandx + (demandz*WHEEL_SEPARATION/2);
         // Ldiff = LH_motor.getEncoderPos() - Lprev; 
         // Rdiff = RH_motor.getEncoderPos() - Rprev; 
-        // Lerror = (left_vel*0.95) - Ldiff;
-        // Rerror = (right_vel*0.95) - Rdiff;
+        // Lerror = (left_vel*0.89) - Ldiff;
+        // Rerror = (right_vel*0.89) - Rdiff;
         // Lprev = LH_motor.getEncoderPos(); 
         // Rprev = RH_motor.getEncoderPos();
-        // Lsetpoint = left_vel*0.95;
-        // Rsetpoint = right_vel*0.95;
+        // Lsetpoint = left_vel*0.89;
+        // Rsetpoint = right_vel*0.89;
         // Linput = Ldiff;
         // Rinput = Rdiff;
         // LH_pid.Compute();
         // RH_pid.Compute();
         // Move(Loutput,Routput);
-      }
+      }     
       //Stop the robot if there are no cmd_vel messages
       if(millis() - lastCmdVelReceived > CMD_VEL_TIMEOUT){
+        demandx = 0;
+        demandz = 0;
         Move(0, 0);
         PAN_motor.Rotate(0);//stop pan
         TILT_motor.Rotate(0);//stop tilt
