@@ -13,95 +13,95 @@
   <material>${frame_color}</material>
 </gazebo>
 
-<gazebo reference="left_motor_1">
+<gazebo reference="left_motor">
   <material>${frame_color}</material>
 </gazebo>
 
-<gazebo reference="right_motor_1">
+<gazebo reference="right_motor">
   <material>${frame_color}</material>
 </gazebo>
 
-<gazebo reference="left_wheel_1">
+<gazebo reference="left_wheel">
   <material>${tyre_color}</material>
 </gazebo>
 
-<gazebo reference="right_wheel_1">
+<gazebo reference="right_wheel">
   <material>${tyre_color}</material>
 </gazebo>
 
-<gazebo reference="bottom_panel_1">
+<gazebo reference="bottom_panel">
   <material>${body_color}</material>
 </gazebo>
 
-<gazebo reference="circuit_panel_1">
+<gazebo reference="circuit_panel">
   <material>${body_color}</material>
 </gazebo>
 
-<gazebo reference="circuit_housing_1">
+<gazebo reference="circuit_housing">
   <material>${body_color}</material>
 </gazebo>
 
-<gazebo reference="stand_1">
+<gazebo reference="stand">
   <material>${frame_color}</material>
 </gazebo>
 
-<gazebo reference="body_1">
+<gazebo reference="body">
   <material>${body_color}</material>
 </gazebo>
 
-<gazebo reference="lidar_1">
+<gazebo reference="lidar">
   <material>${accessory_color}</material>
 </gazebo>
 
-<gazebo reference="top_panel_1">
+<gazebo reference="top_panel">
   <material>${body_color}</material>
 </gazebo>
 
-<gazebo reference="realsense_housing_1">
+<gazebo reference="realsense_housing">
   <material>${body_color}</material>
 </gazebo>
 
-<gazebo reference="left_realsense_1">
+<gazebo reference="left_realsense">
   <material>${accessory_color}</material>
 </gazebo>
 
-<gazebo reference="right_realsense_1">
+<gazebo reference="right_realsense">
   <material>${accessory_color}</material>
 </gazebo>
 
-<gazebo reference="sonar_1">
+<gazebo reference="sonar">
   <material>${body_color}</material>
 </gazebo>
 
-<gazebo reference="pan_servo_1">
+<gazebo reference="pan_servo">
   <material>${body_color}</material>
 </gazebo>
 
-<gazebo reference="pan_tilt_mount_1">
+<gazebo reference="pan_tilt_mount">
   <material>${frame_color}</material>
 </gazebo>
 
-<gazebo reference="tilt_servo_1">
+<gazebo reference="tilt_servo">
   <material>${body_color}</material>
 </gazebo>
 
-<gazebo reference="mount_1">
+<gazebo reference="mount">
   <material>${body_color}</material>
 </gazebo>
 
-<gazebo reference="monitor_1">
+<gazebo reference="monitor">
   <material>${accessory_color}</material>
 </gazebo>
 
-<gazebo reference="camera_housing_1">
+<gazebo reference="camera_housing">
   <material>${body_color}</material>
 </gazebo>
 
-<gazebo reference="camera_1">
+<gazebo reference="camera">
   <material>${accessory_color}</material>
 </gazebo>
 
-<gazebo reference="caster_1">
+<gazebo reference="caster">
   <material>${tyre_color}</material>
 </gazebo>
 

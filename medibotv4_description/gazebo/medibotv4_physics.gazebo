@@ -3,7 +3,7 @@
 
 <xacro:property name="standard_friction" value="1.0" />
 <xacro:property name="caster_friction" value="0.1" />
-<xacro:property name="wheel_friction" value="200.0" />
+<xacro:property name="wheel_friction" value="250.0" />
 
 <gazebo reference="base_link">
   <mu1>${standard_friction}</mu1>
@@ -12,139 +12,139 @@
   <gravity>true</gravity>
 </gazebo>
 
-<gazebo reference="left_motor_1">
+<gazebo reference="left_motor">
   <mu1>${standard_friction}</mu1>
   <mu2>${standard_friction}</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
-<gazebo reference="right_motor_1">
+<gazebo reference="right_motor">
   <mu1>${standard_friction}</mu1>
   <mu2>${standard_friction}</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
-<gazebo reference="left_wheel_1">
+<gazebo reference="left_wheel">
   <mu1>${wheel_friction}</mu1>
   <mu2>${wheel_friction}</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
-<gazebo reference="right_wheel_1">
+<gazebo reference="right_wheel">
   <mu1>${wheel_friction}</mu1>
   <mu2>${wheel_friction}</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
-<gazebo reference="bottom_panel_1">
+<gazebo reference="bottom_panel">
   <mu1>${standard_friction}</mu1>
   <mu2>${standard_friction}</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
-<gazebo reference="circuit_panel_1">
+<gazebo reference="circuit_panel">
   <mu1>${standard_friction}</mu1>
   <mu2>${standard_friction}</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
-<gazebo reference="circuit_housing_1">
+<gazebo reference="circuit_housing">
   <mu1>${standard_friction}</mu1>
   <mu2>${standard_friction}</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
-<gazebo reference="stand_1">
+<gazebo reference="stand">
   <mu1>${standard_friction}</mu1>
   <mu2>${standard_friction}</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
-<gazebo reference="body_1">
+<gazebo reference="body">
   <mu1>${standard_friction}</mu1>
   <mu2>${standard_friction}</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
-<gazebo reference="lidar_1">
+<gazebo reference="lidar">
   <mu1>${standard_friction}</mu1>
   <mu2>${standard_friction}</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
-<gazebo reference="top_panel_1">
+<gazebo reference="top_panel">
   <mu1>${standard_friction}</mu1>
   <mu2>${standard_friction}</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
-<gazebo reference="realsense_housing_1">
+<gazebo reference="realsense_housing">
   <mu1>${standard_friction}</mu1>
   <mu2>${standard_friction}</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
-<gazebo reference="left_realsense_1">
+<gazebo reference="left_realsense">
   <mu1>${standard_friction}</mu1>
   <mu2>${standard_friction}</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
-<gazebo reference="right_realsense_1">
+<gazebo reference="right_realsense">
   <mu1>${standard_friction}</mu1>
   <mu2>${standard_friction}</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
-<gazebo reference="sonar_1">
+<gazebo reference="sonar">
   <mu1>${standard_friction}</mu1>
   <mu2>${standard_friction}</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
-<gazebo reference="pan_servo_1">
+<gazebo reference="pan_servo">
   <mu1>${standard_friction}</mu1>
   <mu2>${standard_friction}</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
-<gazebo reference="pan_tilt_mount_1">
+<gazebo reference="pan_tilt_mount">
   <mu1>${standard_friction}</mu1>
   <mu2>${standard_friction}</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
-<gazebo reference="tilt_servo_1">
+<gazebo reference="tilt_servo">
   <mu1>${standard_friction}</mu1>
   <mu2>${standard_friction}</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
-<gazebo reference="mount_1">
+<gazebo reference="mount">
   <mu1>${standard_friction}</mu1>
   <mu2>${standard_friction}</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
-<gazebo reference="monitor_1">
+<gazebo reference="monitor">
   <mu1>${standard_friction}</mu1>
   <mu2>${standard_friction}</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
-<gazebo reference="camera_housing_1">
+<gazebo reference="camera_housing">
   <mu1>${standard_friction}</mu1>
   <mu2>${standard_friction}</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
-<gazebo reference="camera_1">
+<gazebo reference="camera">
   <mu1>${standard_friction}</mu1>
   <mu2>${standard_friction}</mu2>
   <selfCollide>true</selfCollide>
 </gazebo>
 
-<gazebo reference="caster_1">
+<gazebo reference="caster">
   <mu1>${caster_friction}</mu1>
   <mu2>${caster_friction}</mu2>
   <selfCollide>true</selfCollide>

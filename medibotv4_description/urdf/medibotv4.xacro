@@ -28,7 +28,7 @@
   </collision>
 </link>
 
-<link name="left_motor_1">
+<link name="left_motor">
   <inertial>
     <origin rpy="0 0 0" xyz="0.016444563411155556 0.06191343975327798 -0.056741856887104675"/>
     <mass value="14.646460109710683"/>
@@ -37,19 +37,19 @@
   <visual>
     <origin rpy="0 0 0" xyz="0.0535 -0.1535 -0.2145"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/left_motor_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/left_motor.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="0.0535 -0.1535 -0.2145"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/left_motor_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/left_motor.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
 
-<link name="right_motor_1">
+<link name="right_motor">
   <inertial>
     <origin rpy="0 0 0" xyz="0.016260474645192965 -0.06154741876400091 -0.05676908795148311"/>
     <mass value="14.61528122194152"/>
@@ -58,19 +58,19 @@
   <visual>
     <origin rpy="0 0 0" xyz="0.0535 0.1535 -0.2145"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/right_motor_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/right_motor.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="0.0535 0.1535 -0.2145"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/right_motor_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/right_motor.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
 
-<link name="left_wheel_1">
+<link name="left_wheel">
   <inertial>
     <origin rpy="0 0 0" xyz="7.953816428402094e-09 -0.030000265793469483 4.539531719971457e-08"/>
     <mass value="2.266879326854612"/>
@@ -79,19 +79,19 @@
   <visual>
     <origin rpy="0 0 0" xyz="0.0175 -0.279 -0.16"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/left_wheel_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/left_wheel.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="0.0175 -0.279 -0.16"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/left_wheel_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/left_wheel.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
 
-<link name="right_wheel_1">
+<link name="right_wheel">
   <inertial>
     <origin rpy="0 0 0" xyz="7.952848390252454e-09 0.030000265792822806 -4.540530937346965e-08"/>
     <mass value="2.266879326854595"/>
@@ -100,19 +100,19 @@
   <visual>
     <origin rpy="0 0 0" xyz="0.0175 0.279 -0.16"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/right_wheel_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/right_wheel.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="0.0175 0.279 -0.16"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/right_wheel_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/right_wheel.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
 
-<link name="bottom_panel_1">
+<link name="bottom_panel">
   <inertial>
     <origin rpy="0 0 0" xyz="0.023521505376344086 0.195 0.0025000000000000022"/>
     <mass value="0.994356"/>
@@ -121,19 +121,19 @@
   <visual>
     <origin rpy="0 0 0" xyz="-0.0 0.195 -0.06"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/bottom_panel_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/bottom_panel.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="-0.0 0.195 -0.06"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/bottom_panel_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/bottom_panel.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
 
-<link name="circuit_panel_1">
+<link name="circuit_panel">
   <inertial>
     <origin rpy="0 0 0" xyz="0.11000000000000001 0.0 0.0025000000000000022"/>
     <mass value="0.509652"/>
@@ -142,19 +142,19 @@
   <visual>
     <origin rpy="0 0 0" xyz="0.2 -0.0 -0.35"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/circuit_panel_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/circuit_panel.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="0.2 -0.0 -0.35"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/circuit_panel_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/circuit_panel.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
 
-<link name="circuit_housing_1">
+<link name="circuit_housing">
   <inertial>
     <origin rpy="0 0 0" xyz="0.11586679295026386 -4.768835044584394e-17 0.11525745568764251"/>
     <mass value="23.953970618548663"/>
@@ -163,19 +163,19 @@
   <visual>
     <origin rpy="0 0 0" xyz="0.2 -0.0 -0.355"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/circuit_housing_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/circuit_housing.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="0.2 -0.0 -0.355"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/circuit_housing_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/circuit_housing.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
 
-<link name="stand_1">
+<link name="stand">
   <inertial>
     <origin rpy="0 0 0" xyz="-0.03 -5.005474418122885e-18 0.504332691249312"/>
     <mass value="9.811799999999998"/>
@@ -184,19 +184,19 @@
   <visual>
     <origin rpy="0 0 0" xyz="-0.08 -0.0 -0.065"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/stand_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/stand.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="-0.08 -0.0 -0.065"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/stand_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/stand.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
 
-<link name="body_1">
+<link name="body">
   <inertial>
     <origin rpy="0 0 0" xyz="0.24442242538485656 1.3361487722796229e-15 0.22269634119543633"/>
     <mass value="78.65436391485291"/>
@@ -205,19 +205,19 @@
   <visual>
     <origin rpy="0 0 0" xyz="0.2 -0.0 -0.03"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/body_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/body.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="0.2 -0.0 -0.03"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/body_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/body.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
 
-<link name="lidar_1">
+<link name="lidar">
   <inertial>
     <origin rpy="0 0 0" xyz="1.9660910471896997e-07 3.067430088395322e-17 0.014762029367898416"/>
     <mass value="0.052814160089970474"/>
@@ -226,19 +226,19 @@
   <visual>
     <origin rpy="0 0 0" xyz="-0.326625 -0.0 -0.225"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/lidar_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/lidar.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="-0.326625 -0.0 -0.225"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/lidar_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/lidar.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
 
-<link name="top_panel_1">
+<link name="top_panel">
   <inertial>
     <origin rpy="0 0 0" xyz="-0.3000421262648231 1.8731188253870525e-07 0.0156616040392335"/>
     <mass value="32.135656783601455"/>
@@ -247,19 +247,19 @@
   <visual>
     <origin rpy="0 0 0" xyz="-0.366625 0.0 -0.47"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/top_panel_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/top_panel.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="-0.366625 0.0 -0.47"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/top_panel_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/top_panel.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
 
-<link name="realsense_housing_1">
+<link name="realsense_housing">
   <inertial>
     <origin rpy="0 0 0" xyz="-0.07373817098769747 7.951322418324285e-17 0.04233590361579864"/>
     <mass value="0.4849831679105662"/>
@@ -268,19 +268,19 @@
   <visual>
     <origin rpy="0 0 0" xyz="-0.171141 -0.0 -0.52"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/realsense_housing_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/realsense_housing.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="-0.171141 -0.0 -0.52"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/realsense_housing_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/realsense_housing.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
 
-<link name="left_realsense_1">
+<link name="left_realsense">
   <inertial>
     <origin rpy="0 0 0" xyz="0.00266926405942991 0.0011190896800006983 0.0"/>
     <mass value="0.04923710067597887"/>
@@ -289,19 +289,19 @@
   <visual>
     <origin rpy="0 0 0" xyz="-0.147314 -0.059696 -0.56"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/left_realsense_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/left_realsense.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="-0.147314 -0.059696 -0.56"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/left_realsense_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/left_realsense.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
 
-<link name="right_realsense_1">
+<link name="right_realsense">
   <inertial>
     <origin rpy="0 0 0" xyz="0.0026692640594299655 -0.0011190896800007816 5.551115123125783e-16"/>
     <mass value="0.04923710067597842"/>
@@ -310,19 +310,19 @@
   <visual>
     <origin rpy="0 0 0" xyz="-0.147314 0.059696 -0.56"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/right_realsense_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/right_realsense.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="-0.147314 0.059696 -0.56"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/right_realsense_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/right_realsense.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
 
-<link name="sonar_1">
+<link name="sonar">
   <inertial>
     <origin rpy="0 0 0" xyz="0.024761040929337313 1.4803902564637098e-17 0.03249999999999986"/>
     <mass value="2.6048925401122753"/>
@@ -331,19 +331,19 @@
   <visual>
     <origin rpy="0 0 0" xyz="-0.08 -0.0 -0.69"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/sonar_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/sonar.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="-0.08 -0.0 -0.69"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/sonar_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/sonar.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
 
-<link name="pan_servo_1">
+<link name="pan_servo">
   <inertial>
     <origin rpy="0 0 0" xyz="-0.0021812244512274467 -0.028563653527876792 0.05585888345427237"/>
     <mass value="11.218433692744027"/>
@@ -352,19 +352,19 @@
   <visual>
     <origin rpy="0 0 0" xyz="-0.05 -0.0 -1.06"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/pan_servo_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/pan_servo.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="-0.05 -0.0 -1.06"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/pan_servo_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/pan_servo.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
 
-<link name="pan_tilt_mount_1">
+<link name="pan_tilt_mount">
   <inertial>
     <origin rpy="0 0 0" xyz="-0.001000621165341782 0.007999999999999986 0.09809881978571133"/>
     <mass value="3.0191586385796634"/>
@@ -373,19 +373,19 @@
   <visual>
     <origin rpy="0 0 0" xyz="-0.05 -0.035 -1.07"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/pan_tilt_mount_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/pan_tilt_mount.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="-0.05 -0.035 -1.07"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/pan_tilt_mount_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/pan_tilt_mount.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
 
-<link name="tilt_servo_1">
+<link name="tilt_servo">
   <inertial>
     <origin rpy="0 0 0" xyz="0.00024389797280190834 0.049434156703140976 -0.062402440810886306"/>
     <mass value="12.386466361420336"/>
@@ -394,19 +394,19 @@
   <visual>
     <origin rpy="0 0 0" xyz="-0.05 -0.051 -1.27"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/tilt_servo_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/tilt_servo.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="-0.05 -0.051 -1.27"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/tilt_servo_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/tilt_servo.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
 
-<link name="mount_1">
+<link name="mount">
   <inertial>
     <origin rpy="0 0 0" xyz="0.05211693226193341 -0.034112870741250065 0.12346040518414458"/>
     <mass value="4.256755717545082"/>
@@ -415,19 +415,19 @@
   <visual>
     <origin rpy="0 0 0" xyz="-0.075 -0.035 -1.2175"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/mount_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/mount.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="-0.075 -0.035 -1.2175"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/mount_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/mount.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
 
-<link name="monitor_1">
+<link name="monitor">
   <inertial>
     <origin rpy="0 0 0" xyz="0.010000010577328328 -1.1068901035776004e-16 2.407478818522435e-07"/>
     <mass value="3.7546879999999994"/>
@@ -436,19 +436,19 @@
   <visual>
     <origin rpy="0 0 0" xyz="-0.1475 0.0 -1.217519"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/monitor_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/monitor.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="-0.1475 0.0 -1.217519"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/monitor_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/monitor.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
 
-<link name="camera_housing_1">
+<link name="camera_housing">
   <inertial>
     <origin rpy="0 0 0" xyz="0.0074877939399487226 1.823328231606211e-17 -0.009962494459304638"/>
     <mass value="0.19827705055401032"/>
@@ -457,19 +457,19 @@
   <visual>
     <origin rpy="0 0 0" xyz="-0.192857 -0.0 -1.561149"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/camera_housing_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/camera_housing.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="-0.192857 -0.0 -1.561149"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/camera_housing_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/camera_housing.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
 
-<link name="camera_1">
+<link name="camera">
   <inertial>
     <origin rpy="0 0 0" xyz="0.0074999594047501505 -2.958887009148109e-07 -0.005624916158602389"/>
     <mass value="0.04663301595172273"/>
@@ -478,19 +478,19 @@
   <visual>
     <origin rpy="0 0 0" xyz="-0.217785 -8e-06 -1.549013"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/camera_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/camera.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="-0.217785 -8e-06 -1.549013"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/camera_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/camera.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
 
-<link name="caster_1">
+<link name="caster">
   <inertial>
     <origin rpy="0 0 0" xyz="0.0 -1.0052123437711852e-17 -0.01125000000000002"/>
     <mass value="0.4439070419522379"/>
@@ -499,14 +499,14 @@
   <visual>
     <origin rpy="0 0 0" xyz="-0.2885 -0.0 -0.03"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/caster_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/caster.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="silver"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="-0.2885 -0.0 -0.03"/>
     <geometry>
-      <mesh filename="package://medibotv4_description/meshes/caster_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://medibotv4_description/meshes/caster.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
@@ -514,143 +514,143 @@
 <joint name="left_motor_joint" type="fixed">
   <origin rpy="0 0 0" xyz="-0.0535 0.1535 0.2145"/>
   <parent link="base_link"/>
-  <child link="left_motor_1"/>
+  <child link="left_motor"/>
 </joint>
 
 <joint name="right_motor_joint" type="fixed">
   <origin rpy="0 0 0" xyz="-0.0535 -0.1535 0.2145"/>
   <parent link="base_link"/>
-  <child link="right_motor_1"/>
+  <child link="right_motor"/>
 </joint>
 
 <joint name="left_wheel_joint" type="continuous">
   <origin rpy="0 0 0" xyz="0.036 0.1255 -0.0545"/>
-  <parent link="left_motor_1"/>
-  <child link="left_wheel_1"/>
+  <parent link="left_motor"/>
+  <child link="left_wheel"/>
   <axis xyz="-0.0 1.0 0.0"/>
 </joint>
 
 <joint name="right_wheel_joint" type="continuous">
   <origin rpy="0 0 0" xyz="0.036 -0.1255 -0.0545"/>
-  <parent link="right_motor_1"/>
-  <child link="right_wheel_1"/>
+  <parent link="right_motor"/>
+  <child link="right_wheel"/>
   <axis xyz="-0.0 1.0 0.0"/>
 </joint>
 
 <joint name="bottom_panel_joint" type="fixed">
   <origin rpy="0 0 0" xyz="0.0 -0.195 0.06"/>
   <parent link="base_link"/>
-  <child link="bottom_panel_1"/>
+  <child link="bottom_panel"/>
 </joint>
 
 <joint name="circuit_panel_joint" type="fixed">
   <origin rpy="0 0 0" xyz="-0.2 0.0 0.35"/>
   <parent link="base_link"/>
-  <child link="circuit_panel_1"/>
+  <child link="circuit_panel"/>
 </joint>
 
 <joint name="cicuit_housing_joint" type="fixed">
   <origin rpy="0 0 0" xyz="0.0 0.0 0.005"/>
-  <parent link="circuit_panel_1"/>
-  <child link="circuit_housing_1"/>
+  <parent link="circuit_panel"/>
+  <child link="circuit_housing"/>
 </joint>
 
 <joint name="stand_joint" type="fixed">
   <origin rpy="0 0 0" xyz="0.08 0.195 0.005"/>
-  <parent link="bottom_panel_1"/>
-  <child link="stand_1"/>
+  <parent link="bottom_panel"/>
+  <child link="stand"/>
 </joint>
 
 <joint name="body_joint" type="fixed">
   <origin rpy="0 0 0" xyz="-0.2 0.0 0.03"/>
   <parent link="base_link"/>
-  <child link="body_1"/>
+  <child link="body"/>
 </joint>
 
 <joint name="lidar_joint" type="fixed">
   <origin rpy="0 0 0" xyz="0.526625 0.0 0.195"/>
-  <parent link="body_1"/>
-  <child link="lidar_1"/>
+  <parent link="body"/>
+  <child link="lidar"/>
 </joint>
 
 <joint name="top_panel_joint" type="fixed">
   <origin rpy="0 0 0" xyz="0.566625 -0.0 0.44"/>
-  <parent link="body_1"/>
-  <child link="top_panel_1"/>
+  <parent link="body"/>
+  <child link="top_panel"/>
 </joint>
 
 <joint name="realsense_housing_joint" type="fixed">
   <origin rpy="0 0 0" xyz="-0.195484 0.0 0.05"/>
-  <parent link="top_panel_1"/>
-  <child link="realsense_housing_1"/>
+  <parent link="top_panel"/>
+  <child link="realsense_housing"/>
 </joint>
 
 <joint name="left_realsense_joint" type="fixed">
   <origin rpy="0 0 0" xyz="-0.023827 0.059696 0.04"/>
-  <parent link="realsense_housing_1"/>
-  <child link="left_realsense_1"/>
+  <parent link="realsense_housing"/>
+  <child link="left_realsense"/>
 </joint>
 
 <joint name="right_realsense_joint" type="fixed">
   <origin rpy="0 0 0" xyz="-0.023827 -0.059696 0.04"/>
-  <parent link="realsense_housing_1"/>
-  <child link="right_realsense_1"/>
+  <parent link="realsense_housing"/>
+  <child link="right_realsense"/>
 </joint>
 
 <joint name="sonar_joint" type="fixed">
   <origin rpy="0 0 0" xyz="0.0 0.0 0.625"/>
-  <parent link="stand_1"/>
-  <child link="sonar_1"/>
+  <parent link="stand"/>
+  <child link="sonar"/>
 </joint>
 
 <joint name="pan_servo_joint" type="continuous">
   <origin rpy="0 0 0" xyz="-0.03 0.0 0.995"/>
-  <parent link="stand_1"/>
-  <child link="pan_servo_1"/>
+  <parent link="stand"/>
+  <child link="pan_servo"/>
   <axis xyz="0.0 0.0 1.0"/>
 </joint>
 
 <joint name="pan_mount_joint" type="fixed">
   <origin rpy="0 0 0" xyz="0.0 0.035 0.01"/>
-  <parent link="pan_servo_1"/>
-  <child link="pan_tilt_mount_1"/>
+  <parent link="pan_servo"/>
+  <child link="pan_tilt_mount"/>
 </joint>
 
 <joint name="tilt_mount_joint" type="fixed">
   <origin rpy="0 0 0" xyz="0.0 0.016 0.2"/>
-  <parent link="pan_tilt_mount_1"/>
-  <child link="tilt_servo_1"/>
+  <parent link="pan_tilt_mount"/>
+  <child link="tilt_servo"/>
 </joint>
 
 <joint name="tilt_servo_joint" type="continuous">
   <origin rpy="0 0 0" xyz="0.025 -0.016 -0.0525"/>
-  <parent link="tilt_servo_1"/>
-  <child link="mount_1"/>
+  <parent link="tilt_servo"/>
+  <child link="mount"/>
   <axis xyz="0.0 -1.0 0.0"/>
 </joint>
 
 <joint name="monitor_joint" type="fixed">
   <origin rpy="0 0 0" xyz="0.0725 -0.035 1.9e-05"/>
-  <parent link="mount_1"/>
-  <child link="monitor_1"/>
+  <parent link="mount"/>
+  <child link="monitor"/>
 </joint>
 
 <joint name="camera_housing_joint" type="fixed">
   <origin rpy="0 0 0" xyz="0.117857 -0.035 0.343649"/>
-  <parent link="mount_1"/>
-  <child link="camera_housing_1"/>
+  <parent link="mount"/>
+  <child link="camera_housing"/>
 </joint>
 
 <joint name="camera_joint" type="fixed">
   <origin rpy="0 0 0" xyz="0.024928 8e-06 -0.012136"/>
-  <parent link="camera_housing_1"/>
-  <child link="camera_1"/>
+  <parent link="camera_housing"/>
+  <child link="camera"/>
 </joint>
 
 <joint name="caster_joint" type="fixed">
   <origin rpy="0 0 0" xyz="0.2885 0.0 0.03"/>
   <parent link="base_link"/>
-  <child link="caster_1"/>
+  <child link="caster"/>
 </joint>
 
 </robot>
