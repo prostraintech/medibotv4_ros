@@ -1,6 +1,7 @@
 <launch>    
   <!--- Run AMCL -->
-  <include file="$(find medibotv4_navigation)/launch/amcl.launch" />
+  <include file="$(find medibotv4_navigation)/launch/multirobot_amcl.launch" />
+
 
   <!-- Define your move_base node -->
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
@@ -12,9 +13,6 @@
     <rosparam file="$(find medibotv4_navigation)/param/base_local_planner_params.yaml" command="load" />
     <rosparam file="$(find medibotv4_navigation)/param/move_base_params.yaml" command="load" />
     <rosparam file="$(find medibotv4_navigation)/param/global_planner_params.yaml" command="load" />
-    <remap from="cmd_vel" to="cmd_vel" />
-    <remap from="odom" to="odom" />
-
     <remap from="map" to="/map" />
   </node>
 </launch>

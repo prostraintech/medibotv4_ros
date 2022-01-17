@@ -8,7 +8,7 @@
   <group ns="robot1">
     <param name="tf_prefix" value="robot1_tf" />
     <include file="$(find medibotv4_description)/launch/one_robot.launch" >
-      <arg name="init_pose" value="-x 0 -y 10 -z 0" />
+      <arg name="init_pose" value="-x 0 -y 10 -z 0 -Y -1.57" />
       <arg name="robot_name"  value="Robot1" />
     </include>
   </group>
@@ -17,7 +17,7 @@
   <group ns="robot2">
     <param name="tf_prefix" value="robot2_tf" />
     <include file="$(find medibotv4_description)/launch/one_robot.launch" >
-      <arg name="init_pose" value="-x 5 -y 10 -z 0" />
+      <arg name="init_pose" value="-x 5 -y 10 -z 0 -Y -1.57" />
       <arg name="robot_name"  value="Robot2" />
     </include>
   </group>
@@ -26,7 +26,7 @@
   <group ns="robot3">
     <param name="tf_prefix" value="robot3_tf" />
     <include file="$(find medibotv4_description)/launch/one_robot.launch" >
-      <arg name="init_pose" value="-x -5 -y 10 -z 0" />
+      <arg name="init_pose" value="-x -5 -y 10 -z 0 -Y -1.57" />
       <arg name="robot_name"  value="Robot3" />
     </include>
   </group>

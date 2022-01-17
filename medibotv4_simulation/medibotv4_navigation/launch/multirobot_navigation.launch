@@ -13,6 +13,9 @@
     <param name="tf_prefix" value="robot1_tf" />
     <param name="amcl/initial_pose_x" value="0" />
     <param name="amcl/initial_pose_y" value="10" />
+    <param name="amcl/initial_pose_a" value="-1.57" />
+    <param name="odom_frame_id" value="/robot1_tf/odom"/>
+    <param name="base_frame_id" value="/robot1_tf/base_link"/>
     <include file="$(find medibotv4_navigation)/launch/multirobot_move_base.launch" />
   </group>
 
@@ -20,6 +23,9 @@
     <param name="tf_prefix" value="robot2_tf" />
     <param name="amcl/initial_pose_x" value="5" />
     <param name="amcl/initial_pose_y" value="10" />
+    <param name="amcl/initial_pose_a" value="-1.57" />
+    <param name="odom_frame_id" value="/robot2_tf/odom"/>
+    <param name="base_frame_id" value="/robot2_tf/base_link"/>
     <include file="$(find medibotv4_navigation)/launch/multirobot_move_base.launch" />
   </group>
 
@@ -27,10 +33,13 @@
     <param name="tf_prefix" value="robot3_tf" />
     <param name="amcl/initial_pose_x" value="-5" />
     <param name="amcl/initial_pose_y" value="10" />
+    <param name="amcl/initial_pose_a" value="-1.57" />
+    <param name="odom_frame_id" value="/robot3_tf/odom"/>
+    <param name="base_frame_id" value="/robot3_tf/base_link"/>
     <include file="$(find medibotv4_navigation)/launch/multirobot_move_base.launch" />
   </group>
 
-  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find medibotv4_description)/launch/urdf.rviz"
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find medibotv4_description)/launch/multirobot_urdf.rviz"
    output="screen" />
 
 </launch>
