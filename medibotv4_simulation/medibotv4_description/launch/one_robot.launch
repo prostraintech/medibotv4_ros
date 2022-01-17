@@ -9,12 +9,6 @@
     <node pkg="robot_state_publisher" type="state_publisher" 
           name="robot_state_publisher" output="screen"/>
 
-    <!-- <node pkg="robot_state_publisher" type="robot_state_publisher" 
-          name="robot_state_publisher" output="screen"/>
-
-    <node pkg="joint_state_publisher" type="joint_state_publisher" 
-          name="joint_state_publisher" output="screen"/> -->
-
     <!-- The odometry estimator, throttling, fake laser etc. go here -->
     <!-- All the stuff as from usual robot launch file -->
 </launch>

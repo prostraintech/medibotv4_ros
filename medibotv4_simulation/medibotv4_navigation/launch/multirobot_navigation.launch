@@ -6,14 +6,14 @@
     <param name="frame_id" value="/map" />
   </node>
 
-  <param name="robot_description" command="$(find xacro)/xacro $(find medibotv4_description)/urdf/medibotv4.xacro" />
+  <param name="robot_description"
+    command="$(find xacro)/xacro $(find medibotv4_description)/urdf/medibotv4.xacro" />
 
   <group ns="robot1">
     <param name="tf_prefix" value="robot1_tf" />
     <param name="amcl/initial_pose_x" value="0" />
     <param name="amcl/initial_pose_y" value="10" />
     <include file="$(find medibotv4_navigation)/launch/multirobot_move_base.launch" />
-    <!-- <param command="$(find xacro)/xacro $(find medibotv4_description)/urdf/medibotv4.xacro" name="robot_description" /> -->
   </group>
 
   <group ns="robot2">
@@ -21,7 +21,6 @@
     <param name="amcl/initial_pose_x" value="5" />
     <param name="amcl/initial_pose_y" value="10" />
     <include file="$(find medibotv4_navigation)/launch/multirobot_move_base.launch" />
-    <!-- <param command="$(find xacro)/xacro $(find medibotv4_description)/urdf/medibotv4.xacro" name="robot_description" /> -->
   </group>
 
   <group ns="robot3">
@@ -29,10 +28,9 @@
     <param name="amcl/initial_pose_x" value="-5" />
     <param name="amcl/initial_pose_y" value="10" />
     <include file="$(find medibotv4_navigation)/launch/multirobot_move_base.launch" />
-    <!-- <param command="$(find xacro)/xacro $(find medibotv4_description)/urdf/medibotv4.xacro" name="robot_description" /> -->
   </group>
 
-  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find medibotv4_description)/launch/urdf.rviz" output="screen" />
-
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find medibotv4_description)/launch/urdf.rviz"
+   output="screen" />
 
 </launch>
