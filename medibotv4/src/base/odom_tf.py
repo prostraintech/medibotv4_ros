@@ -17,7 +17,7 @@ class DiffTf:
     #############################################################################
     def __init__(self):
     #############################################################################
-        rospy.init_node("diff_tf")
+        rospy.init_node("odom_tf")
         self.nodename = rospy.get_name()
         rospy.loginfo("-I- %s started" % self.nodename)
         
