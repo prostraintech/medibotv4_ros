@@ -53,14 +53,17 @@
 #define LOOPTIME 10
 #define MOTOR_SPEED 75 
 #define DIFF_MOTOR_SPEED 55
-#define MOTOR_RPM 104
+#define MOTOR_RPM 1000
+#define GEAR_REDUCTION 23
 #define CMD_VEL_TIMEOUT 300
 #define TICKS_PER_METER 89
 #define WHEEL_SEPARATION 0.498
 #define WHEEL_DIAMETER 0.32
 #define WHEEL_RADIUS 0.16
-#define MIN_PWM 45 //MIN SPEED TO MOVE THE ROBOT = 45
-#define MAX_PWM 75
+//#define MIN_PWM 45 //MIN SPEED TO MOVE THE ROBOT = 45
+//#define MAX_PWM 75
+#define MIN_PWM 229
+#define MAX_PWM 0
 #define MIN_VEL 0 
 #define MAX_VEL 0.5
 #define LH_KP 1

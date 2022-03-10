@@ -9,7 +9,7 @@
 #include <geometry_msgs/Twist.h>
 #include <medibotv4/SensorState.h>
 #include <PID_v1.h>
-double max_speed = (2*PI*WHEEL_RADIUS*MOTOR_RPM)/60
+double max_speed = (2*PI*WHEEL_RADIUS*MOTOR_RPM)/(60*GEAR_REDUCTION)
 double demandx = 0, demandz = 0, lastCmdVelReceived = 0;
 void cmd_vel_callback(const geometry_msgs::Twist& twist);
 std_msgs::Int16 lwheel_msg;
@@ -128,24 +128,19 @@ void loop(){
     //REMOTE MODE
     if(digitalRead(SW_MODE)){
       // To make sure the robot move differentially
-      if((demandx==0 && demandz>0)||(demandx==0 && demandz<0)||(demandx>0 && demandz==0)||(demandx<0 && demandz==0)){
+      //if((demandx==0 && demandz>0)||(demandx==0 && demandz<0)||(demandx>0 && demandz==0)||(demandx<0 && demandz==0)){
+      if((demandx==0 && demandz!=0) || (demandz==0 && demandx!=0)){
         // Convert Linear X and Angular Z Velocity to PWM
+        // Calculate left and right wheel velocity
         double  left_vel = demandx - (demandz*WHEEL_SEPARATION/2);
         double right_vel = demandx + (demandz*WHEEL_SEPARATION/2);
-        // METHOD 1 //
-        // double  left_pwm = fabs(left_vel*MAX_PWM/MAX_VEL);
-        // double right_pwm = fabs(right_vel*MAX_PWM/MAX_VEL);
-        // left_pwm  = left_pwm<MIN_PWM?MIN_PWM:left_pwm;
-        // right_pwm = right_pwm<MIN_PWM?MIN_PWM:right_pwm;
-        // METHOD 2 //
-        // double  left_pwm = min(fabs(( left_vel/max_speed)*255),MAX_PWM);
-        // double right_pwm = min(fabs((right_vel/max_speed)*255),MAX_PWM);
-        // METHOD 3 //
-        double  left_pwm = mapFloat(fabs(left_vel),0,max_speed,0,MAX_PWM);
-        double right_pwm = mapFloat(fabs(right_vel),0,max_speed,0,MAX_PWM);
-
+        // Calculate left and right sign to indicate direction
         int lsign=(left_vel>0)?1:((left_vel<0)?-1:0);
         int rsign=(right_vel>0)?1:((right_vel<0)?-1:0);
+        // Map wheel velocity to PWM
+        double  left_pwm = mapFloat(fabs(left_vel), 0, max_speed, MIN_PWM, MAX_PWM);
+        double right_pwm = mapFloat(fabs(right_vel), 0, max_speed, MIN_PWM, MAX_PWM);
+        // Actuate the motors
         Move(lsign*left_pwm,rsign*right_pwm);
       }
       else{
