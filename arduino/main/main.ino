@@ -9,15 +9,9 @@
 #include <geometry_msgs/Twist.h>
 #include <medibotv4/SensorState.h>
 #include <PID_v1.h>
-bool USING_ROS_PWM = false;  
-bool USING_ROS_DIFF = true;
 double max_speed = (2*PI*WHEEL_RADIUS*MOTOR_RPM)/60
-int pwm = 75, pwm_turn = 55;
 double demandx = 0, demandz = 0, lastCmdVelReceived = 0;
 void cmd_vel_callback(const geometry_msgs::Twist& twist);
-void pwm_callback(const std_msgs::Int16& pwm_msg);
-void pwm_turn_callback(const std_msgs::Int16& pwm_turn_msg);
-void pwm_control_callback(const std_msgs::Bool& pwm_control_msg);
 std_msgs::Int16 lwheel_msg;
 std_msgs::Int16 rwheel_msg;
 medibotv4::SensorState sensor_state_msg;
@@ -26,9 +20,6 @@ ros::Publisher lwheel_pub("lwheel_ticks", &lwheel_msg);
 ros::Publisher rwheel_pub("rwheel_ticks", &rwheel_msg);
 ros::Publisher sensor_state_pub("sensor_state", &sensor_state_msg);
 ros::Subscriber<geometry_msgs::Twist> cmd_vel_sub("cmd_vel", cmd_vel_callback);
-ros::Subscriber<std_msgs::Int16> pwm_sub("pwm", pwm_callback);
-ros::Subscriber<std_msgs::Int16> pwm_turn_sub("pwm_turn", pwm_turn_callback);
-ros::Subscriber<std_msgs::Bool> pwm_control_sub("pwm_control", pwm_control_callback);
 
 //----------------------------GENERAL INITIALIZATION--------------------------------//
 
@@ -36,11 +27,11 @@ ros::Subscriber<std_msgs::Bool> pwm_control_sub("pwm_control", pwm_control_callb
 #include "Motor.h"
 #include "LED.h"
 unsigned long currentMillis, previousMillis;
-float Ldiff, Lerror, Lprev, Rdiff, Rerror, Rprev;
-double Linput, Loutput, Lsetpoint;
-double Rinput, Routput, Rsetpoint;
-PID LH_pid(&Linput, &Loutput, &Lsetpoint, LH_KP, LH_KI, LH_KD, DIRECT);
-PID RH_pid(&Rinput, &Routput, &Rsetpoint, RH_KP, RH_KI, RH_KD, DIRECT);
+// float Ldiff, Lerror, Lprev, Rdiff, Rerror, Rprev;
+// double Linput, Loutput, Lsetpoint;
+// double Rinput, Routput, Rsetpoint;
+// PID LH_pid(&Linput, &Loutput, &Lsetpoint, LH_KP, LH_KI, LH_KD, DIRECT);
+// PID RH_pid(&Rinput, &Routput, &Rsetpoint, RH_KP, RH_KI, RH_KD, DIRECT);
 Motor LH_motor(LH_D1, LH_D2, LH_D3, LH_ENA, LH_ENB);
 Motor RH_motor(RH_D1, RH_D2, RH_D3, RH_ENA, RH_ENB);
 Motor PAN_motor(PAN_D1, PAN_D2, PAN_EN);
@@ -55,6 +46,7 @@ void LH_ISRB();
 void RH_ISRA();
 void RH_ISRB();
 void EMG_STOP();
+float mapFloat(float x, float in_min, float in_max, float out_min, float out_max);
 volatile int encoder_RH = 0;
 volatile int encoder_LH = 0;
 //----------------------------------------------------------------------------------//
@@ -74,10 +66,6 @@ void setup(){
   pinMode(LH_ENB, INPUT_PULLUP);
   pinMode(RH_ENA, INPUT_PULLUP);
   pinMode(RH_ENB, INPUT_PULLUP);
-  ///test encoder interrupt
-  // attachInterrupt(digitalPinToInterrupt(RH_ENA), Encoder_RH_ENA, CHANGE);
-  // attachInterrupt(digitalPinToInterrupt(LH_ENA), Encoder_LH_ENA, CHANGE);
-  ///test encoder interrupt
   attachInterrupt(digitalPinToInterrupt(LH_ENA), LH_ISRA, CHANGE);
   attachInterrupt(digitalPinToInterrupt(LH_ENB), LH_ISRB, CHANGE);
   attachInterrupt(digitalPinToInterrupt(RH_ENA), RH_ISRA, CHANGE);
@@ -87,18 +75,15 @@ void setup(){
   nh.getHardware()->setBaud(115200);
   nh.initNode();
   nh.subscribe(cmd_vel_sub);
-  nh.subscribe(pwm_sub);
-  nh.subscribe(pwm_turn_sub);
-  nh.subscribe(pwm_control_sub);
   nh.advertise(lwheel_pub);
   nh.advertise(rwheel_pub);
   nh.advertise(sensor_state_pub);
-  LH_pid.SetMode(AUTOMATIC);
-  LH_pid.SetOutputLimits(-MAX_PWM, MAX_PWM);
-  LH_pid.SetSampleTime(1);
-  RH_pid.SetMode(AUTOMATIC);
-  RH_pid.SetOutputLimits(-MAX_PWM, MAX_PWM);
-  RH_pid.SetSampleTime(1);
+  // LH_pid.SetMode(AUTOMATIC);
+  // LH_pid.SetOutputLimits(-MAX_PWM, MAX_PWM);
+  // LH_pid.SetSampleTime(1);
+  // RH_pid.SetMode(AUTOMATIC);
+  // RH_pid.SetOutputLimits(-MAX_PWM, MAX_PWM);
+  // RH_pid.SetSampleTime(1);
 }
 
 void loop(){
@@ -142,78 +127,49 @@ void loop(){
 
     //REMOTE MODE
     if(digitalRead(SW_MODE)){
-      if(USING_ROS_PWM){
-        if(demandx>0 && abs(demandz)<1){
-          Move(pwm, pwm);//forward
-        }
-        if(demandx<0 && abs(demandz)<1){
-          Move(-pwm, -pwm);//reverse
-        }
-        else if(demandz>0 && abs(demandx)<0.5){
-          Move(-pwm_turn, pwm_turn);//left
-        }
-        else if(demandz<0 && abs(demandx)<0.5){
-          Move(pwm_turn, -pwm_turn);//right
-        }
-        else if(demandx==0 && demandz==0){
-          Move(0, 0);//stop
-        }
-      }
-      if(USING_ROS_DIFF){
-        //---------------------METHOD 1 (Open-loop)----------------------//
-        
-        // float rplusl  = (2*demandx)/WHEEL_RADIUS;
-        // float rminusl = (demandz*WHEEL_SEPARATION)/WHEEL_RADIUS;
-        // float right_omega = (rplusl+rminusl)/2;
-        // float left_omega  = rplusl-right_omega;
-        // float right_vel = right_omega*WHEEL_RADIUS;
-        // float left_vel  = left_omega *WHEEL_RADIUS;
-        // float left_pwm = min(((left_vel/MAX_VEL)*MAX_PWM),MAX_PWM);
-        // float right_pwm = min(((right_vel/MAX_VEL)*MAX_PWM),MAX_PWM);
-        // Move(left_pwm,right_pwm);
-
-        //---------------------METHOD 2 (Open-loop)----------------------//
-        
-        // float left_vel = (msg.linear.x - msg.angular.z) / 2;
-        // float right_vel = (msg.linear.x + msg.angular.z) / 2;
-        // float left_pwm = left_vel*(MAX_PWM-MIN_PWM)+MIN_PWM;
-        // float right_pwm = right_vel*(MAX_PWM-MIN_PWM)+MIN_PWM;
-        // int lsign=(l>0)?1:((l<0)?-1:0);
-        // int rsign=(r>0)?1:((r<0)?-1:0);
-        // Move(lsign*left_pwm,lsign*right_pwm);
-
-        //---------------------METHOD 3 (Open-loop)----------------------//
-
+      // To make sure the robot move differentially
+      if((demandx==0 && demandz>0)||(demandx==0 && demandz<0)||(demandx>0 && demandz==0)||(demandx<0 && demandz==0)){
+        // Convert Linear X and Angular Z Velocity to PWM
         double  left_vel = demandx - (demandz*WHEEL_SEPARATION/2);
         double right_vel = demandx + (demandz*WHEEL_SEPARATION/2);
+        // METHOD 1 //
         // double  left_pwm = fabs(left_vel*MAX_PWM/MAX_VEL);
         // double right_pwm = fabs(right_vel*MAX_PWM/MAX_VEL);
         // left_pwm  = left_pwm<MIN_PWM?MIN_PWM:left_pwm;
         // right_pwm = right_pwm<MIN_PWM?MIN_PWM:right_pwm;
-        double  left_pwm = min(fabs(( left_vel/max_speed)*255),MAX_PWM);
-        double right_pwm = min(fabs((right_vel/max_speed)*255),MAX_PWM);
+        // METHOD 2 //
+        // double  left_pwm = min(fabs(( left_vel/max_speed)*255),MAX_PWM);
+        // double right_pwm = min(fabs((right_vel/max_speed)*255),MAX_PWM);
+        // METHOD 3 //
+        double  left_pwm = mapFloat(fabs(left_vel),0,max_speed,0,MAX_PWM);
+        double right_pwm = mapFloat(fabs(right_vel),0,max_speed,0,MAX_PWM);
+
         int lsign=(left_vel>0)?1:((left_vel<0)?-1:0);
         int rsign=(right_vel>0)?1:((right_vel<0)?-1:0);
         Move(lsign*left_pwm,rsign*right_pwm);
-        
-        //---------------------METHOD 4 (Closed-loop)----------------------//
+      }
+      else{
+        Move(0,0);
+      }
+      
+      //---------------------Alternative (Closed-loop)----------------------//
 
-        // double left_vel = demandx - (demandz*WHEEL_SEPARATION/2);
-        // double right_vel = demandx + (demandz*WHEEL_SEPARATION/2);
-        // Ldiff = LH_motor.getEncoderPos() - Lprev; 
-        // Rdiff = RH_motor.getEncoderPos() - Rprev; 
-        // Lerror = (left_vel*0.89) - Ldiff;
-        // Rerror = (right_vel*0.89) - Rdiff;
-        // Lprev = LH_motor.getEncoderPos(); 
-        // Rprev = RH_motor.getEncoderPos();
-        // Lsetpoint = left_vel*0.89;
-        // Rsetpoint = right_vel*0.89;
-        // Linput = Ldiff;
-        // Rinput = Rdiff;
-        // LH_pid.Compute();
-        // RH_pid.Compute();
-        // Move(Loutput,Routput);
-      }     
+      // double left_vel = demandx - (demandz*WHEEL_SEPARATION/2);
+      // double right_vel = demandx + (demandz*WHEEL_SEPARATION/2);
+      // Ldiff = LH_motor.getEncoderPos() - Lprev; 
+      // Rdiff = RH_motor.getEncoderPos() - Rprev; 
+      // Lerror = (left_vel*0.89) - Ldiff;
+      // Rerror = (right_vel*0.89) - Rdiff;
+      // Lprev = LH_motor.getEncoderPos(); 
+      // Rprev = RH_motor.getEncoderPos();
+      // Lsetpoint = left_vel*0.89;
+      // Rsetpoint = right_vel*0.89;
+      // Linput = Ldiff;
+      // Rinput = Rdiff;
+      // LH_pid.Compute();
+      // RH_pid.Compute();
+      // Move(Loutput,Routput);
+
       //Stop the robot if there are no cmd_vel messages
       if(millis() - lastCmdVelReceived > CMD_VEL_TIMEOUT){
         demandx = 0;
@@ -318,18 +274,12 @@ void EMG_STOP(){
   LH_led.Emit('r');RH_led.Emit('r');
 }
 
+float mapFloat(float x, float in_min, float in_max, float out_min, float out_max){
+  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
 void cmd_vel_callback( const geometry_msgs::Twist& twist){
   demandx = twist.linear.x;
   demandz = twist.angular.z;
   lastCmdVelReceived = millis();
-}
-void pwm_callback( const std_msgs::Int16& pwm_msg){
-  pwm = pwm_msg.data;
-}
-void pwm_turn_callback( const std_msgs::Int16& pwm_turn_msg){
-  pwm_turn = pwm_turn_msg.data;
-}
-void pwm_control_callback( const std_msgs::Bool& pwm_control_msg){
-  USING_ROS_PWM = pwm_control_msg.data;
-  USING_ROS_DIFF = !pwm_control_msg.data;
 }
