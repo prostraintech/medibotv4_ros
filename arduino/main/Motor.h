@@ -7,8 +7,8 @@ class Motor{
     long getEncoderPos();
     int getEncoderA();
     int getEncoderB();
-    void doEncoderA();
-    void doEncoderB();
+    long doEncoderA();
+    long doEncoderB();
   private:
     //motor pins  
     int D1;//pwm value
@@ -86,22 +86,24 @@ void Motor::initEncoderPins(){
   pinMode(this->ENB, INPUT_PULLUP);
 }
 
-void Motor::doEncoderA(){
+long Motor::doEncoderA(){
   if(digitalRead(this->ENA)==HIGH){
     (digitalRead(this->ENB)==LOW)? this->encoder_Pos++ : this->encoder_Pos--;
   }
   else{ 
     (digitalRead(this->ENB)==HIGH)? this->encoder_Pos++ : this->encoder_Pos--;
   }
+  return this->encoder_Pos;
 }
 
-void Motor::doEncoderB(){
+long Motor::doEncoderB(){
   if(digitalRead(this->ENB)==HIGH){
     (digitalRead(this->ENA)==HIGH)? this->encoder_Pos++ : this->encoder_Pos--;
   }
   else{ 
     (digitalRead(this->ENA)==LOW)? this->encoder_Pos++ : this->encoder_Pos--;
   }
+  return this->encoder_Pos;
 }
 
 long Motor::getEncoderPos(){
