@@ -1,14 +1,8 @@
 <?xml version="1.0" ?>
 <launch>
-
-  <node pkg="medibotv4" type="diff_tf.py" name="diff_tf">
+  <node pkg="medibotv4" type="odom_tf.py" name="odom_tf">
     <rosparam param="base_width">0.498</rosparam>
     <rosparam param="ticks_meter">89</rosparam>
   </node>
-<!--   <node pkg="medibotv4" type="diff_tf_temp.py" name="diff_tf">
-    <rosparam param="base_width">0.498</rosparam>
-    <rosparam param="ticks_meter">89</rosparam>
-  </node> -->
-
 </launch>
 
