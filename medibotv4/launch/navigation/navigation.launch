@@ -2,11 +2,11 @@
 
 <launch>
   <!-- Arguments -->
-  <arg name="map_file" default="$(find medibotv4)/maps/gpcl_0.yaml"/>
+  <arg name="map_file" default="$(find medibotv4)/maps/test_map.yaml"/>
   <arg name="x_pos" default="0.0"/>
   <arg name="y_pos" default="0.0"/>
   <arg name="z_pos" default="0.0"/>
-  <arg name="open_rviz" default="false"/>
+  <arg name="open_rviz" default="true"/>
   <arg name="move_forward_only" default="true"/>
 
   <!-- Map server -->
