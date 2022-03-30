@@ -57,7 +57,7 @@ void setup(){
   attachInterrupt(digitalPinToInterrupt(LH_ENB), LH_ISRB, CHANGE);
   attachInterrupt(digitalPinToInterrupt(RH_ENA), RH_ISRA, CHANGE);
   attachInterrupt(digitalPinToInterrupt(RH_ENB), RH_ISRB, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(ESTOP), EMG_STOP, RISING);
+  attachInterrupt(digitalPinToInterrupt(ESTOP), EMG_STOP, HIGH);
   nh.getHardware()->setBaud(115200);
   nh.initNode();
   nh.subscribe(cmd_vel_sub);
@@ -69,82 +69,73 @@ void setup(){
 void loop(){
   nh.spinOnce();
   currentMillis = millis();
-  //if emergency stop button is released
-  if(!ESTOP){
-    if(currentMillis - previousMillis >= LOOPTIME){
-      previousMillis = currentMillis;
 
-      //RESCUE MODE
-      if(!digitalRead(SW_MODE)){
-        if(!digitalRead(CS_FWD) && digitalRead(CS_RVR) && digitalRead(CS_LFT) && digitalRead(CS_RGT) && digitalRead(CS_STT) && digitalRead(CS_STP)){
-          Move(MOTOR_SPEED, MOTOR_SPEED);//forward
-        }
-        else if(digitalRead(CS_FWD) && !digitalRead(CS_RVR) && digitalRead(CS_LFT) && digitalRead(CS_RGT) && digitalRead(CS_STT) && digitalRead(CS_STP)){
-          Move(-MOTOR_SPEED, -MOTOR_SPEED);//reverse
-        }
-        else if(digitalRead(CS_FWD) && digitalRead(CS_RVR) && !digitalRead(CS_LFT) && digitalRead(CS_RGT) && digitalRead(CS_STT) && digitalRead(CS_STP)){
-          Move(-DIFF_MOTOR_SPEED, DIFF_MOTOR_SPEED);//left
-        }
-        else if(digitalRead(CS_FWD) && digitalRead(CS_RVR) && digitalRead(CS_LFT) && !digitalRead(CS_RGT) && digitalRead(CS_STT) && digitalRead(CS_STP)){
-          Move(DIFF_MOTOR_SPEED, -DIFF_MOTOR_SPEED);//right
-        }
-        else if(digitalRead(CS_FWD) && digitalRead(CS_RVR) && !digitalRead(CS_LFT) && digitalRead(CS_RGT) && !digitalRead(CS_STT) && digitalRead(CS_STP)){
-          PAN_motor.Rotate(1, PAN_LEFT_LIM, PAN_RIGHT_LIM);//pan left
-        }
-        else if(digitalRead(CS_FWD) && digitalRead(CS_RVR) && digitalRead(CS_LFT) && !digitalRead(CS_RGT) && !digitalRead(CS_STT) && digitalRead(CS_STP)){
-          PAN_motor.Rotate(-1, PAN_LEFT_LIM, PAN_RIGHT_LIM);//pan right
-        }
-        else if(!digitalRead(CS_FWD) && digitalRead(CS_RVR) && digitalRead(CS_LFT) && digitalRead(CS_RGT) && digitalRead(CS_STT) && !digitalRead(CS_STP)){
-          TILT_motor.Rotate(1, TILT_UP_LIM, TILT_DOWN_LIM);//tilt up
-        }
-        else if(digitalRead(CS_FWD) && !digitalRead(CS_RVR) && digitalRead(CS_LFT) && digitalRead(CS_RGT) && digitalRead(CS_STT) && !digitalRead(CS_STP)){
-          TILT_motor.Rotate(-1, TILT_UP_LIM, TILT_DOWN_LIM);//tilt down
-        }
-        else{
-          Move(MIN_PWM, MIN_PWM);//stop
-          PAN_motor.Rotate(0);//stop pan
-          TILT_motor.Rotate(0);//stop tilt
-        }
+  if(currentMillis - previousMillis >= LOOPTIME){
+    previousMillis = currentMillis;
+
+    //RESCUE MODE
+    if(!digitalRead(SW_MODE)){
+      if(!digitalRead(CS_FWD) && digitalRead(CS_RVR) && digitalRead(CS_LFT) && digitalRead(CS_RGT) && digitalRead(CS_STT) && digitalRead(CS_STP)){
+        Move(MOTOR_SPEED, MOTOR_SPEED);//forward
       }
-
-      //REMOTE MODE
-      if(digitalRead(SW_MODE)){
-        // To make sure the robot move differentially, else stop
-        //if((demandx==0 && demandz>0)||(demandx==0 && demandz<0)||(demandx>0 && demandz==0)||(demandx<0 && demandz==0))
-        if((demandx==0 && demandz!=0) || (demandz==0 && demandx!=0)){
-          // Convert Linear X and Angular Z Velocity to PWM
-          // Calculate left and right wheel velocity
-          double  left_vel = demandx - demandz*(WHEEL_SEPARATION/2);
-          double right_vel = demandx + demandz*(WHEEL_SEPARATION/2);
-          // Determine left and right sign to indicate direction
-          int lsign = (left_vel>0)?1:((left_vel<0)?-1:0);
-          int rsign = (right_vel>0)?1:((right_vel<0)?-1:0);
-          // Map wheel velocity to PWM
-          double  left_pwm = mapFloat(fabs(left_vel), 0, MAX_SPEED, MIN_PWM, MAX_PWM);
-          double right_pwm = mapFloat(fabs(right_vel), 0, MAX_SPEED, MIN_PWM, MAX_PWM);
-          // Actuate the motors
-          Move(lsign*left_pwm, rsign*right_pwm);
-        }
-        else{
-          Move(MIN_PWM, MIN_PWM);
-        }
-        //Stop the robot if there are no cmd_vel messages
-        if(millis() - lastCmdVelReceived > CMD_VEL_TIMEOUT){
-          demandx = 0;
-          demandz = 0;
-          Move(MIN_PWM, MIN_PWM);
-          PAN_motor.Rotate(0);//stop pan
-          TILT_motor.Rotate(0);//stop tilt
-        }
+      else if(digitalRead(CS_FWD) && !digitalRead(CS_RVR) && digitalRead(CS_LFT) && digitalRead(CS_RGT) && digitalRead(CS_STT) && digitalRead(CS_STP)){
+        Move(-MOTOR_SPEED, -MOTOR_SPEED);//reverse
+      }
+      else if(digitalRead(CS_FWD) && digitalRead(CS_RVR) && !digitalRead(CS_LFT) && digitalRead(CS_RGT) && digitalRead(CS_STT) && digitalRead(CS_STP)){
+        Move(-DIFF_MOTOR_SPEED, DIFF_MOTOR_SPEED);//left
+      }
+      else if(digitalRead(CS_FWD) && digitalRead(CS_RVR) && digitalRead(CS_LFT) && !digitalRead(CS_RGT) && digitalRead(CS_STT) && digitalRead(CS_STP)){
+        Move(DIFF_MOTOR_SPEED, -DIFF_MOTOR_SPEED);//right
+      }
+      else if(digitalRead(CS_FWD) && digitalRead(CS_RVR) && !digitalRead(CS_LFT) && digitalRead(CS_RGT) && !digitalRead(CS_STT) && digitalRead(CS_STP)){
+        PAN_motor.Rotate(1, PAN_LEFT_LIM, PAN_RIGHT_LIM);//pan left
+      }
+      else if(digitalRead(CS_FWD) && digitalRead(CS_RVR) && digitalRead(CS_LFT) && !digitalRead(CS_RGT) && !digitalRead(CS_STT) && digitalRead(CS_STP)){
+        PAN_motor.Rotate(-1, PAN_LEFT_LIM, PAN_RIGHT_LIM);//pan right
+      }
+      else if(!digitalRead(CS_FWD) && digitalRead(CS_RVR) && digitalRead(CS_LFT) && digitalRead(CS_RGT) && digitalRead(CS_STT) && !digitalRead(CS_STP)){
+        TILT_motor.Rotate(1, TILT_UP_LIM, TILT_DOWN_LIM);//tilt up
+      }
+      else if(digitalRead(CS_FWD) && !digitalRead(CS_RVR) && digitalRead(CS_LFT) && digitalRead(CS_RGT) && digitalRead(CS_STT) && !digitalRead(CS_STP)){
+        TILT_motor.Rotate(-1, TILT_UP_LIM, TILT_DOWN_LIM);//tilt down
+      }
+      else{
+        Move(MIN_PWM, MIN_PWM);//stop
+        PAN_motor.Rotate(0);//stop pan
+        TILT_motor.Rotate(0);//stop tilt
       }
     }
-  }
-  //if emergency stop button is being pressed
-  else{
-    PAN_motor.Rotate(0);
-    TILT_motor.Rotate(0);
-    Move(MIN_PWM, MIN_PWM);
-    LH_led.Emit('r');RH_led.Emit('r');
+
+    //REMOTE MODE
+    if(digitalRead(SW_MODE)){
+      // To make sure the robot move differentially, else stop
+      //if((demandx==0 && demandz>0)||(demandx==0 && demandz<0)||(demandx>0 && demandz==0)||(demandx<0 && demandz==0))
+      if((demandx==0 && demandz!=0) || (demandz==0 && demandx!=0)){
+        // Convert Linear X and Angular Z Velocity to PWM
+        // Calculate left and right wheel velocity
+        double  left_vel = demandx - demandz*(WHEEL_SEPARATION/2);
+        double right_vel = demandx + demandz*(WHEEL_SEPARATION/2);
+        // Determine left and right sign to indicate direction
+        int lsign = (left_vel>0)?1:((left_vel<0)?-1:0);
+        int rsign = (right_vel>0)?1:((right_vel<0)?-1:0);
+        // Map wheel velocity to PWM
+        double  left_pwm = mapFloat(fabs(left_vel), 0, MAX_SPEED, MIN_PWM, MAX_PWM);
+        double right_pwm = mapFloat(fabs(right_vel), 0, MAX_SPEED, MIN_PWM, MAX_PWM);
+        // Actuate the motors
+        Move(lsign*left_pwm, rsign*right_pwm);
+      }
+      else{
+        Move(MIN_PWM, MIN_PWM);
+      }
+      //Stop the robot if there are no cmd_vel messages
+      if(millis() - lastCmdVelReceived > CMD_VEL_TIMEOUT){
+        demandx = 0;
+        demandz = 0;
+        Move(MIN_PWM, MIN_PWM);
+        PAN_motor.Rotate(0);//stop pan
+        TILT_motor.Rotate(0);//stop tilt
+      }
+    }
   }
 
   //Publishing data to ROS
