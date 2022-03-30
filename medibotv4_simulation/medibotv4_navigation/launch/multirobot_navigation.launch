@@ -1,45 +1,81 @@
 <launch>
-  <param name="/use_sim_time" value="true"/>
+  <arg name="first_robot"  default="robot_1"/>
+  <arg name="second_robot" default="robot_2"/>
+  <arg name="open_rviz"    default="true"/>
+  <arg name="move_forward_only" default="false"/>
+  <arg name="map_file" default="$(find medibotv4_navigation)/maps/empty_hospital.yaml" />
+  <param name="robot_description" command="$(find xacro)/xacro $(find medibotv4_description)/urdf/medibotv4.xacro" />
+
 
   <!-- Run the map server -->
-  <node name="map_server" pkg="map_server" type="map_server" args="$(find medibotv4_navigation)/maps/empty_hospital.yaml" >
-    <param name="frame_id" value="/map" />
-  </node>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
 
-  <param name="robot_description"
-    command="$(find xacro)/xacro $(find medibotv4_description)/urdf/medibotv4.xacro" />
+  <group ns="$(arg first_robot)">
+    <!--robot_state_publisher, publishing state of robot to tf-->
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
+      <param name="publish_frequency" type="double" value="50.0" />
+      <param name="tf_prefix" value="$(arg first_robot)" />
+    </node>
 
-  <group ns="robot1">
-    <param name="tf_prefix" value="robot1_tf" />
-    <param name="amcl/initial_pose_x" value="0" />
-    <param name="amcl/initial_pose_y" value="10" />
-    <param name="amcl/initial_pose_a" value="-1.57" />
-    <param name="odom_frame_id" value="/robot1_tf/odom"/>
-    <param name="base_frame_id" value="/robot1_tf/base_link"/>
-    <include file="$(find medibotv4_navigation)/launch/multirobot_move_base.launch" />
+    <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher" output="screen">
+      <param name="publish_frequency" type="double" value="50.0" />
+      <param name="tf_prefix" value="$(arg first_robot)" />
+    </node>
+
+    <!--AMCL-->
+    <include file="$(find medibotv4_navigation)/launch/amcl_ns.launch">
+      <arg name="robot_namespace" value="$(arg first_robot)"/>
+      <arg name="initial_pose_x" value="5.0"/>
+      <arg name="initial_pose_y" value="10.0"/>
+      <arg name="initial_pose_a" value="-1.57"/>
+    </include>
+
+    <!--move_base-->
+    <include file="$(find medibotv4_navigation)/launch/move_base_ns.launch">
+      <arg name="robot_namespace" value="$(arg first_robot)"/>
+      <arg name="move_forward_only" value="$(arg move_forward_only)"/>
+    </include>
   </group>
 
-  <group ns="robot2">
-    <param name="tf_prefix" value="robot2_tf" />
-    <param name="amcl/initial_pose_x" value="5" />
-    <param name="amcl/initial_pose_y" value="10" />
-    <param name="amcl/initial_pose_a" value="-1.57" />
-    <param name="odom_frame_id" value="/robot2_tf/odom"/>
-    <param name="base_frame_id" value="/robot2_tf/base_link"/>
-    <include file="$(find medibotv4_navigation)/launch/multirobot_move_base.launch" />
+  <group ns="$(arg second_robot)">
+    <!--robot_state_publisher, publishing state of robot to tf-->
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
+      <param name="publish_frequency" type="double" value="50.0" />
+      <param name="tf_prefix" value="$(arg second_robot)" />
+    </node>
+
+    <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher" output="screen">
+      <param name="publish_frequency" type="double" value="50.0" />
+      <param name="tf_prefix" value="$(arg second_robot)" />
+    </node>
+
+    <!--AMCL-->
+    <include file="$(find medibotv4_navigation)/launch/amcl_ns.launch">
+      <arg name="robot_namespace" value="$(arg second_robot)"/>
+      <arg name="initial_pose_x" value="-5.0"/>
+      <arg name="initial_pose_y" value="10.0"/>
+      <arg name="initial_pose_a" value="-1.57"/>
+    </include>
+
+    <!--move_base-->
+    <include file="$(find medibotv4_navigation)/launch/move_base_ns.launch">
+      <arg name="robot_namespace" value="$(arg second_robot)"/>
+      <arg name="move_forward_only" value="$(arg move_forward_only)"/>
+    </include>
   </group>
 
-  <group ns="robot3">
-    <param name="tf_prefix" value="robot3_tf" />
-    <param name="amcl/initial_pose_x" value="-5" />
-    <param name="amcl/initial_pose_y" value="10" />
-    <param name="amcl/initial_pose_a" value="-1.57" />
-    <param name="odom_frame_id" value="/robot3_tf/odom"/>
-    <param name="base_frame_id" value="/robot3_tf/base_link"/>
-    <include file="$(find medibotv4_navigation)/launch/multirobot_move_base.launch" />
+  <!-- <group if="$(arg open_rviz)"> 
+    <node pkg="rviz" type="rviz" name="rviz" required="true"
+          args="-d $(find ros_sim)/rviz/multi_turtlebot3_navigation.rviz"/>
+  </group> -->
+  <group if="$(arg open_rviz)"> 
+    <node pkg="rviz" type="rviz" name="rviz" required="true"
+          args="-d $(find medibotv4_navigation)/rviz/multirobot_navigation.rviz"/>
   </group>
 
+<!-- 
   <node pkg="rviz" type="rviz" name="rviz" args="-d $(find medibotv4_description)/launch/multirobot_urdf.rviz"
-   output="screen" />
+   output="screen" /> -->
 
 </launch>
+

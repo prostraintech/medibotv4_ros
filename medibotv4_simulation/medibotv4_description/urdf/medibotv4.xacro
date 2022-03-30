@@ -603,7 +603,7 @@
   <child link="sonar"/>
 </joint>
 
-<joint name="pan_servo_joint" type="fixed">
+<joint name="pan_servo_joint" type="continuous">
   <origin rpy="0 0 0" xyz="-0.03 0.0 0.995"/>
   <parent link="stand"/>
   <child link="pan_servo"/>
@@ -622,7 +622,7 @@
   <child link="tilt_servo"/>
 </joint>
 
-<joint name="tilt_servo_joint" type="fixed">
+<joint name="tilt_servo_joint" type="continuous">
   <origin rpy="0 0 0" xyz="0.025 -0.016 -0.0525"/>
   <parent link="tilt_servo"/>
   <child link="mount"/>
