@@ -100,7 +100,7 @@ void loop(){
         TILT_motor.Rotate(-1, TILT_UP_LIM, TILT_DOWN_LIM);//tilt down
       }
       else{
-        Move(MIN_PWM, MIN_PWM);//stop
+        Move(ZERO_PWM, ZERO_PWM);//stop
         PAN_motor.Rotate(0);//stop pan
         TILT_motor.Rotate(0);//stop tilt
       }
@@ -125,13 +125,13 @@ void loop(){
         Move(lsign*left_pwm, rsign*right_pwm);
       }
       else{
-        Move(MIN_PWM, MIN_PWM);
+        Move(ZERO_PWM, ZERO_PWM);
       }
       //Stop the robot if there are no cmd_vel messages
       if(millis() - lastCmdVelReceived > CMD_VEL_TIMEOUT){
         demandx = 0;
         demandz = 0;
-        Move(MIN_PWM, MIN_PWM);
+        Move(ZERO_PWM, ZERO_PWM);
         PAN_motor.Rotate(0);//stop pan
         TILT_motor.Rotate(0);//stop tilt
       }
@@ -204,7 +204,7 @@ void RH_ISRB(){
 void EMG_STOP(){
   PAN_motor.Rotate(0);
   TILT_motor.Rotate(0);
-  Move(MIN_PWM, MIN_PWM);
+  Move(ZERO_PWM, ZERO_PWM);
   LH_led.Emit('r');RH_led.Emit('r');
 }
 

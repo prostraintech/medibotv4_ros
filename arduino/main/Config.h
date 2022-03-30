@@ -58,6 +58,7 @@
 #define WHEEL_SEPARATION 0.498
 #define WHEEL_DIAMETER 0.32
 #define WHEEL_RADIUS 0.16
+#define ZERO_PWM 255
 #define MIN_PWM 229
 #define MAX_PWM 0
 #define MOTOR_SPEED 180 //75
