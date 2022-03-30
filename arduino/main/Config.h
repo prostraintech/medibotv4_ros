@@ -58,10 +58,10 @@
 #define WHEEL_SEPARATION 0.498
 #define WHEEL_DIAMETER 0.32
 #define WHEEL_RADIUS 0.16
-#define ZERO_PWM 255
-#define MIN_PWM 229
-#define MAX_PWM 0
-#define MOTOR_SPEED 180 //75
-#define DIFF_MOTOR_SPEED 200 //55
+#define ZERO_PWM 0
+#define MIN_PWM 0
+#define MAX_PWM 229
+#define MOTOR_SPEED 75 //180
+#define DIFF_MOTOR_SPEED 55 //200
 //#define MIN_PWM 45 // 210 MIN SPEED TO MOVE THE ROBOT
 //#define MAX_PWM 75 // 180
