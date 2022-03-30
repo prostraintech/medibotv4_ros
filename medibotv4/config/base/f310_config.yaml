@@ -1,9 +1,9 @@
 axis_linear: 7 # Dpad UP/DOWN
-scale_linear: 0.15
+scale_linear: 0.2
 scale_linear_turbo: 0.3
 
 axis_angular: 6 # Dpad LEFT/RIGHT
-scale_angular: 0.5
+scale_angular: 0.7
 scale_angular_turbo: 1.0
 
 enable_button: 0  # A button
