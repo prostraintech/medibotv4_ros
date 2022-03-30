@@ -101,7 +101,7 @@ void loop(){
           TILT_motor.Rotate(-1, TILT_UP_LIM, TILT_DOWN_LIM);//tilt down
         }
         else{
-          Move(0, 0);//stop
+          Move(MIN_PWM, MIN_PWM);//stop
           PAN_motor.Rotate(0);//stop pan
           TILT_motor.Rotate(0);//stop tilt
         }
@@ -116,23 +116,23 @@ void loop(){
           // Calculate left and right wheel velocity
           double  left_vel = demandx - demandz*(WHEEL_SEPARATION/2);
           double right_vel = demandx + demandz*(WHEEL_SEPARATION/2);
-          // Calculate left and right sign to indicate direction
+          // Determine left and right sign to indicate direction
           int lsign = (left_vel>0)?1:((left_vel<0)?-1:0);
           int rsign = (right_vel>0)?1:((right_vel<0)?-1:0);
           // Map wheel velocity to PWM
           double  left_pwm = mapFloat(fabs(left_vel), 0, MAX_SPEED, MIN_PWM, MAX_PWM);
           double right_pwm = mapFloat(fabs(right_vel), 0, MAX_SPEED, MIN_PWM, MAX_PWM);
           // Actuate the motors
-          Move(lsign*left_pwm,rsign*right_pwm);
+          Move(lsign*left_pwm, rsign*right_pwm);
         }
         else{
-          Move(0,0);
+          Move(MIN_PWM, MIN_PWM);
         }
         //Stop the robot if there are no cmd_vel messages
         if(millis() - lastCmdVelReceived > CMD_VEL_TIMEOUT){
           demandx = 0;
           demandz = 0;
-          Move(0, 0);
+          Move(MIN_PWM, MIN_PWM);
           PAN_motor.Rotate(0);//stop pan
           TILT_motor.Rotate(0);//stop tilt
         }
@@ -143,7 +143,7 @@ void loop(){
   else{
     PAN_motor.Rotate(0);
     TILT_motor.Rotate(0);
-    Move(0, 0);
+    Move(MIN_PWM, MIN_PWM);
     LH_led.Emit('r');RH_led.Emit('r');
   }
 
@@ -213,7 +213,7 @@ void RH_ISRB(){
 void EMG_STOP(){
   PAN_motor.Rotate(0);
   TILT_motor.Rotate(0);
-  Move(0, 0);
+  Move(MIN_PWM, MIN_PWM);
   LH_led.Emit('r');RH_led.Emit('r');
 }
 
