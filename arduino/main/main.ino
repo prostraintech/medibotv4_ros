@@ -105,39 +105,15 @@ void loop(){
         TILT_motor.Rotate(0);//stop tilt
       }
     }
-
-    //REMOTE MODE
-    if(digitalRead(SW_MODE)){
-      // To make sure the robot move differentially, else stop
-      //if((demandx==0 && demandz>0)||(demandx==0 && demandz<0)||(demandx>0 && demandz==0)||(demandx<0 && demandz==0))
-      if((demandx==0 && demandz!=0) || (demandz==0 && demandx!=0)){
-        // Convert Linear X and Angular Z Velocity to PWM
-        // Calculate left and right wheel velocity
-        double  left_vel = demandx - demandz*(WHEEL_SEPARATION/2);
-        double right_vel = demandx + demandz*(WHEEL_SEPARATION/2);
-        // Determine left and right sign to indicate direction
-        int lsign = (left_vel>0)?1:((left_vel<0)?-1:0);
-        int rsign = (right_vel>0)?1:((right_vel<0)?-1:0);
-        // Map wheel velocity to PWM
-        double  left_pwm = mapFloat(fabs(left_vel), 0, MAX_SPEED, MIN_PWM, MAX_PWM);
-        double right_pwm = mapFloat(fabs(right_vel), 0, MAX_SPEED, MIN_PWM, MAX_PWM);
-        // Actuate the motors
-        Move(lsign*left_pwm, rsign*right_pwm);
-      }
-      else{
-        Move(ZERO_PWM, ZERO_PWM);
-      }
-      //Stop the robot if there are no cmd_vel messages
-      if(millis() - lastCmdVelReceived > CMD_VEL_TIMEOUT){
-        demandx = 0;
-        demandz = 0;
-        Move(ZERO_PWM, ZERO_PWM);
-        PAN_motor.Rotate(0);//stop pan
-        TILT_motor.Rotate(0);//stop tilt
-      }
-    }
   }
-
+  //Stop the robot if there are no cmd_vel messages
+  if(millis() - lastCmdVelReceived > CMD_VEL_TIMEOUT){
+    demandx = 0;
+    demandz = 0;
+    Move(ZERO_PWM, ZERO_PWM);
+    PAN_motor.Rotate(0);//stop pan
+    TILT_motor.Rotate(0);//stop tilt
+  }
   //Publishing data to ROS
   sensor_state_msg.ir1 = analogRead(IR1);
   sensor_state_msg.ir2 = analogRead(IR2);
@@ -216,4 +192,30 @@ void cmd_vel_callback( const geometry_msgs::Twist& twist){
   demandx = twist.linear.x;
   demandz = twist.angular.z;
   lastCmdVelReceived = millis();
+  //REMOTE MODE
+  if(digitalRead(SW_MODE)){
+    // To make sure the robot move differentially, else stop
+    //if((demandx==0 && demandz>0)||(demandx==0 && demandz<0)||(demandx>0 && demandz==0)||(demandx<0 && demandz==0))
+    // if((demandx==0 && demandz!=0) || (demandz==0 && demandx!=0)){
+
+    // Convert Linear X and Angular Z Velocity to PWM
+    // Calculate left and right wheel velocity
+    double  left_vel = demandx - demandz*(WHEEL_SEPARATION/2);
+    double right_vel = demandx + demandz*(WHEEL_SEPARATION/2);
+    // Determine left and right sign to indicate direction
+    int lsign = (left_vel>0)?1:((left_vel<0)?-1:0);
+    int rsign = (right_vel>0)?1:((right_vel<0)?-1:0);
+    // Map wheel velocity to PWM
+    double  left_pwm = mapFloat(fabs(left_vel), 0, MAX_SPEED, MIN_PWM, MAX_PWM);
+    double right_pwm = mapFloat(fabs(right_vel), 0, MAX_SPEED, MIN_PWM, MAX_PWM);
+    int left_pwm_int = round(left_pwm);
+    int right_pwm_int = round(right_pwm);
+    // Actuate the motors
+    Move(lsign*left_pwm_int, rsign*right_pwm_int);
+    
+    // }
+    // else{
+    //   Move(ZERO_PWM, ZERO_PWM);
+    // }
+  }
 }
