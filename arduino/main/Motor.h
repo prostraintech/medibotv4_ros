@@ -1,3 +1,4 @@
+#include "LED.h"
 
 class Motor{
   public:
@@ -9,6 +10,9 @@ class Motor{
     int getEncoderB();
     long doEncoderA();
     long doEncoderB();
+    static void makeKinematics(Motor LH_motor, Motor RH_motor, LED LH_led, LED RH_led);
+    static void Move(int lpwm, int rpwm);
+    static int isRosConnected;
   private:
     //motor pins  
     int D1;//pwm value
@@ -22,6 +26,12 @@ class Motor{
     void initEncoderPins();
     volatile long encoder_Pos = 0;
     bool drive; //true=driving , false=pantilt
+    static struct kinematics{
+      Motor LH_motor;
+      Motor RH_motor;
+      LED LH_led;
+      LED RH_led;
+    }
 };
 
 Motor::Motor(int D1, int D2, int ENA){
@@ -116,4 +126,40 @@ int Motor::getEncoderA(){
 
 int Motor::getEncoderB(){
   return this->ENB;
+}
+
+static void Motor::makeKinematics(Motor LH_motor, Motor RH_motor, LED LH_led, LED RH_led){
+  this->kinematics.LH_motor = LH_motor;
+  this->kinematics.RH_motor = RH_motor;
+  this->kinematics.LH_led = LH_led;
+  this->kinematics.RH_led = RH_led;
+}
+
+static void Motor::Move(int lpwm, int rpwm){
+  //add "-" sign to invert direction if needed
+  this->kinematics.LH_motor.Rotate(-lpwm);
+  this->kinematics.RH_motor.Rotate(rpwm);
+  //move -> blue
+  char mv_clr = 'b'; 
+  //stop -> white if ros connected, else (yellow if ros not connected else red/estop)
+  char stp_clr = this->isRosConnected>0? 'w':(this->isRosConnected==0?'y':'r');
+
+  if(lpwm==0 && rpwm==0){
+    this->kinematics.LH_led.Emit(stp_clr);
+    this->kinematics.RH_led.Emit(stp_clr);
+  }
+  else{
+    if(lpwm<rpwm){
+      this->kinematics.LH_led.Emit(mv_clr);
+      this->kinematics.RH_led.Emit(stp_clr);
+    }
+    else if(lpwm>rpwm){
+      this->kinematics.LH_led.Emit(stp_clr);
+      this->kinematics.RH_led.Emit(mv_clr);
+    }
+    else{
+      this->kinematics.LH_led.Emit(mv_clr);
+      this->kinematics.RH_led.Emit(mv_clr);
+    }
+  }
 }
