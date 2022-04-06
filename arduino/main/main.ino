@@ -105,15 +105,18 @@ void loop(){
         TILT_motor.Rotate(0);//stop tilt
       }
     }
+    else{
+      //Stop the robot if there are no cmd_vel messages
+      if(millis() - lastCmdVelReceived > CMD_VEL_TIMEOUT){
+        demandx = 0;
+        demandz = 0;
+        Move(ZERO_PWM, ZERO_PWM);
+        PAN_motor.Rotate(0);//stop pan
+        TILT_motor.Rotate(0);//stop tilt
+      }
+    }
   }
-  //Stop the robot if there are no cmd_vel messages
-  if(millis() - lastCmdVelReceived > CMD_VEL_TIMEOUT){
-    demandx = 0;
-    demandz = 0;
-    Move(ZERO_PWM, ZERO_PWM);
-    PAN_motor.Rotate(0);//stop pan
-    TILT_motor.Rotate(0);//stop tilt
-  }
+
   //Publishing data to ROS
   sensor_state_msg.ir1 = analogRead(IR1);
   sensor_state_msg.ir2 = analogRead(IR2);
