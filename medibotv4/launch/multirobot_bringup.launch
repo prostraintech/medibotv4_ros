@@ -1,0 +1,6 @@
+<launch>
+
+  <include file="$(find medibotv4)/launch/robot1_bringup.launch"/>
+  <include file="$(find medibotv4)/launch/robot2_bringup.launch"/>
+  
+</launch>
