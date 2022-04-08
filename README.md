@@ -1,6 +1,5 @@
 # medibotv4_ros
 
-
 TODO LIST:
 - [ ] Twist multiplexer
 - [ ] Closed-loop motor control
