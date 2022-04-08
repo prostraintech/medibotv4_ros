@@ -1,4 +1,4 @@
-
+#pragma once
 class LED{
 public:
   LED(int, int, int);//driving motor 
