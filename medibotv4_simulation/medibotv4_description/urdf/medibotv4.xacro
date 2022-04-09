@@ -81,7 +81,7 @@
     <geometry>
       <mesh filename="package://medibotv4_description/meshes/left_wheel.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-    <material name="silver"/>
+    <material name="black"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="0.0175 -0.279 -0.16"/>
@@ -102,7 +102,7 @@
     <geometry>
       <mesh filename="package://medibotv4_description/meshes/right_wheel.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-    <material name="silver"/>
+    <material name="black"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="0.0175 0.279 -0.16"/>
@@ -123,7 +123,9 @@
     <geometry>
       <mesh filename="package://medibotv4_description/meshes/bottom_panel.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-    <material name="silver"/>
+    <material name="white">
+      <color rgba="1.0 1.0 1.0 1.0"/>
+    </material>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="-0.0 0.195 -0.06"/>
@@ -144,7 +146,9 @@
     <geometry>
       <mesh filename="package://medibotv4_description/meshes/circuit_panel.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-    <material name="silver"/>
+    <material name="white">
+      <color rgba="1.0 1.0 1.0 1.0"/>
+    </material>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="0.2 -0.0 -0.35"/>
@@ -165,7 +169,9 @@
     <geometry>
       <mesh filename="package://medibotv4_description/meshes/circuit_housing.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-    <material name="silver"/>
+    <material name="white">
+      <color rgba="1.0 1.0 1.0 1.0"/>
+    </material>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="0.2 -0.0 -0.355"/>
@@ -207,7 +213,9 @@
     <geometry>
       <mesh filename="package://medibotv4_description/meshes/body.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-    <material name="silver"/>
+    <material name="white">
+      <color rgba="1.0 1.0 1.0 1.0"/>
+    </material>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="0.2 -0.0 -0.03"/>
@@ -228,7 +236,7 @@
     <geometry>
       <mesh filename="package://medibotv4_description/meshes/lidar.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-    <material name="silver"/>
+    <material name="black"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="-0.326625 -0.0 -0.225"/>
@@ -249,7 +257,9 @@
     <geometry>
       <mesh filename="package://medibotv4_description/meshes/top_panel.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-    <material name="silver"/>
+    <material name="white">
+      <color rgba="1.0 1.0 1.0 1.0"/>
+    </material>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="-0.366625 0.0 -0.47"/>
@@ -270,7 +280,9 @@
     <geometry>
       <mesh filename="package://medibotv4_description/meshes/realsense_housing.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-    <material name="silver"/>
+    <material name="white">
+      <color rgba="1.0 1.0 1.0 1.0"/>
+    </material>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="-0.171141 -0.0 -0.52"/>
@@ -291,7 +303,7 @@
     <geometry>
       <mesh filename="package://medibotv4_description/meshes/left_realsense.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-    <material name="silver"/>
+    <material name="black"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="-0.147314 -0.059696 -0.56"/>
@@ -312,7 +324,7 @@
     <geometry>
       <mesh filename="package://medibotv4_description/meshes/right_realsense.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-    <material name="silver"/>
+    <material name="black"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="-0.147314 0.059696 -0.56"/>
@@ -333,7 +345,9 @@
     <geometry>
       <mesh filename="package://medibotv4_description/meshes/sonar.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-    <material name="silver"/>
+    <material name="white">
+      <color rgba="1.0 1.0 1.0 1.0"/>
+    </material>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="-0.08 -0.0 -0.69"/>
@@ -354,7 +368,9 @@
     <geometry>
       <mesh filename="package://medibotv4_description/meshes/pan_servo.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-    <material name="silver"/>
+    <material name="white">
+      <color rgba="1.0 1.0 1.0 1.0"/>
+    </material>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="-0.05 -0.0 -1.06"/>
@@ -396,7 +412,9 @@
     <geometry>
       <mesh filename="package://medibotv4_description/meshes/tilt_servo.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-    <material name="silver"/>
+    <material name="white">
+      <color rgba="1.0 1.0 1.0 1.0"/>
+    </material>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="-0.05 -0.051 -1.27"/>
@@ -417,7 +435,9 @@
     <geometry>
       <mesh filename="package://medibotv4_description/meshes/mount.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-    <material name="silver"/>
+    <material name="white">
+      <color rgba="1.0 1.0 1.0 1.0"/>
+    </material>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="-0.075 -0.035 -1.2175"/>
@@ -438,7 +458,7 @@
     <geometry>
       <mesh filename="package://medibotv4_description/meshes/monitor.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-    <material name="silver"/>
+    <material name="black"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="-0.1475 0.0 -1.217519"/>
@@ -459,7 +479,9 @@
     <geometry>
       <mesh filename="package://medibotv4_description/meshes/camera_housing.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-    <material name="silver"/>
+    <material name="white">
+      <color rgba="1.0 1.0 1.0 1.0"/>
+    </material>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="-0.192857 -0.0 -1.561149"/>
@@ -480,7 +502,7 @@
     <geometry>
       <mesh filename="package://medibotv4_description/meshes/camera.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-    <material name="silver"/>
+    <material name="black"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="-0.217785 -8e-06 -1.549013"/>
@@ -501,7 +523,7 @@
     <geometry>
       <mesh filename="package://medibotv4_description/meshes/caster.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-    <material name="silver"/>
+    <material name="black"/>
   </visual>
   <collision>
     <origin rpy="0 0 0" xyz="-0.2885 -0.0 -0.03"/>
