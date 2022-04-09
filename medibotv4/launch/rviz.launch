@@ -1,0 +1,2 @@
+  <arg name="rvizconfig" default="$(find medibotv4)/rviz/default.rviz" />
+  <node name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(arg rvizconfig)" />
