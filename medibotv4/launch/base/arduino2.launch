@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<launch>
+  <node pkg="rosserial_server" type="serial_node" name="rosserial_server">
+    <rosparam>
+      port: /dev/ttyACM0
+      baud: 115200
+    </rosparam>
+  </node>
+  <node pkg="rosserial_python" type="message_info_service.py"
+        name="rosserial_message_info" />
+</launch>

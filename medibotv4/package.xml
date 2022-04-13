@@ -22,4 +22,5 @@
   <depend>gmapping</depend>
   <depend>joy</depend>
   <depend>teleop_twist_joy</depend>
+  <depend>laser_scan_matcher</depend>
 </package>

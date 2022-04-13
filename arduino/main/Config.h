@@ -62,6 +62,6 @@
 #define MIN_PWM 0
 #define MAX_PWM 229
 #define MOTOR_SPEED 75 //180
-#define DIFF_MOTOR_SPEED 55 //200
+#define DIFF_MOTOR_SPEED 65 //200
 //#define MIN_PWM 45 // 210 MIN SPEED TO MOVE THE ROBOT
 //#define MAX_PWM 75 // 180
