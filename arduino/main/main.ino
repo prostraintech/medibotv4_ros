@@ -1,5 +1,4 @@
 //----------------------------------------------------------------------------------//
-#define _SAM3XA_
 #define USE_USBCON
 #include <ros.h>
 #include <std_msgs/Int16.h>
@@ -57,7 +56,7 @@ void setup(){
   attachInterrupt(digitalPinToInterrupt(RH_ENA), RH_ISRA, CHANGE);
   attachInterrupt(digitalPinToInterrupt(RH_ENB), RH_ISRB, CHANGE);
   attachInterrupt(digitalPinToInterrupt(ESTOP), EMG_STOP, HIGH);
-  nh.getHardware()->setBaud(115200);
+  nh.getHardware()->setBaud(57600);
   nh.initNode();
   nh.subscribe(cmd_vel_sub);
   nh.advertise(lwheel_pub);
@@ -155,6 +154,7 @@ void loop(){
   // sensor_state_msg.cs_lft = digitalRead(CS_LFT);
   // sensor_state_msg.cs_rgt = digitalRead(CS_RGT);
   //sensor_state_pub.publish(&sensor_state_msg);
+  delay(10);
 }
 
 ////////////FUNCTION DEFINITIONS////////////////
