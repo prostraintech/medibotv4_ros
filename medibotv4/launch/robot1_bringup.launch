@@ -9,6 +9,8 @@
 
         <include file="$(find medibotv4)/launch/base/lidar.launch"/>
 
+        <include file="$(find medibotv4)/launch/base/robot_model.launch" />
+
     </group>
     
 </launch>
