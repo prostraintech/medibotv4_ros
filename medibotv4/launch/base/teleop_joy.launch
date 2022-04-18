@@ -14,6 +14,7 @@
 
   <node pkg="teleop_twist_joy" name="teleop_twist_joy" type="teleop_node">
     <rosparam command="load" file="$(arg config_filepath)" />
+    <remap from="cmd_vel" to ="joy_vel"/>
   </node>
 
 </launch>

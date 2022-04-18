@@ -11,6 +11,8 @@
 
 <!-- <include file="$(find medibotv4)/launch/base/scan_matcher.launch" /> -->
 
+<!-- <include file="$(find medibotv4)/launch/base/twist_mux.launch" /> -->
+
 <!-- <include file="$(find medibotv4)/launch/mapping/gmapping.launch" /> -->
 
 <!-- <include file="$(find medibotv4)/launch/navigation/exploration.launch" /> -->

@@ -3,7 +3,7 @@ float32 ir1
 float32 ir2
 float32 ir3
 float32 sonar
-float32 cliff
+float32 csens
 bool laser1
 bool laser2
 bool laser3

@@ -23,8 +23,8 @@ namespace medibotv4
       _ir3_type ir3;
       typedef float _sonar_type;
       _sonar_type sonar;
-      typedef float _cliff_type;
-      _cliff_type cliff;
+      typedef float _csens_type;
+      _csens_type csens;
       typedef bool _laser1_type;
       _laser1_type laser1;
       typedef bool _laser2_type;
@@ -54,7 +54,7 @@ namespace medibotv4
       ir2(0),
       ir3(0),
       sonar(0),
-      cliff(0),
+      csens(0),
       laser1(0),
       laser2(0),
       laser3(0),
@@ -116,13 +116,13 @@ namespace medibotv4
       union {
         float real;
         uint32_t base;
-      } u_cliff;
-      u_cliff.real = this->cliff;
-      *(outbuffer + offset + 0) = (u_cliff.base >> (8 * 0)) & 0xFF;
-      *(outbuffer + offset + 1) = (u_cliff.base >> (8 * 1)) & 0xFF;
-      *(outbuffer + offset + 2) = (u_cliff.base >> (8 * 2)) & 0xFF;
-      *(outbuffer + offset + 3) = (u_cliff.base >> (8 * 3)) & 0xFF;
-      offset += sizeof(this->cliff);
+      } u_csens;
+      u_csens.real = this->csens;
+      *(outbuffer + offset + 0) = (u_csens.base >> (8 * 0)) & 0xFF;
+      *(outbuffer + offset + 1) = (u_csens.base >> (8 * 1)) & 0xFF;
+      *(outbuffer + offset + 2) = (u_csens.base >> (8 * 2)) & 0xFF;
+      *(outbuffer + offset + 3) = (u_csens.base >> (8 * 3)) & 0xFF;
+      offset += sizeof(this->csens);
       union {
         bool real;
         uint8_t base;
@@ -254,14 +254,14 @@ namespace medibotv4
       union {
         float real;
         uint32_t base;
-      } u_cliff;
-      u_cliff.base = 0;
-      u_cliff.base |= ((uint32_t) (*(inbuffer + offset + 0))) << (8 * 0);
-      u_cliff.base |= ((uint32_t) (*(inbuffer + offset + 1))) << (8 * 1);
-      u_cliff.base |= ((uint32_t) (*(inbuffer + offset + 2))) << (8 * 2);
-      u_cliff.base |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3);
-      this->cliff = u_cliff.real;
-      offset += sizeof(this->cliff);
+      } u_csens;
+      u_csens.base = 0;
+      u_csens.base |= ((uint32_t) (*(inbuffer + offset + 0))) << (8 * 0);
+      u_csens.base |= ((uint32_t) (*(inbuffer + offset + 1))) << (8 * 1);
+      u_csens.base |= ((uint32_t) (*(inbuffer + offset + 2))) << (8 * 2);
+      u_csens.base |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3);
+      this->csens = u_csens.real;
+      offset += sizeof(this->csens);
       union {
         bool real;
         uint8_t base;

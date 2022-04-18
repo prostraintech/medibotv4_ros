@@ -141,7 +141,7 @@ void loop(){
   // sensor_state_msg.ir2 = analogRead(IR2);
   // sensor_state_msg.ir3 = analogRead(IR3);
   // sensor_state_msg.sonar = analogRead(SON1);
-  // sensor_state_msg.cliff = analogRead(CSENS);
+  // sensor_state_msg.csens = analogRead(CSENS);
   // sensor_state_msg.laser1 = digitalRead(LSR1);
   // sensor_state_msg.laser2 = digitalRead(LSR2);
   // sensor_state_msg.laser3 = digitalRead(LSR3);
