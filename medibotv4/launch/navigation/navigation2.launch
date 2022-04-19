@@ -13,12 +13,10 @@
   <!-- Map server -->
   <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)"/>
 
-  <!-- AMCL -->
-  <include file="$(find medibotv4)/launch/navigation/amcl.launch">
-    <arg name="initial_pose_x" value="$(arg x_pos)"/>
-    <arg name="initial_pose_y" value="$(arg y_pos)"/>
-    <arg name="initial_pose_a" value="$(arg z_pos)"/>
-  </include>
+  <!-- amcl -->
+  <node pkg="amcl" type="amcl" name="amcl" output="screen">
+      <rosparam file="$(find medibotv4)/config/amcl.yaml" command="load"/>
+  </node>
 
   <!-- move_base -->
   <include file="$(find medibotv4)/launch/navigation/move_base2.launch" />
