@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+
+<launch>
+
+  <!-- Arguments -->
+  <arg name="cmd_vel_topic" default="/cmd_vel" />
+  <arg name="odom_topic" default="odom" />
+  <arg name="move_forward_only" default="false"/>
+
+
+<!-- Move Base - Navigation -->
+  <node pkg="move_base" type="move_base" name="move_base" output="screen">
+    <rosparam file="$(find medibotv4)/config/test/costmap_common_params.yaml" command="load" ns="global_costmap"/>
+    <rosparam file="$(find medibotv4)/config/test/costmap_common_params.yaml" command="load" ns="local_costmap"/>
+    <rosparam file="$(find medibotv4)/config/test/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find medibotv4)/config/test/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find medibotv4)/config/test/global_planner_params.yaml" command="load" />
+    <rosparam file="$(find medibotv4)/config/test/move_base_params.yaml" command="load" />
+
+    <!-- GLOBAL PLANNERS -->
+    <!--param name="base_global_planner" value="navfn/NavfnROS" /-->
+    <param name="base_global_planner" value="global_planner/GlobalPlanner"/>
+    
+    <!-- LOCAL PLANNERS -->
+    <rosparam file="$(find medibotv4)/config/test/dwa_local_planner.yaml" command="load"/>
+    <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"/>
+
+    <!--rosparam file="$(find bringup)/config/trajectory_planner.yaml" command="load"/>
+    <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/-->
+
+    <!--rosparam file="$(find bringup)/config/teb_local_planner.yaml" command="load"/-->
+    <!--param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS"/-->
+
+    <remap from="/cmd_vel" to="/cmd_vel"/>
+  </node>
+
+
+</launch>

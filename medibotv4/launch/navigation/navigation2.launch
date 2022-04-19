@@ -21,9 +21,7 @@
   </include>
 
   <!-- move_base -->
-  <include file="$(find medibotv4)/launch/navigation/move_base.launch">
-    <arg name="move_forward_only" value="$(arg move_forward_only)"/>
-  </include>
+  <include file="$(find medibotv4)/launch/navigation/move_base2.launch" />
 
     <!-- rviz -->
   <group if="$(arg open_rviz)"> 
