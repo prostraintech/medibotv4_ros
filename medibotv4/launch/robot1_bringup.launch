@@ -9,7 +9,10 @@
 
         <include file="$(find medibotv4)/launch/base/lidar.launch"/>
 
-        <include file="$(find medibotv4)/launch/base/robot_model.launch" />
+        <include file="$(find medibotv4)/launch/base/multirobot_model.launch">
+            <arg name="_robot_name"  value="robot1" />
+            <arg name="_tf_robot" value="$(arg _robot_name)_tf" /> 
+        </include>
 
     </group>
     

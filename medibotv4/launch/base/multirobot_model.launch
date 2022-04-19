@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<launch>
+
+  <arg name="robot_name"/>  
+  <arg name="tf_robot"/>
+  <arg name="model" default="$(find medibotv4_description)/urdf/medibotv4.xacro" />
+  <arg name="gui" default="false" />
+
+  <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
+  <param name="use_gui" value="$(arg gui)"/>
+
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
+    <param name="publish_frequency" type="double" value="50.0" />
+    <param name="tf_prefix" type="string" value="$(arg _tf_robot)"/>
+  </node>
+
+  <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher" output="screen">
+    <param name="publish_frequency" type="double" value="50.0" />
+    <param name="tf_prefix" type="string" value="$(arg _tf_robot)"/>
+  </node>
+
+</launch>
