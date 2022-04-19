@@ -9,6 +9,7 @@
   <arg name="z_pos" default="0.0"/>
   <arg name="open_rviz" default="false"/>
   <arg name="move_forward_only" default="true"/>
+  <arg name="cmd_vel_topic" default="/nav_vel"/>
 
   <!-- Map server -->
   <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)"/>
@@ -23,6 +24,7 @@
   <!-- move_base -->
   <include file="$(find medibotv4)/launch/navigation/move_base.launch">
     <arg name="move_forward_only" value="$(arg move_forward_only)"/>
+    <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)"/>
   </include>
 
     <!-- rviz -->
