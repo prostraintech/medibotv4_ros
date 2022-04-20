@@ -8,6 +8,7 @@
   <arg name="y_pos" default="0.0"/>
   <arg name="z_pos" default="0.0"/>
   <arg name="open_rviz" default="false"/>
+  <arg name="rvizconfig" default="navigation/medibotv4_navigation"/>
   <arg name="move_forward_only" default="true"/>
   <arg name="cmd_vel_topic" default="/nav_vel"/>
 
@@ -29,8 +30,9 @@
 
     <!-- rviz -->
   <group if="$(arg open_rviz)"> 
-    <node pkg="rviz" type="rviz" name="rviz" required="true"
-          args="-d $(find medibotv4)/rviz/default.rviz"/>
+    <include file="$(find medibotv4)/launch/rviz.launch">
+      <arg name="rvizconfig" value="$(arg rvizconfig)"/>
+    </include>
   </group>
 
 </launch>

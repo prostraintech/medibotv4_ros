@@ -20,8 +20,11 @@
   <depend>urg_node</depend>
   <depend>navigation</depend>
   <depend>gmapping</depend>
+  <depend>teb_local_planner</depend>
   <depend>joy</depend>
   <depend>teleop_twist_joy</depend>
   <depend>twist_mux</depend>
   <depend>laser_scan_matcher</depend>
+
+
 </package>
