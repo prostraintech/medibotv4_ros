@@ -6,7 +6,7 @@ footprint_padding: 0.075
 #robot_radius: 0.105
 
 inflation_radius: 0.1
-cost_scaling_factor: 4.5
+cost_scaling_factor: 10.0
 
 map_type: costmap
 observation_sources: scan

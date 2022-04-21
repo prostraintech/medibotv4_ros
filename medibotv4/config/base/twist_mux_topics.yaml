@@ -16,7 +16,7 @@ topics:
   topic   : joy_vel
   timeout : 0.5
   priority: 100
-  -
+-
   name    : keyboard
   topic   : key_vel
   timeout : 0.5
