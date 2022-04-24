@@ -1,5 +1,6 @@
 <?xml version="1.0" ?>
-<launch>
+
+<!-- <launch>
     <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
       <remap from="scan" to ="/scan"/>
       <param name="base_frame" value="base_link"/>
@@ -36,6 +37,13 @@
       <param name="lasamplestep" value="0.005"/>
       <param name="transform_publish_period" value="0.05"/>
       <param name="occ_thresh" value="0.25"/>
-      <!-- <param name="maxRange " value=""/> -->
+    </node>
+</launch> -->
+
+<launch>
+    <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+      <rosparam file="$(find medibotv4)/config/mapping/gmapping.yaml" command="load" />
     </node>
 </launch>
+
+
