@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 
 import rospy
-from kasimx_localization.srv import SaveSpotServiceMessage, SaveSpotServiceMessageResponse
+from medibotv4.srv import SaveSpotService, SaveSpotServiceResponse
 from geometry_msgs.msg import Pose
 from geometry_msgs.msg import PoseWithCovarianceStamped
 from actionlib_msgs.msg import GoalStatus
@@ -18,7 +18,7 @@ class SendCoordinates(object):
         client = actionlib.SimpleActionClient('/move_base', MoveBaseAction)
         rate = rospy.Rate(1)
 
-        goal=MoveBaseGoal()
+        goal = MoveBaseGoal()
         goal_tmp = Pose()
         
         self._ctrl_c = False
@@ -46,7 +46,7 @@ class SendCoordinates(object):
                 
             #print result
             if result==3:
-                print('successfuly reached point')
+                print('GOAL REACHED SUCCESSFULLY!')
                 self.shutdownhook()
                 
             
