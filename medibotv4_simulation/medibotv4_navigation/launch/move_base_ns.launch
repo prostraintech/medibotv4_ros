@@ -6,16 +6,18 @@
   <arg name="move_forward_only" default="false"/>
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-    <param name="base_global_planner" value="GA_planner/GAPlanner" />
+    <!-- <param name="base_global_planner" value="GA_planner/GAPlanner" /> -->
     <!-- <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" /> -->
+    <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
     <rosparam file="$(find medibotv4_navigation)/param/costmap_common_params.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find medibotv4_navigation)/param/costmap_common_params.yaml" command="load" ns="local_costmap" />
     <rosparam file="$(find medibotv4_navigation)/param/local_costmap_params.yaml"  command="load" />
     <rosparam file="$(find medibotv4_navigation)/param/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find medibotv4_navigation)/param/base_local_planner_params.yaml" command="load" />
+    <!-- <rosparam file="$(find medibotv4_navigation)/param/base_local_planner_params.yaml" command="load" /> -->
     <rosparam file="$(find medibotv4_navigation)/param/move_base_params.yaml" command="load" />
     <!-- <rosparam file="$(find medibotv4_navigation)/param/dwa_local_planner_params.yaml" command="load" /> -->
     <rosparam file="$(find medibotv4_navigation)/param/global_planner_params.yaml" command="load" />
+    <rosparam file="$(find medibotv4_navigation)/param/teb_local_planner_params.yaml" command="load" />
 
     <!-- Set tf_prefix for frames explicity, overwriting defaults -->
     <param name="global_costmap/scan/sensor_frame"                  value="$(arg robot_namespace)/lidar"/>
