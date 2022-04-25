@@ -95,7 +95,7 @@ def printPath(path):
                 first_time = False
             prev_x = x
             prev_y = y
-        subscriber.unregister()
+        #subscriber.unregister()
         print "Total Distance = "+str(total_distance)+" meters"
         print "Press Ctrl+C to exit."
 
