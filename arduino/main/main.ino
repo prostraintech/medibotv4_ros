@@ -1,5 +1,4 @@
 //----------------------------------------------------------------------------------//
-#define USE_USBCON
 #include <ros.h>
 #include <std_msgs/Int16.h>
 #include <geometry_msgs/Twist.h>
@@ -28,7 +27,7 @@ std_msgs::Int16 rwheel_msg;
 ros::NodeHandle nh;
 ros::Publisher lwheel_pub("lwheel_ticks", &lwheel_msg);
 ros::Publisher rwheel_pub("rwheel_ticks", &rwheel_msg);
-//ros::Publisher sensor_state_pub("sensor_state", &sensor_state_msg);
+// ros::Publisher sensor_state_pub("sensor_state", &sensor_state_msg);
 ros::Subscriber<geometry_msgs::Twist> cmd_vel_sub("cmd_vel", cmd_vel_callback);
 unsigned long currentMillis, previousMillis, lastCmdVelReceived = 0;
 float MAX_SPEED = (2*PI*WHEEL_RADIUS*MOTOR_RPM)/(60*GEAR_REDUCTION);//0.728485253 m/s
@@ -55,22 +54,19 @@ void setup(){
   attachInterrupt(digitalPinToInterrupt(LH_ENB), LH_ISRB, CHANGE);
   attachInterrupt(digitalPinToInterrupt(RH_ENA), RH_ISRA, CHANGE);
   attachInterrupt(digitalPinToInterrupt(RH_ENB), RH_ISRB, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(ESTOP), EMG_STOP, HIGH);
-  nh.getHardware()->setBaud(57600);
+  attachInterrupt(digitalPinToInterrupt(ESTOP), EMG_STOP, CHANGE);
+  nh.getHardware()->setBaud(115200);
   nh.initNode();
   nh.subscribe(cmd_vel_sub);
   nh.advertise(lwheel_pub);
   nh.advertise(rwheel_pub);
-  //nh.advertise(sensor_state_pub);
+  // nh.advertise(sensor_state_pub);
 }
 
 void loop(){
   nh.spinOnce();
   Robot.isRosConnected = nh.connected();
   currentMillis = millis();
-
-  if(currentMillis - previousMillis >= LOOPTIME){
-    previousMillis = currentMillis;
 
     //REMOTE MODE
     if(digitalRead(SW_MODE)){
@@ -79,12 +75,23 @@ void loop(){
       // Calculate left and right wheel velocity
       float  left_vel = demandx - demandz*(WHEEL_SEPARATION/2);
       float right_vel = demandx + demandz*(WHEEL_SEPARATION/2);
-      // Determine sign to indicate left and right  direction
-      int  left_sign = (left_vel >0)?1:((left_vel <0)?-1:0);
-      int right_sign = (right_vel>0)?1:((right_vel<0)?-1:0);
+
       // Map wheel velocity to PWM
       int  left_pwm = round(mapFloat(fabs(left_vel ), 0, MAX_SPEED, MIN_PWM, MAX_PWM));
       int right_pwm = round(mapFloat(fabs(right_vel), 0, MAX_SPEED, MIN_PWM, MAX_PWM));
+
+      // Try to achieve the minimum required PWM to move the robot (e.g. 0.05m/s might not move the robot)
+      // if(fabs(left_vel)>0 && left_pwm<40){
+      //  left_pwm = 40;
+      // }
+      // if(fabs(right_vel)>0 && right_pwm<40){
+      //  right_pwm = 40;
+      // }
+
+      // Determine sign to indicate left and right  direction
+      int  left_sign = (left_vel >0)?1:((left_vel <0)?-1:0);
+      int right_sign = (right_vel>0)?1:((right_vel<0)?-1:0);
+
       // Actuate the motors
       Robot.Move(left_sign*left_pwm, right_sign*right_pwm);
 
@@ -132,7 +139,6 @@ void loop(){
       }
 
     }
-  }
 
   //Publishing data to ROS
   lwheel_pub.publish(&lwheel_msg);
@@ -153,8 +159,8 @@ void loop(){
   // sensor_state_msg.cs_rvr = digitalRead(CS_RVR);
   // sensor_state_msg.cs_lft = digitalRead(CS_LFT);
   // sensor_state_msg.cs_rgt = digitalRead(CS_RGT);
-  //sensor_state_pub.publish(&sensor_state_msg);
-  delay(10);
+  // sensor_state_pub.publish(&sensor_state_msg);
+  delay(200); //5Hz
 }
 
 ////////////FUNCTION DEFINITIONS////////////////

@@ -1,7 +1,7 @@
 spot1:
 ----------
 header: 
-  seq: 1
+  seq: 0
   stamp: 
     secs: 0
     nsecs:         0
@@ -9,8 +9,8 @@ header:
 pose: 
   pose: 
     position: 
-      x: 2.0
-      y: 2.0
+      x: 0.0
+      y: 0.0
       z: 0.0
     orientation: 
       x: 0.0
@@ -22,7 +22,7 @@ pose:
 spot3:
 ----------
 header: 
-  seq: 1
+  seq: 0
   stamp: 
     secs: 0
     nsecs:         0
@@ -30,9 +30,9 @@ header:
 pose: 
   pose: 
     position: 
-      x: -2.0
+      x: 0.0
       y: 0.0
-      z: -20.0
+      z: 0.0
     orientation: 
       x: 0.0
       y: 0.0

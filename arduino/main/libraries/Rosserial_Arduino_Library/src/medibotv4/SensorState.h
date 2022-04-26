@@ -354,7 +354,7 @@ namespace medibotv4
     }
 
     const char * getType(){ return "medibotv4/SensorState"; };
-    const char * getMD5(){ return "101d30c4b7d15fe45d7341ba60967c2f"; };
+    const char * getMD5(){ return "f0b33d0c1e58747a5218d3bb4321602f"; };
 
   };
 

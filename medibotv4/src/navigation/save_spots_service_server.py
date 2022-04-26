@@ -38,7 +38,7 @@ class SaveSpots(object):
             response.message = "Saved Pose for spot3 spot"
             
         elif label == "end":
-            with open(self.rospack_path+'/maps/spots.txt', 'w') as file:
+            with open(self.rospack_path+'/spots/spots.txt', 'w') as file:
                 
                 for key, value in self.detection_dict.items():
                     if value:

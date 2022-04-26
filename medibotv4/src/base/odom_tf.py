@@ -23,8 +23,8 @@ class DiffTf:
         
         #### parameters #######
         self.rate = rospy.get_param('~rate',10.0)  # the rate at which to publish the transform
-        self.ticks_meter = float(rospy.get_param('ticks_meter', 97))  # The number of wheel encoder ticks per meter of travel
-        self.base_width = float(rospy.get_param('~base_width', 0.498)) # The wheel base width in meters
+        self.ticks_meter = float(rospy.get_param('ticks_meter', 89))  # The number of wheel encoder ticks per meter of travel
+        self.base_width = float(rospy.get_param('base_width', 0.498)) # The wheel base width in meters
         
         self.base_frame_id = rospy.get_param('~base_frame_id','base_link') # the name of the base frame of the robot
         self.odom_frame_id = rospy.get_param('~odom_frame_id', 'odom') # the name of the odometry reference frame
@@ -34,6 +34,8 @@ class DiffTf:
         self.encoder_low_wrap = rospy.get_param('wheel_low_wrap', (self.encoder_max - self.encoder_min) * 0.3 + self.encoder_min )
         self.encoder_high_wrap = rospy.get_param('wheel_high_wrap', (self.encoder_max - self.encoder_min) * 0.7 + self.encoder_min )
  
+        self.publish_tf = rospy.get_param('publish_tf', False);
+
         self.t_delta = rospy.Duration(1.0/self.rate)
         self.t_next = rospy.Time.now() + self.t_delta
         
@@ -57,7 +59,8 @@ class DiffTf:
         rospy.Subscriber("lwheel_ticks", Int16, self.lwheelCallback)
         rospy.Subscriber("rwheel_ticks", Int16, self.rwheelCallback)
         self.odomPub = rospy.Publisher("odom", Odometry, queue_size=10)
-        self.odomBroadcaster = TransformBroadcaster()
+        if(self.publish_tf):
+            self.odomBroadcaster = TransformBroadcaster()
         
     #############################################################################
     def spin(self):
@@ -112,13 +115,14 @@ class DiffTf:
             quaternion.y = 0.0
             quaternion.z = sin( self.th / 2 )
             quaternion.w = cos( self.th / 2 )
-            self.odomBroadcaster.sendTransform(
-                (self.x, self.y, 0),
-                (quaternion.x, quaternion.y, quaternion.z, quaternion.w),
-                rospy.Time.now(),
-                self.base_frame_id,
-                self.odom_frame_id
-                )
+            if(self.publish_tf):
+                self.odomBroadcaster.sendTransform(
+                    (self.x, self.y, 0),
+                    (quaternion.x, quaternion.y, quaternion.z, quaternion.w),
+                    rospy.Time.now(),
+                    self.base_frame_id,
+                    self.odom_frame_id
+                    )
             
             odom = Odometry()
             odom.header.stamp = now

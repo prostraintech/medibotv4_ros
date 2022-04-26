@@ -1,8 +1,9 @@
 <?xml version="1.0" ?>
 <launch>
   <node pkg="medibotv4" type="odom_tf.py" name="odom_tf">
-    <rosparam param="base_width">0.498</rosparam>
-    <rosparam param="ticks_meter">89</rosparam>
+    <param name="base_width" value = "0.498"/>
+    <param name="ticks_meter" value = "89"/>
+    <param name="publish_tf" value = "false"/>
   </node>
 </launch>
 
