@@ -2,7 +2,7 @@
 
 <launch>
 
-	<arg name="rvizconfig" default="default"/>
+	<arg name="rvizconfig" default="navigation/medibot_navigation"/>
 
 	<node name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(find medibotv4)/rviz/$(arg rvizconfig).rviz" />
 
