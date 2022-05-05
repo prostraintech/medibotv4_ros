@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<launch>
+
+	<include file="$(find medibotv4_description)/launch/gazebo.launch" />
+
+	<include file="$(find medibotv4_navigation)/launch/navigation.launch" />
+
+	<include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/>
+
+	<node pkg="tf2_web_republisher" type="tf2_web_republisher" name="tf2_web_republisher"/>
+
+	<node type="robot_pose_publisher" name="robot_pose_publisher" pkg="medibotv4"/>
+
+	<node type="spots_service_server.py" name="spots_service_server" pkg="medibotv4"/>
+
+</launch>

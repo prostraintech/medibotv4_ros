@@ -1,0 +1,5 @@
+name: NavigationProvider
+spec_version: 1
+spec_type: provider
+implements: medibotv4/NavigationInterface
+launch_file: navigation_capabilities.launch

@@ -1,8 +1,7 @@
 #! /usr/bin/env python
-
 import rospy
 import rospkg
-from medibotv4.srv import SaveSpotService, SaveSpotServiceResponse
+from medibotv4.srv import GetCoordinateService, GetCoordinateServiceResponse
 from geometry_msgs.msg import Pose
 from geometry_msgs.msg import PoseWithCovarianceStamped
 from send_coordinates_action_client import SendCoordinates
@@ -16,15 +15,15 @@ class GetCoordinates(object):
     def __init__(self, srv_name='/get_coordinates'):
         self.rospack_path = rospkg.RosPack().get_path('medibotv4')
         self._srv_name = srv_name
-        self._my_service = rospy.Service(self._srv_name, SaveSpotService , self.srv_callback)
+        self._my_service = rospy.Service(self._srv_name, GetCoordinateService , self.srv_callback)
 
     
     def srv_callback(self, request):
         
         label = request.label
-        response = SaveSpotServiceResponse()
+        response = GetCoordinateServiceResponse()
 
-        os.chdir(self.rospack_path+"/spots")
+        os.chdir(self.rospack_path+"/config/navigation")
         paramlist=rosparam.load_file("spots.yaml",default_namespace=None)
         
         for params,ns in paramlist: #ns,param

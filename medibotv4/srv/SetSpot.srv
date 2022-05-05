@@ -1,4 +1,5 @@
 # request
+string action
 string label
 ---
 #response

@@ -4,8 +4,9 @@ import rospy
 from medibotv4.srv import SaveSpotService, SaveSpotServiceResponse
 from geometry_msgs.msg import Pose
 from geometry_msgs.msg import PoseWithCovarianceStamped
-from actionlib_msgs.msg import GoalStatus
+from actionlib_msgs.msg import GoalStatus, GoalID
 from move_base_msgs.msg import MoveBaseActionGoal, MoveBaseAction, MoveBaseResult, MoveBaseGoal
+from std_srvs.srv import Trigger, TriggerResponse
 import actionlib
 import time
 import os
@@ -15,7 +16,9 @@ import rosparam
 class SendCoordinates(object):
     def __init__(self, label):
         
-        client = actionlib.SimpleActionClient('/move_base', MoveBaseAction)
+        self.client = actionlib.SimpleActionClient('/move_base', MoveBaseAction)
+        _ = rospy.Subscriber("/move_base/cancel", GoalID, self.cancel_client) 
+        _ = rospy.Service('/get_coordinates/reset', Trigger, self.reset) 
         rate = rospy.Rate(1)
 
         goal = MoveBaseGoal()
@@ -39,10 +42,10 @@ class SendCoordinates(object):
             goal.target_pose.pose=goal_tmp
             goal.target_pose.header.frame_id='map'
             
-            client.wait_for_server()
-            client.send_goal(goal, feedback_cb=self.callback)
-            client.wait_for_result()
-            result=client.get_state()
+            self.client.wait_for_server()
+            self.client.send_goal(goal, feedback_cb=self.feedback_cb)
+            self.client.wait_for_result()
+            result=self.client.get_state()
                 
             #print result
             if result==3:
@@ -51,13 +54,30 @@ class SendCoordinates(object):
                 
             
     def shutdownhook(self):
-            
         rospy.loginfo("shutdown time!")
         self._ctrl_c = True
         
-    def callback(self, data):
-        return 
+    # def done_cb(self, status, result):
+    #     pass
 
+    # def active_cb(self):
+    #     pass
+
+    def feedback_cb(self, feedback):
+        #To print current pose at each feedback:
+        #rospy.loginfo("Feedback for goal "+str(self.goal_cnt)+": "+str(feedback))
+        pass
+
+    def cancel_client(self, msg):
+        self.client.cancel_goal()
+        self.shutdownhook()
+
+    def reset(self, request):
+        response = TriggerResponse()
+        self.client.cancel_goal()
+        self.client.wait_for_result()
+        self.shutdownhook()
+        return response
 
 if __name__ == "__main__":
     rospy.init_node('send_coordinates_node', log_level=rospy.INFO) 

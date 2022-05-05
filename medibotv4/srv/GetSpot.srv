@@ -1,0 +1,6 @@
+# request
+---
+#response
+bool success
+string message
+string[] label

@@ -2,7 +2,7 @@
   <!-- Arguments -->
   <arg name="open_rviz" default="true"/>
   <arg name="move_forward_only" default="true"/>
-  <arg name="map_file" default="$(find medibotv4_navigation)/maps/empty_hospital.yaml"/>
+  <arg name="map_file" default="$(find medibotv4_navigation)/maps/empty_hospital_new.yaml"/>
 
   <!-- Map server -->
   <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)"/>
