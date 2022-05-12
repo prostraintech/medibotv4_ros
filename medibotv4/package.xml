@@ -26,6 +26,7 @@
   <depend>twist_mux</depend>
   <depend>laser_scan_matcher</depend>
   <depend>capabilities</depend>
+  <depend>rosbridge_server</depend>
   <depend>tf2_web_republisher</depend>
 
   <export>
