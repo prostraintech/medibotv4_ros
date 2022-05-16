@@ -14,7 +14,6 @@
     <param name="initial_pose_a"            value="$(arg initial_pose_a)"/>
     <param name="odom_frame_id"             value="$(arg robot_namespace)/odom"/>
     <param name="base_frame_id"             value="$(arg robot_namespace)/base_link"/>
-    <!-- <param name="base_frame_id"             value="$(arg robot_namespace)/base_footprint"/> -->
     <param name="use_map_topic"             value="true"/>
     
     <remap from="map"                       to="/map"/>
