@@ -3,6 +3,9 @@
     <arg name="use_map_topic"   default="false"/>
     <arg name="scan_topic"      default="scan"/> 
     <arg name="global_frame_id" default="/map"/>
+    <arg name="initial_pose_x" default="0.0"/>
+    <arg name="initial_pose_y" default="0.0"/>
+    <arg name="initial_pose_a" default="0.0"/>
   
     <node pkg="amcl" type="amcl" name="amcl">
       <param name="use_map_topic"             value="$(arg use_map_topic)"/>
@@ -46,7 +49,6 @@
       <param name="odom_alpha3"               value="0.8"/>
       <param name="odom_alpha4"               value="0.2"/>
       <param name="odom_frame_id"             value="odom"/>
-      <param name="base_frame_id"             value="$(arg base_frame)"/>
       <param name="tf_broadcast"              value="true"/>
 
       <param name="odom_frame_id"             value="$(arg robot_name)/odom"/> 
