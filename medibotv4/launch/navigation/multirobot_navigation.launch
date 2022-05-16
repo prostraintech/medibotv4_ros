@@ -19,6 +19,7 @@
 
     <!--- AMCL -->
     <include file="$(find medibotv4)/launch/navigation/multirobot_amcl.launch">
+      <arg name="robot_name" value="$(arg robot_name"/>
       <arg name="use_map_topic"             value="true"/>
       <arg name="global_frame_id" value="/map"/>
       <arg name="odom_frame_id"   value="$(arg tf_robot)/odom"/>
@@ -28,7 +29,6 @@
     <!--move_base-->
     <include file="$(find medibotv4)/launch/navigation/multirobot_move_base.launch">
       <arg name="robot_name" value="$(arg robot_name)"/>
-      <arg name="move_forward_only" value="$(arg move_forward_only)"/>
     </include>
  
   </group>
