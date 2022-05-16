@@ -5,15 +5,15 @@
 
         <include file="$(find medibotv4)/launch/base/arduino.launch"/>
 
-        <include file="$(find medibotv4)/launch/base/odom.launch"/>
+        <!-- <include file="$(find medibotv4)/launch/base/odom.launch"/> -->
 
         <include file="$(find medibotv4)/launch/base/multirobot_lidar.launch">
             <arg name="robot_ns" value="robot1"/>
         </include>
 
         <include file="$(find medibotv4)/launch/base/multirobot_model.launch">
-            <arg name="_robot_name"  value="robot1" />
-            <arg name="_tf_robot" value="$(arg _robot_name)_tf" /> 
+            <arg name="robot_ns"  value="robot1" />
+            <arg name="tf_robot" value="$(arg robot_ns)" /> 
         </include>
 
         <include file="$(find medibotv4)/launch/base/multirobot_scan_matcher.launch">

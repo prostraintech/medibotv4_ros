@@ -5,10 +5,7 @@
   <arg name="map_name" default="test_map"/>
   <arg name="map_file" default="$(find medibotv4)/maps/$(arg map_name).yaml"/>
   <arg name="open_rviz" default="true"/>
-  <arg name="model" default="$(find medibotv4_description)/urdf/medibotv4.xacro" />
-  <arg name="gui" default="false" />
-  <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
-  <param name="use_gui" value="$(arg gui)"/>
+  
 
   <!-- Run the map server -->
   <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" >
@@ -16,56 +13,26 @@
   </node>
 
   <group ns="robot1">
-    <arg name="_robot_name"  value="robot1" />
-    <arg name="_tf_robot" value="$(arg _robot_name)_tf" /> 
-    <param name="tf_prefix" type="string" value="$(arg _tf_robot)"/>
-
-    <!--robot_state_publisher, publishing state of robot to tf-->
-    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
-      <param name="publish_frequency" type="double" value="50.0" />
-      <!-- <param name="tf_prefix" value="$(arg first_robot)" /> -->
-    </node>
-
-    <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher" output="screen">
-      <param name="publish_frequency" type="double" value="50.0" />
-      <!-- <param name="tf_prefix" value="$(arg first_robot)" /> -->
-    </node>
+    <arg name="robot_name"  value="robot1" />
+    <arg name="tf_robot" value="$(arg robot_name)_tf" /> 
+    <param name="tf_prefix" type="string" value="$(arg tf_robot)"/>
     
     <include file="$(find medibotv4)/launch/navigation/multirobot_move_base.launch">
-     <arg name="robot_name" value="$(arg _robot_name)"/>
-     <arg name="tf_robot" value="$(arg _tf_robot)" /> 
+     <arg name="robot_name" value="$(arg robot_name)"/>
+     <arg name="tf_robot" value="$(arg tf_robot)" /> 
     </include>
-    
-    <node name="robot_pose_publisher" pkg="robot_pose_publisher" type="robot_pose_publisher" output="screen">      
-      <param name="base_frame" value="$(arg _tf_robot)/base_link"/> 
-    </node> 
  
   </group>
   
   <group ns="robot2">
-    <arg name="_robot_name"  value="robot2" />
-    <arg name="_tf_robot" value="$(arg _robot_name)_tf" /> 
-    <param name="tf_prefix" type="string" value="$(arg _tf_robot)"/>
-
-    <!--robot_state_publisher, publishing state of robot to tf-->
-    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
-      <param name="publish_frequency" type="double" value="50.0" />
-      <!-- <param name="tf_prefix" value="$(arg first_robot)" /> -->
-    </node>
-
-    <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher" output="screen">
-      <param name="publish_frequency" type="double" value="50.0" />
-      <!-- <param name="tf_prefix" value="$(arg first_robot)" /> -->
-    </node>
+    <arg name="robot_name"  value="robot2" />
+    <arg name="tf_robot" value="$(arg _robot_name)_tf" /> 
+    <param name="tf_prefix" type="string" value="$(arg tf_robot)"/>
     
     <include file="$(find medibotv4)/launch/navigation/multirobot_move_base.launch">
-     <arg name="robot_name" value="$(arg _robot_name)"/>
-     <arg name="tf_robot" value="$(arg _tf_robot)" /> 
+     <arg name="robot_name" value="$(arg robot_name)"/>
+     <arg name="tf_robot" value="$(arg tf_robot)" /> 
     </include>
-    
-     <node name="robot_pose_publisher" pkg="robot_pose_publisher" type="robot_pose_publisher" output="screen">      
-      <param name="base_frame" value="$(arg _tf_robot)/base_link"/> 
-    </node> 
     
   </group>
 
