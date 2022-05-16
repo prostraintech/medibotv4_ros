@@ -3,7 +3,7 @@
   <arg name="robot_ns"/>
   <node pkg="laser_scan_matcher" type="laser_scan_matcher_node" name="laser_scan_matcher_node" output="screen">
 
-    <param name="fixed_frame" value = "odom"/>
+    <param name="fixed_frame" value = "$(arg robot_ns)/odom"/>
     <param name="base_frame " value = "$(arg robot_ns)/base_link"/>
 
     <param name="use_imu " value = "false"/>
