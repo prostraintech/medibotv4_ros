@@ -1,17 +1,17 @@
 #robot_radius: 0.5
 footprint: [[-0.21, 0.31], [0.215, 0.31], [0.363, 0], [0.215, -0.31], [-0.21, -0.31]]
-footprint_padding: 0.0 #0.075
+footprint_padding: 0.01 #0.075
 
 transform_tolerance: 0.5
 map_type: costmap
 
-always_send_full_costmap: true
+always_send_full_costmap: false
 
 obstacle_layer:
  enabled: true
  obstacle_range: 5.0
- raytrace_range: 5.0
- inflation_radius: 0.2
+ raytrace_range: 5.5
+ inflation_radius: 0.1
  track_unknown_space: true
  combination_method: 1
 

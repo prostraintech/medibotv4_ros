@@ -13,19 +13,21 @@
 
 <include file="$(find medibotv4)/launch/base/twist_mux.launch" />
 
+<node type="spots_service_server.py" name="spots_service_server" pkg="medibotv4"/>
+
+<node type="robot_pose_publisher" name="robot_pose_publisher" pkg="medibotv4"/>
+
+<node pkg="tf2_web_republisher" type="tf2_web_republisher" name="tf2_web_republisher"/>
+
+<include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/>
+
+	
+
 <!-- <include file="$(find medibotv4)/launch/mapping/gmapping.launch" /> -->
 
 <!-- <include file="$(find medibotv4)/launch/navigation/exploration.launch" /> -->
 
 <!-- <include file="$(find medibotv4)/launch/navigation/navigation.launch" />  -->
-
-<!-- <node type="robot_pose_publisher" name="robot_pose_publisher" pkg="medibotv4"/> -->
-
-<!-- <include file="$(find medibotv4)/launch/base/usb_cam.launch" /> -->
-
-<!-- <include file="$(find medibotv4)/launch/base/ip_cam.launch" /> -->
-
-<!-- <include file="$(find medibotv4)/launch/base/webserver.launch" /> -->
 
 
 </launch>
