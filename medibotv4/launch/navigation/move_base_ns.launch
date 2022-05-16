@@ -29,7 +29,7 @@
       
       
   
-      <remap from="cmd_vel" to="$(arg cmd_vel_topic"/>
+      <remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>
       <!--<remap from="cmd_vel" to="cmd_vel_mux/input/safety_controller" />-->
       <remap from="odom" to="$(arg odom_topic)"/>
       <remap from="map" to="/map" />

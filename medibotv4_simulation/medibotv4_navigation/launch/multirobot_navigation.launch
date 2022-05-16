@@ -70,7 +70,7 @@
   </group> -->
   <group if="$(arg open_rviz)"> 
     <node pkg="rviz" type="rviz" name="rviz" required="true"
-          args="-d $(find medibotv4_navigation)/rviz/multirobot_navigation.rviz"/>
+          args="-d $(find medibotv4_navigation)/rviz/multirobot_navigation_simulation.rviz"/>
   </group>
 
 <!-- 

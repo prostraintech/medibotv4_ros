@@ -1,26 +1,33 @@
-<?xml version="1.0" ?>
-
 <launch>
-
-  <!-- Arguments -->
-  <arg name="robot_name"/>  
-  <arg name="tf_robot"/> 
-  <arg name="cmd_vel_topic" default="/cmd_vel" />
-  <arg name="odom_topic" default="odom" />
+  <!-- Launch file for move_base to run for one of multiple turtlebot3's -->
+  
+  <!-- Namespace and tf_prefix are assumed to be the same -->
+  <arg name="robot_name"/>
   <arg name="move_forward_only" default="false"/>
 
-  <!--- Run AMCL -->
-  <include file="$(find medibotv4)/launch/navigation/multirobot_amcl.launch">
-    <arg name="use_map_topic"             value="true"/>
-    <arg name="global_frame_id" value="/map"/>
-    <arg name="odom_frame_id"   value="$(arg tf_robot)/odom"/>
-    <arg name="base_frame_id"   value="$(arg tf_robot)/base_link"/>
-    
-  </include>
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <rosparam file="$(find medibotv4)/config/navigation/costmap_common_params.yaml" command="load" ns="global_costmap"/>
+    <rosparam file="$(find medibotv4)/config/navigation/costmap_common_params.yaml" command="load" ns="local_costmap"/>
+    <rosparam file="$(find medibotv4)/config/navigation/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find medibotv4)/config/navigation/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find medibotv4)/config/navigation/move_base_params.yaml" command="load" />
+    <rosparam file="$(find medibotv4)/config/navigation/base_local_planner_params.yaml" command="load" />
+    <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
 
-  <include file="$(find medibotv4)/launch/navigation/move_base_ns.launch">
-    
-  </include>
+    <!-- Set tf_prefix for frames explicity, overwriting defaults -->
+    <param name="global_costmap/scan/sensor_frame"                  value="$(arg robot_name)/lidar"/>
+    <param name="global_costmap/obstacle_layer/scan/sensor_frame"   value="$(arg robot_name)/lidar"/>
+    <param name="global_costmap/global_frame"                       value="map"/>
+    <param name="global_costmap/robot_base_frame"                   value="$(arg robot_name)/base_link"/>
+    <!-- <param name="global_costmap/robot_base_frame"                   value="$(arg robot_namespace)/base_footprint"/> -->
+    <param name="local_costmap/scan/sensor_frame"                   value="$(arg robot_name)/lidar"/>
+    <param name="local_costmap/obstacle_layer/scan/sensor_frame"    value="$(arg robot_name)/lidar"/>
+    <param name="local_costmap/global_frame"                        value="$(arg robot_name)/odom"/>
+    <param name="local_costmap/robot_base_frame"                    value="$(arg robot_name)/base_link"/>
+    <!-- <param name="local_costmap/robot_base_frame"                    value="$(arg robot_namespace)/base_footprint"/> -->
 
+    <!-- Centralized map server -->
+    <remap from="map" to="/map"/>
+  </node>
   
 </launch>

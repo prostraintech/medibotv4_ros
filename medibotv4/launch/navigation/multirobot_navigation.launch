@@ -16,17 +16,26 @@
     <arg name="robot_name"  value="robot1" />
     <arg name="tf_robot" value="$(arg robot_name)_tf" /> 
     <param name="tf_prefix" type="string" value="$(arg tf_robot)"/>
-    
+
+    <!--- AMCL -->
+    <include file="$(find medibotv4)/launch/navigation/multirobot_amcl.launch">
+      <arg name="use_map_topic"             value="true"/>
+      <arg name="global_frame_id" value="/map"/>
+      <arg name="odom_frame_id"   value="$(arg tf_robot)/odom"/>
+      <arg name="base_frame_id"   value="$(arg tf_robot)/base_link"/>
+    </include>
+
+    <!--move_base-->
     <include file="$(find medibotv4)/launch/navigation/multirobot_move_base.launch">
-     <arg name="robot_name" value="$(arg robot_name)"/>
-     <arg name="tf_robot" value="$(arg tf_robot)" /> 
+      <arg name="robot_name" value="$(arg robot_name)"/>
+      <arg name="move_forward_only" value="$(arg move_forward_only)"/>
     </include>
  
   </group>
   
-  <group ns="robot2">
+  <!-- <group ns="robot2">
     <arg name="robot_name"  value="robot2" />
-    <arg name="tf_robot" value="$(arg _robot_name)_tf" /> 
+    <arg name="tf_robot" value="$(arg robot_name)_tf" /> 
     <param name="tf_prefix" type="string" value="$(arg tf_robot)"/>
     
     <include file="$(find medibotv4)/launch/navigation/multirobot_move_base.launch">
@@ -34,7 +43,7 @@
      <arg name="tf_robot" value="$(arg tf_robot)" /> 
     </include>
     
-  </group>
+  </group> -->
 
   <!-- rviz -->
   <group if="$(arg open_rviz)"> 
