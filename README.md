@@ -14,9 +14,9 @@ IIUM Medibot V4 ROS packages and firmware code.
 ## Installation:
 Clone the repository
 - ```cd ~/catkin_ws/src```
-- ```git clone https://github.com/zulhafiz-zulkifli/medibotv4_ros.git```
+- ```git clone https://github.com/zulhafiz-zulkifli/medibotv4_ros.git``` \
 Install all packages dependencies
-- ```rosdep install medibotv4 -y```
+- ```rosdep install medibotv4 -y``` \
 Build the packages
 - ```cd ~/catkin_ws```
 - ```catkin_make```

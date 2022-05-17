@@ -1,0 +1,20 @@
+Consider minimum pwm to move the robot in arduino/main.ino
+
+DWA planner failed to produce path, due to local costmap global frame set to odom?
+
+Control loop missed its desired rate, due to high computational cost:
+- decrease controller frequency in move_base config
+- try Jetson MAXN mode
+- try run '$ jetson clocks' to use maximum clock speed
+- set 'enable_homotopy_class_planning' to false in TEB config (requires more resources since multiple traj are optimized at once)
+
+TEB planner couldn't find feasible trajectory:
+- could caused by low 'global_plan_viapoint_sep', it might pull the robot into obstacles since it tries to stick to global plan. Try high value like 1.0 or completely disable it (-0.1).
+- decrease 'feasibility_check_no_poses' to 3 or less (not a proper fix)
+
+Obstacles are not cleared completely in costmap:
+- increase raytrace range
+- setup costmap layer properly
+- try set 'always_send_full_costmap' to true
+
+HIGH interrupt in arduino could cause error in rosserial connection.
