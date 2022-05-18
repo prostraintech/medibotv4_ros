@@ -2,7 +2,7 @@
 
 <launch>
   <!-- Arguments -->
-  <arg name="map_name" default="test2"/>
+  <arg name="map_name" default="gpcl_map0"/>
   <arg name="map_file" default="$(find medibotv4)/maps/$(arg map_name).yaml"/>
   <arg name="x_pos" default="0.0"/>
   <arg name="y_pos" default="0.0"/>
