@@ -17,10 +17,11 @@
 
 <node type="robot_pose_publisher" name="robot_pose_publisher" pkg="medibotv4"/>
 
-<node pkg="tf2_web_republisher" type="tf2_web_republisher" name="tf2_web_republisher"/>
+<!-- <node pkg="tf2_web_republisher" type="tf2_web_republisher" name="tf2_web_republisher"/> -->
 
 <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/>
 
+<!-- <node pkg="capabilities" name="capability_server" type="capability_server" output="screen" required="true"/> -->
 	
 
 <!-- <include file="$(find medibotv4)/launch/mapping/gmapping.launch" /> -->
