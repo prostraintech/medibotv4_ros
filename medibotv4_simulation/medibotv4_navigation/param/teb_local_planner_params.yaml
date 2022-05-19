@@ -22,7 +22,7 @@ TebLocalPlannerROS:
  # Robot
          
  max_vel_x: 0.4
- max_vel_x_backwards: 0.3
+ max_vel_x_backwards: 0.0
  max_vel_y: 0.0
  max_vel_theta: 1.0
  acc_lim_x: 0.2
@@ -71,7 +71,7 @@ TebLocalPlannerROS:
  weight_acc_lim_x: 1
  weight_acc_lim_theta: 1
  weight_kinematics_nh: 1000
- weight_kinematics_forward_drive: 25
+ weight_kinematics_forward_drive: 700
  weight_kinematics_turning_radius: 1
  weight_optimaltime: 1 # must be > 0
  weight_shortest_path: 0

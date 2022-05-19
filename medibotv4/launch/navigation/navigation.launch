@@ -4,9 +4,9 @@
   <!-- Arguments -->
   <arg name="map_name" default="gpcl_map0"/>
   <arg name="map_file" default="$(find medibotv4)/maps/$(arg map_name).yaml"/>
-  <arg name="x_pos" default="0.0"/>
-  <arg name="y_pos" default="0.0"/>
-  <arg name="z_pos" default="0.0"/>
+  <arg name="x_pos" default="7.2"/>
+  <arg name="y_pos" default="2.0"/>
+  <arg name="z_pos" default="1.0"/>
   <arg name="open_rviz" default="false"/>
   <arg name="rvizconfig" default="navigation/medibotv4_navigation"/>
   <arg name="move_forward_only" default="true"/>
