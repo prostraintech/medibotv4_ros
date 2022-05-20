@@ -194,8 +194,8 @@ Visualization Manager:
           Show Trail: false
           Value: true
       Name: RobotModel
-      Robot Description: robot_1/robot_description
-      TF Prefix: robot_1
+      Robot Description: robot1/robot_description
+      TF Prefix: robot1
       Update Interval: 0
       Value: true
       Visual Enabled: true
@@ -330,8 +330,8 @@ Visualization Manager:
           Show Trail: false
           Value: true
       Name: RobotModel
-      Robot Description: robot_2/robot_description
-      TF Prefix: robot_2
+      Robot Description: robot2/robot_description
+      TF Prefix: robot2
       Update Interval: 0
       Value: true
       Visual Enabled: true
@@ -372,7 +372,7 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.030000001192092896
       Style: Flat Squares
-      Topic: /robot_1/scan
+      Topic: /robot1/scan
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
@@ -400,7 +400,7 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.030000001192092896
       Style: Flat Squares
-      Topic: /robot_2/scan
+      Topic: /robot2/scan
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
@@ -435,7 +435,7 @@ Visualization Manager:
       Radius: 0.029999999329447746
       Shaft Diameter: 0.10000000149011612
       Shaft Length: 0.10000000149011612
-      Topic: robot_1/move_base/NavfnROS/plan
+      Topic: robot1/move_base/NavfnROS/plan
       Unreliable: false
       Value: true
     - Class: rviz/Group
@@ -446,7 +446,7 @@ Visualization Manager:
           Draw Behind: true
           Enabled: true
           Name: Costmap
-          Topic: robot_1/move_base/global_costmap/costmap
+          Topic: robot1/move_base/global_costmap/costmap
           Unreliable: false
           Use Timestamp: false
           Value: true
@@ -470,7 +470,7 @@ Visualization Manager:
           Radius: 0.029999999329447746
           Shaft Diameter: 0.10000000149011612
           Shaft Length: 0.10000000149011612
-          Topic: robot_1/move_base/DWAPlannerROS/global_plan
+          Topic: robot1/move_base/DWAPlannerROS/global_plan
           Unreliable: false
           Value: true
       Enabled: true
@@ -482,7 +482,7 @@ Visualization Manager:
           Color: 0; 0; 0
           Enabled: true
           Name: Polygon
-          Topic: robot_1/move_base/local_costmap/footprint
+          Topic: robot1/move_base/local_costmap/footprint
           Unreliable: false
           Value: true
         - Alpha: 0.699999988079071
@@ -491,7 +491,7 @@ Visualization Manager:
           Draw Behind: false
           Enabled: true
           Name: Costmap
-          Topic: robot_1/move_base/local_costmap/costmap
+          Topic: robot1/move_base/local_costmap/costmap
           Unreliable: false
           Use Timestamp: false
           Value: true
@@ -515,7 +515,7 @@ Visualization Manager:
           Radius: 0.029999999329447746
           Shaft Diameter: 0.10000000149011612
           Shaft Length: 0.10000000149011612
-          Topic: robot_1/move_base/DWAPlannerROS/local_plan
+          Topic: robot1/move_base/DWAPlannerROS/local_plan
           Unreliable: false
           Value: true
       Enabled: true
@@ -540,7 +540,7 @@ Visualization Manager:
       Radius: 0.029999999329447746
       Shaft Diameter: 0.10000000149011612
       Shaft Length: 0.10000000149011612
-      Topic: robot_2/move_base/NavfnROS/plan
+      Topic: robot2/move_base/NavfnROS/plan
       Unreliable: false
       Value: true
     - Class: rviz/Group
@@ -551,7 +551,7 @@ Visualization Manager:
           Draw Behind: true
           Enabled: true
           Name: Costmap
-          Topic: robot_2/move_base/global_costmap/costmap
+          Topic: robot2/move_base/global_costmap/costmap
           Unreliable: false
           Use Timestamp: false
           Value: true
@@ -575,7 +575,7 @@ Visualization Manager:
           Radius: 0.029999999329447746
           Shaft Diameter: 0.10000000149011612
           Shaft Length: 0.10000000149011612
-          Topic: robot_2/move_base/DWAPlannerROS/global_plan
+          Topic: robot2/move_base/DWAPlannerROS/global_plan
           Unreliable: false
           Value: true
       Enabled: true
@@ -587,7 +587,7 @@ Visualization Manager:
           Color: 0; 0; 0
           Enabled: true
           Name: Polygon
-          Topic: robot_2/move_base/local_costmap/footprint
+          Topic: robot2/move_base/local_costmap/footprint
           Unreliable: false
           Value: true
         - Alpha: 0.699999988079071
@@ -596,7 +596,7 @@ Visualization Manager:
           Draw Behind: false
           Enabled: true
           Name: Costmap
-          Topic: robot_2/move_base/local_costmap/costmap
+          Topic: robot2/move_base/local_costmap/costmap
           Unreliable: false
           Use Timestamp: false
           Value: true
@@ -620,19 +620,11 @@ Visualization Manager:
           Radius: 0.029999999329447746
           Shaft Diameter: 0.10000000149011612
           Shaft Length: 0.10000000149011612
-          Topic: robot_2/move_base/DWAPlannerROS/local_plan
+          Topic: robot2/move_base/DWAPlannerROS/local_plan
           Unreliable: false
           Value: true
       Enabled: true
       Name: Local Map
-    - Class: rviz/Group
-      Displays: ~
-      Enabled: false
-      Name: Global Map
-    - Class: rviz/Group
-      Displays: ~
-      Enabled: true
-      Name: Local Map
     - Alpha: 1
       Arrow Length: 0.05000000074505806
       Axes Length: 0.30000001192092896
@@ -646,7 +638,7 @@ Visualization Manager:
       Shaft Length: 0.23000000417232513
       Shaft Radius: 0.009999999776482582
       Shape: Arrow (Flat)
-      Topic: robot_1/particlecloud
+      Topic: robot1/particlecloud
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -662,37 +654,7 @@ Visualization Manager:
       Shaft Length: 0.23000000417232513
       Shaft Radius: 0.009999999776482582
       Shape: Arrow (Flat)
-      Topic: robot_2/particlecloud
-      Unreliable: false
-      Value: true
-    - Alpha: 1
-      Axes Length: 1
-      Axes Radius: 0.10000000149011612
-      Class: rviz/Pose
-      Color: 255; 25; 0
-      Enabled: true
-      Head Length: 0.30000001192092896
-      Head Radius: 0.10000000149011612
-      Name: Goal
-      Shaft Length: 0.5
-      Shaft Radius: 0.05000000074505806
-      Shape: Arrow
-      Topic: /robot_1/move_base_simple/goal
-      Unreliable: false
-      Value: true
-    - Alpha: 1
-      Axes Length: 1
-      Axes Radius: 0.10000000149011612
-      Class: rviz/Pose
-      Color: 255; 25; 0
-      Enabled: true
-      Head Length: 0.30000001192092896
-      Head Radius: 0.10000000149011612
-      Name: Pose
-      Shaft Length: 1
-      Shaft Radius: 0.05000000074505806
-      Shape: Arrow
-      Topic: /robot_2/move_base/current_goal
+      Topic: robot2/particlecloud
       Unreliable: false
       Value: true
   Enabled: true
@@ -707,18 +669,18 @@ Visualization Manager:
       Hide Inactive Objects: true
     - Class: rviz/SetInitialPose
       Theta std deviation: 0.2617993950843811
-      Topic: robot_1/initialpose
+      Topic: robot1/initialpose
       X std deviation: 0.5
       Y std deviation: 0.5
     - Class: rviz/SetGoal
-      Topic: robot_1/move_base_simple/goal
+      Topic: robot1/move_base_simple/goal
     - Class: rviz/SetInitialPose
       Theta std deviation: 0.2617993950843811
-      Topic: robot_2/initialpose
+      Topic: robot2/initialpose
       X std deviation: 0.5
       Y std deviation: 0.5
     - Class: rviz/SetGoal
-      Topic: robot_2/move_base_simple/goal
+      Topic: robot2/move_base_simple/goal
   Value: true
   Views:
     Current:

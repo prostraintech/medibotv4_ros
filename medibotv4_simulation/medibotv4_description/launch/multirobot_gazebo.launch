@@ -1,6 +1,6 @@
 <launch>
-  <arg name="first_robot"  default="robot_1"/>
-  <arg name="second_robot" default="robot_2"/>
+  <arg name="first_robot"  default="robot1"/>
+  <arg name="second_robot" default="robot2"/>
 
   <arg name="first_robot_x_pos" default="5.0"/>
   <arg name="first_robot_y_pos" default="10.0"/>
