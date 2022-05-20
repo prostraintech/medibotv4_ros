@@ -136,14 +136,12 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/medibotv4_node.cpp)
+
 add_executable(robot_pose_publisher src/base/robot_pose_publisher.cpp)
 target_link_libraries(robot_pose_publisher ${catkin_LIBRARIES})
 
-add_executable(roslauncher src/node_server/roslauncher.cpp)
-target_link_libraries(roslauncher ${catkin_LIBRARIES})
-add_executable(roskiller src/node_server/roskiller.cpp)
-target_link_libraries(roskiller ${catkin_LIBRARIES})
-
+add_executable(auto_clear_costmap_node src/navigation/auto_clear_costmap_node.cpp)
+target_link_libraries(auto_clear_costmap_node ${catkin_LIBRARIES})
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the

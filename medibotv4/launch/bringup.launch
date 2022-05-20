@@ -13,14 +13,17 @@
 
 <include file="$(find medibotv4)/launch/base/twist_mux.launch" />
 
-<node type="spots_service_server.py" name="spots_service_server" pkg="medibotv4"/>
+<node type="spots_service_server.py" name="spots_service_server" pkg="medibotv4" output="screen"/>
 
-<node type="robot_pose_publisher" name="robot_pose_publisher" pkg="medibotv4"/>
-
-<node pkg="tf2_web_republisher" type="tf2_web_republisher" name="tf2_web_republisher"/>
+<!-- <node type="auto_clear_costmap_node" name="auto_clear_costmap_node" pkg="medibotv4" output="screen"/> -->
 
 <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/>
 
+<node type="robot_pose_publisher" name="robot_pose_publisher" pkg="medibotv4"/>
+
+<!-- <node pkg="tf2_web_republisher" type="tf2_web_republisher" name="tf2_web_republisher"/> -->
+
+<!-- <node pkg="capabilities" name="capability_server" type="capability_server" output="screen" required="true"/> -->
 	
 
 <!-- <include file="$(find medibotv4)/launch/mapping/gmapping.launch" /> -->

@@ -1,14 +1,14 @@
 !!python/object/new:dynamic_reconfigure.encoding.Config
 dictitems:
   acc_lim_theta: 1.2
-  acc_lim_x: 1.0
+  acc_lim_x: 0.5
   acc_lim_y: 0.5
   allow_init_with_backwards_motion: false
   cmd_angle_instead_rotvel: false
-  costmap_obstacles_behind_robot_dist: 1.5
+  costmap_obstacles_behind_robot_dist: 0.1
   dt_hysteresis: 0.1
-  dt_ref: 0.4
-  dynamic_obstacle_inflation_dist: 0.3
+  dt_ref: 0.6
+  dynamic_obstacle_inflation_dist: 0.1
   enable_multithreading: true
   exact_arc_length: false
   feasibility_check_no_poses: 5
@@ -16,7 +16,7 @@ dictitems:
   force_reinit_new_goal_dist: 1.0
   free_goal_vel: false
   global_plan_overwrite_orientation: true
-  global_plan_viapoint_sep: 0.2
+  global_plan_viapoint_sep: 0.1
   groups: !!python/object/new:dynamic_reconfigure.encoding.Config
     dictitems:
       groups: !!python/object/new:dynamic_reconfigure.encoding.Config
@@ -34,7 +34,7 @@ dictitems:
               state: true
               type: ''
               xy_goal_tolerance: 0.5
-              yaw_goal_tolerance: 0.5
+              yaw_goal_tolerance: 0.2
             state: []
           HCPlanning: !!python/object/new:dynamic_reconfigure.encoding.Config
             dictitems:
@@ -66,16 +66,16 @@ dictitems:
             state: []
           Obstacles: !!python/object/new:dynamic_reconfigure.encoding.Config
             dictitems:
-              costmap_obstacles_behind_robot_dist: 1.5
-              dynamic_obstacle_inflation_dist: 0.3
+              costmap_obstacles_behind_robot_dist: 0.1
+              dynamic_obstacle_inflation_dist: 0.1
               groups: !!python/object/new:dynamic_reconfigure.encoding.Config
                 state: []
               id: 7
               include_costmap_obstacles: true
               include_dynamic_obstacles: true
-              inflation_dist: 0.3
+              inflation_dist: 0.1
               legacy_obstacle_association: false
-              min_obstacle_dist: 0.15
+              min_obstacle_dist: 0.1
               name: Obstacles
               obstacle_association_cutoff_factor: 5.0
               obstacle_association_force_inclusion_factor: 1.5
@@ -110,7 +110,7 @@ dictitems:
               weight_dynamic_obstacle: 10.0
               weight_dynamic_obstacle_inflation: 0.2
               weight_inflation: 0.2
-              weight_kinematics_forward_drive: 100.0
+              weight_kinematics_forward_drive: 800.0
               weight_kinematics_nh: 1000.0
               weight_kinematics_turning_radius: 1.0
               weight_max_vel_theta: 1.0
@@ -138,7 +138,7 @@ dictitems:
           Robot: !!python/object/new:dynamic_reconfigure.encoding.Config
             dictitems:
               acc_lim_theta: 1.2
-              acc_lim_x: 1.0
+              acc_lim_x: 0.5
               groups: !!python/object/new:dynamic_reconfigure.encoding.Config
                 dictitems:
                   Carlike: !!python/object/new:dynamic_reconfigure.encoding.Config
@@ -173,9 +173,9 @@ dictitems:
                 state: []
               id: 3
               is_footprint_dynamic: false
-              max_vel_theta: 1.2
-              max_vel_x: 0.3
-              max_vel_x_backwards: 0.3
+              max_vel_theta: 1.5
+              max_vel_x: 0.4
+              max_vel_x_backwards: 0.4
               name: Robot
               parameters: !!python/object/new:dynamic_reconfigure.encoding.Config
                 state: []
@@ -187,7 +187,7 @@ dictitems:
             dictitems:
               allow_init_with_backwards_motion: false
               dt_hysteresis: 0.1
-              dt_ref: 0.4
+              dt_ref: 0.6
               exact_arc_length: false
               feasibility_check_no_poses: 5
               force_reinit_new_goal_angular: 0.78
@@ -209,7 +209,7 @@ dictitems:
             state: []
           ViaPoints: !!python/object/new:dynamic_reconfigure.encoding.Config
             dictitems:
-              global_plan_viapoint_sep: 0.2
+              global_plan_viapoint_sep: 0.1
               groups: !!python/object/new:dynamic_reconfigure.encoding.Config
                 state: []
               id: 2
@@ -234,16 +234,16 @@ dictitems:
   h_signature_threshold: 0.1
   include_costmap_obstacles: true
   include_dynamic_obstacles: true
-  inflation_dist: 0.3
+  inflation_dist: 0.1
   is_footprint_dynamic: false
   legacy_obstacle_association: false
   max_global_plan_lookahead_dist: 3.0
   max_number_classes: 4
-  max_vel_theta: 1.2
-  max_vel_x: 0.3
-  max_vel_x_backwards: 0.3
+  max_vel_theta: 1.5
+  max_vel_x: 0.4
+  max_vel_x_backwards: 0.4
   max_vel_y: 0.0
-  min_obstacle_dist: 0.15
+  min_obstacle_dist: 0.1
   min_turning_radius: 0.0
   no_inner_iterations: 3
   no_outer_iterations: 3
@@ -279,7 +279,7 @@ dictitems:
   weight_dynamic_obstacle: 10.0
   weight_dynamic_obstacle_inflation: 0.2
   weight_inflation: 0.2
-  weight_kinematics_forward_drive: 100.0
+  weight_kinematics_forward_drive: 800.0
   weight_kinematics_nh: 1000.0
   weight_kinematics_turning_radius: 1.0
   weight_max_vel_theta: 1.0
@@ -291,5 +291,5 @@ dictitems:
   weight_viapoint: 1.0
   wheelbase: 1.0
   xy_goal_tolerance: 0.5
-  yaw_goal_tolerance: 0.5
+  yaw_goal_tolerance: 0.2
 state: []
