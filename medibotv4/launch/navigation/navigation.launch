@@ -11,6 +11,7 @@
   <arg name="rvizconfig" default="navigation/medibotv4_navigation"/>
   <arg name="move_forward_only" default="true"/>
   <arg name="cmd_vel_topic" default="/nav_vel"/>
+  <arg name="use_dwa" default="true"/>
 
   <!-- Map server -->
   <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)"/>
@@ -26,6 +27,7 @@
   <include file="$(find medibotv4)/launch/navigation/move_base.launch">
     <arg name="move_forward_only" value="$(arg move_forward_only)"/>
     <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)"/>
+    <arg name="use_dwa" value="$(arg use_dwa)"/>
   </include>
 
     <!-- rviz -->
