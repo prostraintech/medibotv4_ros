@@ -23,7 +23,7 @@
     </node>
 
     <!--AMCL-->
-    <include file="$(find medibotv4_navigation)/launch/Multirobot_amcl.launch">
+    <include file="$(find medibotv4_navigation)/launch/multirobot_amcl.launch">
       <arg name="robot_namespace" value="$(arg first_robot)"/>
       <arg name="initial_pose_x" value="5.0"/>
       <arg name="initial_pose_y" value="10.0"/>
