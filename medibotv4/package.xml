@@ -23,6 +23,7 @@
   <depend>teb_local_planner</depend>
   <depend>joy</depend>
   <depend>teleop_twist_joy</depend>
+  <depend>teleop_twist_keyboard</depend>
   <depend>twist_mux</depend>
   <depend>laser_scan_matcher</depend>
   <depend>capabilities</depend>

@@ -26,18 +26,14 @@
     <param name="base_global_planner" value="navfn/NavfnROS" />
     <rosparam file="$(find medibotv4)/config/navigation/global_planner_params.yaml" command="load" /> 
 
-    <!-- DWA LOCAL PLANNER PARAMETERS -->
-    <group if="$(arg use_dwa)">    
-      <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
-      <rosparam file="$(find medibotv4)/config/navigation/dwa_local_planner_params.yaml" command="load" />
-      <!-- <param name="DWAPlannerROS/min_vel_x" value="0.0" if="$(arg move_forward_only)" /> -->
-    </group>
+    <!-- DWA LOCAL PLANNER PARAMETERS --> 
+    <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" if="$(arg use_dwa)" />
+    <rosparam file="$(find medibotv4)/config/navigation/dwa_local_planner_params.yaml" command="load" if="$(arg use_dwa)" />
+    <!-- <param name="DWAPlannerROS/min_vel_x" value="0.0" if="$(arg move_forward_only)" /> -->
 
     <!-- TEB LOCAL PLANNER PARAMETERS -->
-    <group unless="$(arg use_dwa)">
-      <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
-      <rosparam file="$(find medibotv4)/config/navigation/teb_local_planner_params.yaml" command="load" />
-    </group>
+    <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" unless="$(arg use_dwa)" />
+    <rosparam file="$(find medibotv4)/config/navigation/teb_local_planner_params.yaml" command="load" unless="$(arg use_dwa)"/>
 
     <!-- TOPIC REMAPPING -->
     <remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>
