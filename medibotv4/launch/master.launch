@@ -1,0 +1,14 @@
+<launch>
+
+
+  <arg name="map_name" default="gpcl_map1"/>
+  <arg name="map_file" default="$(find medibotv4)/maps/$(arg map_name).yaml"/>
+  <arg name="open_rviz" default="true"/>
+  
+
+  <!-- Run the map server -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" >
+    <param name="frame_id" value="/map" /> 
+  </node>
+
+</launch>
