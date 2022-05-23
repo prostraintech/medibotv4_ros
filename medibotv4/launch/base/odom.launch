@@ -4,6 +4,8 @@
     <param name="base_width" value = "0.498"/>
     <param name="ticks_meter" value = "89"/>
     <param name="publish_tf" value = "false"/>
+    <param name="odom_frame_id" value = "odom"/>
+    <param name="base_frame_id" value = "base_link"/> 
   </node>
 </launch>
 

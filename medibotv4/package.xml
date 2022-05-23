@@ -29,6 +29,7 @@
   <depend>capabilities</depend>
   <depend>rosbridge_server</depend>
   <depend>tf2_web_republisher</depend>
+  <depend>robot_localization</depend>
 
   <export>
     <capability_interface>

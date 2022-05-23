@@ -5,11 +5,13 @@
 
 <include file="$(find medibotv4)/launch/base/lidar.launch" />
 
-<!-- <include file="$(find medibotv4)/launch/base/odom.launch" /> -->
-
 <include file="$(find medibotv4)/launch/base/robot_model.launch" />
 
 <include file="$(find medibotv4)/launch/base/scan_matcher.launch" />
+
+<!-- <include file="$(find medibotv4)/launch/base/odom.launch" /> -->
+
+<!-- <include file="$(find medibotv4)/launch/base/ekf_localization.launch" /> -->
 
 <include file="$(find medibotv4)/launch/base/twist_mux.launch" />
 
@@ -17,7 +19,7 @@
 
 <node type="auto_clear_costmap_node" name="auto_clear_costmap_node" pkg="medibotv4"/>
 
-<include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/>
+<!-- <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/> -->
 
 <node type="robot_pose_publisher" name="robot_pose_publisher" pkg="medibotv4"/>
 
