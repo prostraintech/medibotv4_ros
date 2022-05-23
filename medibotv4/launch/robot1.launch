@@ -18,10 +18,10 @@
             <arg name="robot_ns" value="$(arg robot_ns)"/>
         </include>
 
-        <include file="$(find medibotv4)/launch/base/multirobot_model.launch">
+        <!-- <include file="$(find medibotv4)/launch/base/multirobot_model.launch">
             <arg name="robot_ns"  value="$(arg robot_ns)" />
             <arg name="tf_robot" value="$(arg robot_ns)" /> 
-        </include>
+        </include> -->
 
         <include file="$(find medibotv4)/launch/base/multirobot_scan_matcher.launch">
             <arg name="robot_ns" value="$(arg robot_ns)"/>
