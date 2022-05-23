@@ -39,14 +39,6 @@ void Kinematics::Move(int lpwm, int rpwm){
     this->LH_led.Emit(stp_clr); this->RH_led.Emit(stp_clr);
   }
   else{
-    if(lpwm<rpwm){
-      this->LH_led.Emit(mv_clr);  this->RH_led.Emit(stp_clr);
-    }
-    else if(lpwm>rpwm){
-      this->LH_led.Emit(stp_clr); this->RH_led.Emit(mv_clr);
-    }
-    else{
       this->LH_led.Emit(mv_clr);  this->RH_led.Emit(mv_clr);
-    }
   }
 }

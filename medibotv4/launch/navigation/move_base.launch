@@ -5,30 +5,37 @@
   <!-- Arguments -->
   <arg name="cmd_vel_topic" default="/nav_vel" />
   <arg name="odom_topic" default="odom" />
-  <arg name="move_forward_only" default="false"/>
+  <arg name="move_forward_only" default="false" />
+  <arg name="use_dwa" default="true" />
 
   <!-- move_base -->
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-    <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
-<!--     <rosparam file="$(find medibotv4)/config/navigation/costmap_common_params.yaml" command="load" ns="global_costmap"/>
+    <!-- COSTMAP PARAMETERS -->
+    <rosparam file="$(find medibotv4)/config/navigation/costmap_common_params.yaml" command="load" ns="global_costmap"/>
     <rosparam file="$(find medibotv4)/config/navigation/costmap_common_params.yaml" command="load" ns="local_costmap"/>
     <rosparam file="$(find medibotv4)/config/navigation/local_costmap_params.yaml" command="load" />
     <rosparam file="$(find medibotv4)/config/navigation/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find medibotv4)/config/navigation/move_base_params.yaml" command="load" /> -->
-
-
-    <rosparam file="$(find medibotv4)/config/temp/costmap_common_params.yaml" command="load" ns="global_costmap"/>
+    <rosparam file="$(find medibotv4)/config/navigation/move_base_params.yaml" command="load" />
+<!--     <rosparam file="$(find medibotv4)/config/temp/costmap_common_params.yaml" command="load" ns="global_costmap"/>
     <rosparam file="$(find medibotv4)/config/temp/costmap_common_params.yaml" command="load" ns="local_costmap"/>
     <rosparam file="$(find medibotv4)/config/temp/local_costmap_params.yaml" command="load" />
     <rosparam file="$(find medibotv4)/config/temp/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find medibotv4)/config/temp/move_base_params.yaml" command="load" />
+    <rosparam file="$(find medibotv4)/config/temp/move_base_params.yaml" command="load" /> -->
 
-    <!-- <rosparam file="$(find medibotv4)/config/navigation/dwa_local_planner_params.yaml" command="load" /> -->
-    <!-- <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" /> -->
-    <!-- <param name="DWAPlannerROS/min_vel_x" value="0.0" if="$(arg move_forward_only)" /> -->
-    <rosparam file="$(find medibotv4)/config/navigation/teb_local_planner_params.yaml" command="load" />
+    <!-- GLOBAL PLANNER PARAMETERS -->
+    <param name="base_global_planner" value="navfn/NavfnROS" />
     <rosparam file="$(find medibotv4)/config/navigation/global_planner_params.yaml" command="load" /> 
 
+    <!-- DWA LOCAL PLANNER PARAMETERS --> 
+    <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" if="$(arg use_dwa)" />
+    <rosparam file="$(find medibotv4)/config/navigation/dwa_local_planner_params.yaml" command="load" if="$(arg use_dwa)" />
+    <!-- <param name="DWAPlannerROS/min_vel_x" value="0.0" if="$(arg move_forward_only)" /> -->
+
+    <!-- TEB LOCAL PLANNER PARAMETERS -->
+    <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" unless="$(arg use_dwa)" />
+    <rosparam file="$(find medibotv4)/config/navigation/teb_local_planner_params.yaml" command="load" unless="$(arg use_dwa)"/>
+
+    <!-- TOPIC REMAPPING -->
     <remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>
     <remap from="odom" to="$(arg odom_topic)"/>
 

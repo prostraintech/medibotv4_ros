@@ -5,7 +5,7 @@ TebLocalPlannerROS:
  # Trajectory
   
  teb_autosize: True
- dt_ref: 0.4
+ dt_ref: 0.7
  dt_hysteresis: 0.1
  max_samples: 500
  global_plan_overwrite_orientation: True
@@ -16,17 +16,17 @@ TebLocalPlannerROS:
  feasibility_check_no_poses: 5
  publish_feedback: False
  global_plan_viapoint_sep: 0.2
- via_points_ordered: false
+ via_points_ordered: True
  force_reinit_new_goal_angular: 0.78
  force_reinit_new_goal_dist: 1.0   
  # Robot
          
- max_vel_x: 0.3
- max_vel_x_backwards: 0.3
+ max_vel_x: 0.35
+ max_vel_x_backwards: 0.35
  max_vel_y: 0.0
- max_vel_theta: 1.5
- acc_lim_x: 1.0
- acc_lim_theta: 1.35
+ max_vel_theta: 1.3
+ acc_lim_x: 0.5
+ acc_lim_theta: 1.2
  min_turning_radius: 0.0 # diff-drive robot (can turn on place!)
 
  footprint_model:
@@ -35,17 +35,17 @@ TebLocalPlannerROS:
 
  # GoalTolerance
     
- xy_goal_tolerance: 0.2
- yaw_goal_tolerance: 0.1
+ xy_goal_tolerance: 0.5
+ yaw_goal_tolerance: 0.2
  free_goal_vel: False
  complete_global_plan: True
     
  # Obstacles
     
- min_obstacle_dist: 0.15 # This value must also include our robot radius, since footprint_model is set to "point".
+ min_obstacle_dist: 0.1 # This value must also include our robot radius, since footprint_model is set to "point".
  inflation_dist: 0.1
  include_costmap_obstacles: True
- costmap_obstacles_behind_robot_dist: 1.5
+ costmap_obstacles_behind_robot_dist: 0.1
  obstacle_poses_affected: 10
 
  dynamic_obstacle_inflation_dist: 0.1 #0.3
@@ -70,8 +70,8 @@ TebLocalPlannerROS:
  weight_max_vel_theta: 1
  weight_acc_lim_x: 1
  weight_acc_lim_theta: 1
- weight_kinematics_nh: 7000
- weight_kinematics_forward_drive: 1000
+ weight_kinematics_nh: 4000
+ weight_kinematics_forward_drive: 800
  weight_kinematics_turning_radius: 1
  weight_optimaltime: 1 # must be > 0
  weight_shortest_path: 0
@@ -110,7 +110,7 @@ TebLocalPlannerROS:
  
  shrink_horizon_backup: True
  shrink_horizon_min_duration: 10
- oscillation_recovery: False
+ oscillation_recovery: True
  oscillation_v_eps: 0.1
  oscillation_omega_eps: 0.1
  oscillation_recovery_min_duration: 10

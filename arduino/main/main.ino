@@ -21,17 +21,21 @@ void RH_ISRB();
 void EMG_STOP();
 float mapFloat(float x, float in_min, float in_max, float out_min, float out_max);
 void cmd_vel_callback(const geometry_msgs::Twist& twist);
-std_msgs::Int16 lwheel_msg;
-std_msgs::Int16 rwheel_msg;
+std_msgs::Int16 lwheel_ticks_msg;
+std_msgs::Int16 rwheel_ticks_msg;
+std_msgs::Int16 lwheel_pwm_msg;
+std_msgs::Int16 rwheel_pwm_msg;
 //medibotv4::SensorState sensor_state_msg;
 ros::NodeHandle nh;
-ros::Publisher lwheel_pub("lwheel_ticks", &lwheel_msg);
-ros::Publisher rwheel_pub("rwheel_ticks", &rwheel_msg);
+ros::Publisher lwheel_ticks_pub("lwheel_ticks", &lwheel_ticks_msg);
+ros::Publisher rwheel_ticks_pub("rwheel_ticks", &rwheel_ticks_msg);
+ros::Publisher lwheel_pwm_pub("lwheel_pwm", &lwheel_pwm_msg);
+ros::Publisher rwheel_pwm_pub("rwheel_pwm", &rwheel_pwm_msg);
 // ros::Publisher sensor_state_pub("sensor_state", &sensor_state_msg);
 ros::Subscriber<geometry_msgs::Twist> cmd_vel_sub("cmd_vel", cmd_vel_callback);
 unsigned long currentMillis, previousMillis, lastCmdVelReceived = 0;
 float MAX_SPEED = (2*PI*WHEEL_RADIUS*MOTOR_RPM)/(60*GEAR_REDUCTION);//0.728485253 m/s
-float demandx = 0, demandz = 0;
+float linearX_vel = 0, angularZ_vel = 0;
 //----------------------------------------------------------------------------------//
 
 void setup(){
@@ -58,8 +62,10 @@ void setup(){
   nh.getHardware()->setBaud(115200);
   nh.initNode();
   nh.subscribe(cmd_vel_sub);
-  nh.advertise(lwheel_pub);
-  nh.advertise(rwheel_pub);
+  nh.advertise(lwheel_ticks_pub);
+  nh.advertise(rwheel_ticks_pub);
+  nh.advertise(lwheel_pwm_pub);
+  nh.advertise(rwheel_pwm_pub);
   // nh.advertise(sensor_state_pub);
 }
 
@@ -72,8 +78,8 @@ void loop(){
 
     // Convert Linear X and Angular Z Velocity to PWM
     // Calculate left and right wheel velocity
-    float  left_vel = demandx - demandz*(WHEEL_SEPARATION/2);
-    float right_vel = demandx + demandz*(WHEEL_SEPARATION/2);
+    float  left_vel = linearX_vel - angularZ_vel*(WHEEL_SEPARATION/2);
+    float right_vel = linearX_vel + angularZ_vel*(WHEEL_SEPARATION/2);
 
     // Map wheel velocity to PWM
     int  left_pwm = round(mapFloat(fabs(left_vel ), 0, MAX_SPEED, MIN_PWM, MAX_PWM));
@@ -92,12 +98,14 @@ void loop(){
     int right_sign = (right_vel>0)?1:((right_vel<0)?-1:0);
 
     // Actuate the motors
+    lwheel_pwm_msg.data = left_sign*left_pwm;
+    rwheel_pwm_msg.data = right_sign*right_pwm;
     Robot.Move(left_sign*left_pwm, right_sign*right_pwm);
 
     //Stop the robot if there are no velocity command after some time
     if(millis() - lastCmdVelReceived > CMD_VEL_TIMEOUT){
-      demandx = 0;
-      demandz = 0;
+      linearX_vel = 0;
+      angularZ_vel = 0;
       Robot.Move(ZERO_PWM, ZERO_PWM);//stop motors
       PAN_motor.Rotate(0);//stop pan
       TILT_motor.Rotate(0);//stop tilt
@@ -144,8 +152,10 @@ void loop(){
   }
 
   //Publishing data to ROS
-  lwheel_pub.publish(&lwheel_msg);
-  rwheel_pub.publish(&rwheel_msg);
+  lwheel_ticks_pub.publish(&lwheel_ticks_msg);
+  rwheel_ticks_pub.publish(&rwheel_ticks_msg);
+  lwheel_pwm_pub.publish(&lwheel_pwm_msg);
+  rwheel_pwm_pub.publish(&rwheel_pwm_msg);
   // sensor_state_msg.ir1 = analogRead(IR1);
   // sensor_state_msg.ir2 = analogRead(IR2);
   // sensor_state_msg.ir3 = analogRead(IR3);
@@ -169,19 +179,19 @@ void loop(){
 ////////////FUNCTION DEFINITIONS////////////////
 
 void LH_ISRA(){
-  lwheel_msg.data = LH_motor.doEncoderA();
+  lwheel_ticks_msg.data = LH_motor.doEncoderA();
 }
 
 void LH_ISRB(){
-  lwheel_msg.data = LH_motor.doEncoderB();
+  lwheel_ticks_msg.data = LH_motor.doEncoderB();
 }
 
 void RH_ISRA(){
-  rwheel_msg.data = RH_motor.doEncoderA();
+  rwheel_ticks_msg.data = RH_motor.doEncoderA();
 }
 
 void RH_ISRB(){
-  rwheel_msg.data = RH_motor.doEncoderB();
+  rwheel_ticks_msg.data = RH_motor.doEncoderB();
 }
 
 void EMG_STOP(){
@@ -196,7 +206,7 @@ float mapFloat(float x, float in_min, float in_max, float out_min, float out_max
 }
 
 void cmd_vel_callback( const geometry_msgs::Twist& twist){
-  demandx = twist.linear.x;
-  demandz = twist.angular.z;
+  linearX_vel = twist.linear.x;
+  angularZ_vel = twist.angular.z;
   lastCmdVelReceived = millis();
 }
