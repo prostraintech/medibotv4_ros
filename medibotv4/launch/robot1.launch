@@ -1,5 +1,12 @@
 <launch>
     <arg name="robot_ns" default="robot1" />
+    <arg name="map_name" default="gpcl_map1"/>
+    <arg name="map_file" default="$(find medibotv4)/maps/$(arg map_name).yaml"/>
+
+      <!-- Run the map server -->
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" >
+        <param name="frame_id" value="/map" /> 
+    </node>
 
     <group ns="$(arg robot_ns)">
 
@@ -22,23 +29,16 @@
 
         <include file="$(find medibotv4)/launch/base/twist_mux.launch" />
 
+        <!--- AMCL -->
+        <include file="$(find medibotv4)/launch/navigation/multirobot_amcl.launch">
+        <arg name="robot_name" value="$(arg robot_ns)"/>
+        </include>
+
+        <!--move_base-->
+        <include file="$(find medibotv4)/launch/navigation/multirobot_move_base.launch">
+        <arg name="robot_name" value="$(arg robot_ns)"/>
+        </include>
+
     </group>
-
-    <group ns="robot1">
-    <arg name="robot_name"  value="robot1" />
-    <arg name="tf_robot" value="$(arg robot_name)_tf" /> 
-    <param name="tf_prefix" type="string" value="$(arg tf_robot)"/>
-
-    <!--- AMCL -->
-    <include file="$(find medibotv4)/launch/navigation/multirobot_amcl.launch">
-      <arg name="robot_name" value="$(arg robot_name)"/>
-    </include>
-
-    <!--move_base-->
-    <include file="$(find medibotv4)/launch/navigation/multirobot_move_base.launch">
-      <arg name="robot_name" value="$(arg robot_name)"/>
-    </include>
- 
-  </group>
     
 </launch>

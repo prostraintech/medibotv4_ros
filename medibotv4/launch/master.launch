@@ -1,14 +1,37 @@
 <launch>
+    <arg name="map_name" default="gpcl_map1"/>
+    <arg name="map_file" default="$(find medibotv4)/maps/$(arg map_name).yaml"/>
+    <arg name="open_rviz" default="true"/>
+    <arg name="robot1_ns" default="robot1" />
+    <arg name="robot2_ns" default="robot2" />
 
+    <!-- Run the map server -->
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" >
+        <param name="frame_id" value="/map" /> 
+    </node>
 
-  <arg name="map_name" default="gpcl_map1"/>
-  <arg name="map_file" default="$(find medibotv4)/maps/$(arg map_name).yaml"/>
-  <arg name="open_rviz" default="true"/>
-  
+    <!-- rviz -->
+    <group if="$(arg open_rviz)"> 
+        <node pkg="rviz" type="rviz" name="rviz" required="true"
+            args="-d $(find medibotv4)/rviz/navigation/multirobot_navigation.rviz"/>
+    </group>
 
-  <!-- Run the map server -->
-  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" >
-    <param name="frame_id" value="/map" /> 
-  </node>
+    <group ns="$(arg robot1_ns)">
+
+        <include file="$(find medibotv4)/launch/base/multirobot_model.launch">
+            <arg name="robot_ns"  value="$(arg robot1_ns)" />
+            <arg name="tf_robot" value="$(arg robot1_ns)" /> 
+        </include>
+
+    </group>
+
+    <group ns="$(arg robot2_ns)">
+
+        <include file="$(find medibotv4)/launch/base/multirobot_model.launch">
+            <arg name="robot_ns"  value="$(arg robot2_ns)" />
+            <arg name="tf_robot" value="$(arg robot2_ns)" /> 
+        </include>
+
+    </group>
 
 </launch>
