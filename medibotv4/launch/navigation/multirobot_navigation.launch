@@ -2,7 +2,7 @@
 <launch>
 
 
-  <arg name="map_name" default="test_map"/>
+  <arg name="map_name" default="gpcl_map1"/>
   <arg name="map_file" default="$(find medibotv4)/maps/$(arg map_name).yaml"/>
   <arg name="open_rviz" default="true"/>
   

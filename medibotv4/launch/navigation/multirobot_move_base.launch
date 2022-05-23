@@ -11,7 +11,7 @@
     <rosparam file="$(find medibotv4)/config/navigation/local_costmap_params.yaml" command="load" />
     <rosparam file="$(find medibotv4)/config/navigation/global_costmap_params.yaml" command="load" />
     <rosparam file="$(find medibotv4)/config/navigation/move_base_params.yaml" command="load" />
-    <rosparam file="$(find medibotv4)/config/navigation/base_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find medibotv4)/config/navigation/teb_local_planner_params.yaml" command="load" />
     <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
 
     <!-- Set tf_prefix for frames explicity, overwriting defaults -->
