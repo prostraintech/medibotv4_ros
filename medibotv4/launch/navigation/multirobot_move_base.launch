@@ -15,13 +15,14 @@
     <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
 
     <!-- Set tf_prefix for frames explicity, overwriting defaults -->
-    <param name="global_costmap/scan/sensor_frame"                  value="$(arg robot_name)/lidar"/>
+    <param name="global_costmap/laser_scan_sensor/sensor_frame"     value="$(arg robot_name)/lidar"/>
+    <param name="global_costmap/laser_scan_sensor/topic"            value="$(arg robot_name)/scan"/>
     <param name="global_costmap/obstacle_layer/scan/sensor_frame"   value="$(arg robot_name)/lidar"/>
     <param name="global_costmap/global_frame"                       value="map"/>
     <param name="global_costmap/robot_base_frame"                   value="$(arg robot_name)/base_link"/>
     <!-- <param name="global_costmap/robot_base_frame"                   value="$(arg robot_namespace)/base_footprint"/> -->
-    <param name="local_costmap/scan/sensor_frame"                   value="$(arg robot_name)/lidar"/>
-    <param name="local_costmap/obstacle_layer/scan/sensor_frame"    value="$(arg robot_name)/lidar"/>
+    <param name="local_costmap/laser_scan_sensor/sensor_frame"     value="$(arg robot_name)/lidar"/>
+    <param name="local_costmap/laser_scan_sensor/topic"            value="$(arg robot_name)/scan"/>
     <param name="local_costmap/global_frame"                        value="$(arg robot_name)/odom"/>
     <param name="local_costmap/robot_base_frame"                    value="$(arg robot_name)/base_link"/>
     <!-- <param name="local_costmap/robot_base_frame"                    value="$(arg robot_namespace)/base_footprint"/> -->
