@@ -1,6 +1,6 @@
 recovery_behavior_enabled: true
 conservative_reset_dist: 3.0
-clearing_rotation_allowed: false
+clearing_rotation_allowed: true
 shutdown_costmaps: false
 controller_frequency: 10.0
 controller_patience: 15.0
