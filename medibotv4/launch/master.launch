@@ -16,7 +16,7 @@
             args="-d $(find medibotv4)/rviz/navigation/multirobot_navigation.rviz"/>
     </group>
 
-    <group ns="$(arg robot1_ns)">
+    <!-- <group ns="$(arg robot1_ns)">
 
         <include file="$(find medibotv4)/launch/base/multirobot_model.launch">
             <arg name="robot_ns"  value="$(arg robot1_ns)" />
@@ -32,6 +32,6 @@
             <arg name="tf_robot" value="$(arg robot2_ns)" /> 
         </include>
 
-    </group>
+    </group> -->
 
 </launch>
