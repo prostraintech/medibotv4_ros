@@ -24,7 +24,7 @@ world_frame: odom           # Defaults to the value of odom_frame if unspecified
 #     • X/dt2, Y/dt2, Z/dt2: These are the linear accelerations of the robot
 
 
-odom0: odom
+odom0: odometry/wheel
 odom0_config: [false, false, false,
                false, false, false,
                true, true, false,
@@ -33,7 +33,7 @@ odom0_config: [false, false, false,
 odom0_differential: false
 
 
-pose0: pose_with_covariance_stamped
+pose0: odometry/laser
 pose0_config: [true,  true,  false,
                false, false, true,
                false, false, false,

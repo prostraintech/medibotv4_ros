@@ -9,10 +9,10 @@
   <arg name="rvizconfig" default="navigation/medibotv4_navigation"/>
   <arg name="move_forward_only" default="true"/>
   <arg name="cmd_vel_topic" default="/nav_vel"/>
+  <arg name="use_dwa" default="true"/>
 
   <!-- SLAM Gmapping -->
   <include file="$(find medibotv4)/launch/mapping/gmapping.launch" />
-
 
   <!-- AMCL -->
   <include file="$(find medibotv4)/launch/navigation/amcl.launch">
@@ -25,13 +25,14 @@
   <include file="$(find medibotv4)/launch/navigation/move_base.launch">
     <arg name="move_forward_only" value="$(arg move_forward_only)"/>
     <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)"/>
+    <arg name="use_dwa" value="$(arg use_dwa)"/>
   </include>
 
-  <!-- rviz -->
+    <!-- rviz -->
   <group if="$(arg open_rviz)"> 
     <include file="$(find medibotv4)/launch/rviz.launch">
       <arg name="rvizconfig" value="$(arg rvizconfig)"/>
     </include>
   </group>
-  
+
 </launch>

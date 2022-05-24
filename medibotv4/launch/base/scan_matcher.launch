@@ -17,5 +17,7 @@
 
     <param name="max_iterations" value="10"/>
 
+    <remap from="pose_with_covariance_stamped" to ="odometry/laser"/>
+    
   </node>
 </launch>
