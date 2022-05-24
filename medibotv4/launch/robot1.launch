@@ -3,25 +3,19 @@
     <arg name="map_name" default="gpcl_map1"/>
     <arg name="map_file" default="$(find medibotv4)/maps/$(arg map_name).yaml"/>
 
-      <!-- Run the map server -->
-    <!-- <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" >
-        <param name="frame_id" value="/map" /> 
-    </node> -->
-
     <group ns="$(arg robot_ns)">
 
         <include file="$(find medibotv4)/launch/base/arduino.launch"/>
 
-        <!-- <include file="$(find medibotv4)/launch/base/odom.launch"/> -->
+        <!-- <include file="$(find medibotv4)/launch/base/multirobot_odom.launch">
+            <arg name="robot_ns" value="$(arg robot_ns)"/>
+        </include> -->
+        
+        <!-- <include file="$(find medibotv4)/launch/base/ekf_localization.launch" /> -->
 
         <include file="$(find medibotv4)/launch/base/multirobot_lidar.launch">
             <arg name="robot_ns" value="$(arg robot_ns)"/>
         </include>
-
-        <!-- <include file="$(find medibotv4)/launch/base/multirobot_model.launch">
-            <arg name="robot_ns"  value="$(arg robot_ns)" />
-            <arg name="tf_robot" value="$(arg robot_ns)" /> 
-        </include> -->
 
         <include file="$(find medibotv4)/launch/base/multirobot_scan_matcher.launch">
             <arg name="robot_ns" value="$(arg robot_ns)"/>
