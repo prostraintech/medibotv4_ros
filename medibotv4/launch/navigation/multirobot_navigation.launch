@@ -20,6 +20,9 @@
     <!--- AMCL -->
     <include file="$(find medibotv4)/launch/navigation/multirobot_amcl.launch">
       <arg name="robot_name" value="$(arg robot_name)"/>
+      <arg name="initial_pose_x" value="7.2"/>
+      <arg name="initial_pose_y" value="2.0"/>
+      <arg name="initial_pose_a" value="1.0"/>
     </include>
 
     <!--move_base-->
@@ -29,27 +32,26 @@
  
   </group>
   
-  <group ns="robot2">
+  <!-- <group ns="robot2">
     <arg name="robot_name"  value="robot2" />
     <arg name="tf_robot" value="$(arg robot_name)_tf" /> 
     <param name="tf_prefix" type="string" value="$(arg tf_robot)"/>
 
-    <!--- AMCL -->
     <include file="$(find medibotv4)/launch/navigation/multirobot_amcl.launch">
       <arg name="robot_name" value="$(arg robot_name)"/>
     </include>
 
-    <!--move_base-->
+ 
     <include file="$(find medibotv4)/launch/navigation/multirobot_move_base.launch">
       <arg name="robot_name" value="$(arg robot_name)"/>
     </include>
     
-  </group>
+  </group> -->
 
   <!-- rviz -->
-  <group if="$(arg open_rviz)"> 
+  <!-- <group if="$(arg open_rviz)"> 
     <node pkg="rviz" type="rviz" name="rviz" required="true"
           args="-d $(find medibotv4)/rviz/navigation/multirobot_navigation.rviz"/>
-  </group>
+  </group> -->
   
 </launch>
