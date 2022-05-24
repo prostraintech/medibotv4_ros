@@ -44,7 +44,7 @@
         </node>
 
         <node pkg="medibotv4" type="robot_pose_publisher" name="robot_pose_publisher">
-            <param name="base_frame"                  value="$(arg robot1_ns)/base_link"/>
+            <param name="base_frame"                  value="$(arg robot_ns)/base_link"/>
         </node>
 
     </group>
