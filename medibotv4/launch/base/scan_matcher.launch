@@ -10,7 +10,7 @@
     <param name="use_vel " value = "false"/>
     <param name="use_cloud_input " value = "false"/>
 
-    <param name="publish_tf " value = "true"/>
+    <param name="publish_tf " value = "false"/>
     <param name="publish_pose " value = "false"/>
     <param name="publish_pose_stamped " value = "false"/>
     <param name="publish_pose_with_covariance_stamped " value = "true"/>
