@@ -9,9 +9,9 @@
 
 <include file="$(find medibotv4)/launch/base/scan_matcher.launch" />
 
-<!-- <include file="$(find medibotv4)/launch/base/odom.launch" /> -->
+<include file="$(find medibotv4)/launch/base/odom.launch" />
 
-<!-- <include file="$(find medibotv4)/launch/base/ekf_localization.launch" /> -->
+<include file="$(find medibotv4)/launch/base/ekf_localization.launch" />
 
 <include file="$(find medibotv4)/launch/base/twist_mux.launch" />
 
