@@ -34,10 +34,4 @@
 
     </group>
 
-    <!-- rviz -->
-  <group if="$(arg open_rviz)"> 
-    <node pkg="rviz" type="rviz" name="rviz" required="true"
-          args="-d $(find medibotv4)/rviz/navigation/multirobot_navigation.rviz"/>
-  </group>
-
 </launch>
