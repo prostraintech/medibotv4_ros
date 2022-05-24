@@ -3,7 +3,7 @@ frequency: 30
 two_d_mode: true
 
 # Whether to broadcast the transformation over the /tf topic. Defaults to true if unspecified.
-publish_tf: false
+publish_tf: true
 
 base_link_frame: base_link  # Defaults to "base_link" if unspecified
 odom_frame: odom            # Defaults to "odom" if unspecified
