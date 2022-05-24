@@ -1,4 +1,4 @@
-shutdown_costmaps: true
+recovery_behavior_enabled: true
 conservative_reset_dist: 3.0
 clearing_rotation_allowed: true
 shutdown_costmaps: false
