@@ -15,7 +15,7 @@ int main()
     cout<<"Normal pwm range,"<<endl;
     MIN_PWM=26 ; MAX_PWM=229;
     mapped_pwm = mapFloat(vel, MIN_VELOCITY, MAX_VELOCITY, MIN_PWM, MAX_PWM);
-    cout<<"mapped_pwm = "<<mapFloat(vel, MIN_VELOCITY, MAX_VELOCITY, MIN_PWM, MAX_PWM)<<endl;
+    cout<<"mapped_pwm = "<<mapped_pwm<<endl;
     cout<<"input to motor = 255-mapped_pwm = "<<(255-mapped_pwm)<<endl<<endl;
 
     cout<<"Inverted pwm range,"<<endl;
