@@ -1,4 +1,4 @@
-unch>
+<launch>
     <arg name="robot_ns" default="robot2" />
     <arg name="map_name" default="gpcl_map1"/>
     <arg name="map_file" default="$(find medibotv4)/maps/$(arg map_name).yaml"/>
@@ -13,6 +13,11 @@ unch>
         
         <!-- <include file="$(find medibotv4)/launch/base/ekf_localization.launch" /> -->
 
+        <include file="$(find medibotv4)/launch/base/multirobot_model.launch">
+            <arg name="robot_ns"  value="$(arg robot_ns)" />
+            <arg name="tf_robot" value="$(arg robot_ns)" /> 
+        </include>
+
         <include file="$(find medibotv4)/launch/base/multirobot_lidar.launch">
             <arg name="robot_ns" value="$(arg robot_ns)"/>
         </include>
@@ -26,7 +31,7 @@ unch>
         <!--- AMCL -->
         <include file="$(find medibotv4)/launch/navigation/multirobot_amcl.launch">
         <arg name="robot_name" value="$(arg robot_ns)"/>
-        <arg name="initial_pose_x" value="7.2"/>
+        <arg name="initial_pose_x" value="9.2"/>
         <arg name="initial_pose_y" value="2.0"/>
         <arg name="initial_pose_a" value="1.0"/>
         </include>
@@ -40,9 +45,9 @@ unch>
             <param name="tf_prefix"                  value="$(arg robot_ns)"/>
         </node>
 
-        <node pkg="medibotv4" type="robot_pose_publisher" name="robot_pose_publisher">
+        <!-- <node pkg="medibotv4" type="robot_pose_publisher" name="robot_pose_publisher">
             <param name="base_frame"                  value="$(arg robot_ns)/base_link"/>
-        </node>
+        </node> -->
 
     </group>
     
