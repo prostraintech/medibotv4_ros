@@ -50,27 +50,41 @@ void Motor::initMotorPins(){
 }
 
 void Motor::Rotate(int pwm, int lower_lim=0, int upper_lim=0){
+  // Actuate driving motor
   if(this->drive){
-    //Inverted pwm values
+    // Set motor pwm value (inverted pwm values)
     analogWrite(this->D1, 255-abs(pwm));
-    //analogWrite(this->D1, abs(pwm));
+    // Enable (can move) or disable (cannot move) motor
     digitalWrite(this->D2, pwm!=0);
+    // Set motor direction
     digitalWrite(this->D3, pwm<0);
     //digitalWrite(BRAKE,HIGH);
   }
+  // Actuate pan or tilt motor
   else{
-    if(analogRead(this->ENA)>lower_lim && analogRead(this->ENA)<upper_lim){
-      digitalWrite(this->D1, pwm!=0);
-    }
-    else if(analogRead(this->ENA)==lower_lim && pwm<0){
-      digitalWrite(this->D1, pwm!=0);
-    }
-    else if(analogRead(this->ENA)==upper_lim && pwm>0){
-      digitalWrite(this->D1, pwm!=0);
+    //Enable (can move) or disable (cannot move) motor based on encoder value
+    // if(analogRead(this->ENA)=>lower_lim && analogRead(this->ENA)<=upper_lim && pwm!=0){
+    //   digitalWrite(this->D1, HIGH);
+    // }
+    // else if(analogRead(this->ENA)==lower_lim && pwm<0){
+    //   digitalWrite(this->D1, HIGH);
+    // }
+    // else if(analogRead(this->ENA)==upper_lim && pwm>0){
+    //   digitalWrite(this->D1, HIGH);
+    // }
+    // else{
+    //   digitalWrite(this->D1, LOW);
+    // }
+
+    // Enable (can move) or disable (cannot move) motor without limit
+    if(pwm!=0){
+      digitalWrite(this->D1, HIGH);
     }
     else{
-      digitalWrite(this->D1, 0);
+      digitalWrite(this->D1, LOW);
     }
+
+    // Set motor direction
     digitalWrite(this->D2, pwm>0);
   }
 }

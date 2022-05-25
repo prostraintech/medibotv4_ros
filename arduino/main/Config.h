@@ -49,19 +49,16 @@
 #define CS_LFT 48
 #define CS_RGT 49
 //GENERAL CONSTANT
+#define CMD_VEL_TIMEOUT 500
 #define PI 3.14159265359
-#define LOOPTIME 10
-#define MOTOR_RPM 1000
-#define GEAR_REDUCTION 23
-#define CMD_VEL_TIMEOUT 300
-#define TICKS_PER_METER 89
-#define WHEEL_SEPARATION 0.498
 #define WHEEL_DIAMETER 0.32
 #define WHEEL_RADIUS 0.16
-#define ZERO_PWM 0
-#define MIN_PWM 0
-#define MAX_PWM 229
-#define MOTOR_SPEED 75 //180
-#define DIFF_MOTOR_SPEED 65 //200
-//#define MIN_PWM 45 // 210 MIN SPEED TO MOVE THE ROBOT
-//#define MAX_PWM 75 // 180
+#define MAX_RPM 1000
+#define GEAR_REDUCTION 23
+#define TICKS_PER_METER 89
+#define WHEEL_SEPARATION 0.498
+#define DISABLE_PWM 0 // disable motor driver
+#define MIN_PWM 26 // 10% of 255 pwm = 26 pwm = 0 rpm
+#define MAX_PWM 229 // 90% of 255 pwm = 229 pwm = 1000 rpm
+#define STRAIGHT_PWM 75
+#define TURN_PWM 65
