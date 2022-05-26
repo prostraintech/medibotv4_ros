@@ -6,4 +6,8 @@
 
 	<node name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(find medibotv4)/rviz/$(arg rvizconfig).rviz" />
 
+	<include file="$(find medibotv4)/launch/base/teleop_joy.launch" />
+
+<!-- 	<node name="rqt_reconfigure" pkg="rqt_reconfigure" type="rqt_reconfigure" /> -->
+
 </launch>

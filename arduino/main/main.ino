@@ -110,18 +110,18 @@ void loop(){
     Robot.Move(left_dir*left_pwm, right_dir*right_pwm);
 
     //Stop the robot if not connected to ROS
-    if(!isRosConnected){
+    if(!Robot.isRosConnected){
       linearX_vel = 0;
       angularZ_vel = 0;
       Robot.Move(MIN_PWM, MIN_PWM);//stop motors
     }
 
     //Stop the robot if there are no velocity command after some time
-    // if(millis() - lastCmdVelReceived > CMD_VEL_TIMEOUT){
-    //   linearX_vel = 0;
-    //   angularZ_vel = 0;
-    //   Robot.Move(MIN_PWM, MIN_PWM);//stop motors
-    // }
+    if(millis() - lastCmdVelReceived > CMD_VEL_TIMEOUT){
+      linearX_vel = 0;
+      angularZ_vel = 0;
+      Robot.Move(MIN_PWM, MIN_PWM);//stop motors
+    }
 
   }
   //RESCUE MODE
