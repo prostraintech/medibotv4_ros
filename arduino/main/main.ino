@@ -35,7 +35,7 @@ ros::Publisher rwheel_pwm_pub("rwheel_pwm", &rwheel_pwm_msg);
 ros::Subscriber<geometry_msgs::Twist> cmd_vel_sub("cmd_vel", cmd_vel_callback);
 unsigned long lastCmdVelReceived = 0;
 float linearX_vel = 0, angularZ_vel = 0;
-const float MIN_VELOCITY = 0;
+const float MIN_VELOCITY = 0.0;
 const float MAX_VELOCITY = (2*PI*WHEEL_RADIUS*MAX_RPM)/(60*GEAR_REDUCTION);//0.728485253 m/s
 //----------------------------------------------------------------------------------//
 
@@ -82,35 +82,46 @@ void loop(){
     float  left_vel = linearX_vel - angularZ_vel*(WHEEL_SEPARATION/2);
     float right_vel = linearX_vel + angularZ_vel*(WHEEL_SEPARATION/2);
 
+    // Determine left and right direction using sign
+    int  left_dir = (left_vel >0)? 1 : -1;
+    int right_dir = (right_vel>0)? 1 : -1;
+
+    // Make sure calculated velocity is in range of min and max velocity before mapping to PWM
+    if(fabs(left_vel)>MAX_VELOCITY){
+        left_vel = left_dir*MAX_VELOCITY;
+    }
+    else if(fabs(left_vel)<MIN_VELOCITY){
+        left_vel = left_dir*MIN_VELOCITY;
+    }
+    if(fabs(right_vel)>MAX_VELOCITY){
+        right_vel = right_dir*MAX_VELOCITY;
+    }
+    else if(fabs(right_vel)<MIN_VELOCITY){
+        right_vel = right_dir*MIN_VELOCITY;
+    }
+
     // Map wheel velocity to PWM
     int  left_pwm = round(mapFloat(fabs(left_vel ), MIN_VELOCITY, MAX_VELOCITY, MIN_PWM, MAX_PWM));
     int right_pwm = round(mapFloat(fabs(right_vel), MIN_VELOCITY, MAX_VELOCITY, MIN_PWM, MAX_PWM));
 
-    // Try to achieve the minimum required PWM to move the robot (e.g. 0.05m/s might not move the robot)
-    // if(fabs(left_vel)>0 && left_pwm<40){
-    //  left_pwm = 40;
-    // }
-    // if(fabs(right_vel)>0 && right_pwm<40){
-    //  right_pwm = 40;
-    // }
-
-    // Determine sign to indicate left and right  direction
-    int  left_sign = (left_vel >0)?1:((left_vel <0)?-1:0);
-    int right_sign = (right_vel>0)?1:((right_vel<0)?-1:0);
-
     // Actuate the motors
-    lwheel_pwm_msg.data = left_sign*left_pwm;
-    rwheel_pwm_msg.data = right_sign*right_pwm;
-    Robot.Move(left_sign*left_pwm, right_sign*right_pwm);
+    lwheel_pwm_msg.data = left_dir*left_pwm;
+    rwheel_pwm_msg.data = right_dir*right_pwm;
+    Robot.Move(left_dir*left_pwm, right_dir*right_pwm);
 
-    //Stop the robot if there are no velocity command after some time
-    if(millis() - lastCmdVelReceived > CMD_VEL_TIMEOUT){
+    //Stop the robot if not connected to ROS
+    if(!isRosConnected){
       linearX_vel = 0;
       angularZ_vel = 0;
       Robot.Move(MIN_PWM, MIN_PWM);//stop motors
-      PAN_motor.Rotate(0);//stop pan
-      TILT_motor.Rotate(0);//stop tilt
     }
+
+    //Stop the robot if there are no velocity command after some time
+    // if(millis() - lastCmdVelReceived > CMD_VEL_TIMEOUT){
+    //   linearX_vel = 0;
+    //   angularZ_vel = 0;
+    //   Robot.Move(MIN_PWM, MIN_PWM);//stop motors
+    // }
 
   }
   //RESCUE MODE
@@ -149,7 +160,10 @@ void loop(){
   }
   //EMERGENCY STOP
   else{
-      EMG_STOP();
+    Robot.isRosConnected = -1;
+    Robot.Move(DISABLE_PWM, DISABLE_PWM);//stop motors and disable motor driver
+    PAN_motor.Rotate(0);//stop pan
+    TILT_motor.Rotate(0);//stop tilt
   }
 
   //Publishing data to ROS
@@ -197,9 +211,9 @@ void RH_ISRB(){
 
 void EMG_STOP(){
   Robot.isRosConnected = -1;
-  Robot.Move(DISABLE_PWM, DISABLE_PWM);//stop motors
-  PAN_motor.Rotate(0);//stop pan
-  TILT_motor.Rotate(0);//stop tilt
+  Robot.Move(DISABLE_PWM, DISABLE_PWM); //stop motors and disable motor driver
+  PAN_motor.Rotate(0); //stop pan
+  TILT_motor.Rotate(0); //stop tilt
 }
 
 float mapFloat(float x, float in_min, float in_max, float out_min, float out_max){
