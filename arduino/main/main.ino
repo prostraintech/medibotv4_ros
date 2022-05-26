@@ -76,6 +76,13 @@ void loop(){
 
   //REMOTE MODE
   if(digitalRead(SW_MODE) && !digitalRead(ESTOP)){
+    
+    //Stop the robot if not connected to ROS or there are no velocity command after some time
+    if(!Robot.isRosConnected || (millis() - lastCmdVelReceived > CMD_VEL_TIMEOUT)){
+      linearX_vel = 0;
+      angularZ_vel = 0;
+      Robot.Move(MIN_PWM, MIN_PWM);//stop motors
+    }
 
     // Convert Linear X and Angular Z Velocity to PWM
     // Calculate left and right wheel velocity
@@ -88,16 +95,16 @@ void loop(){
 
     // Make sure calculated velocity is in range of min and max velocity before mapping to PWM
     if(fabs(left_vel)>MAX_VELOCITY){
-        left_vel = left_dir*MAX_VELOCITY;
+      left_vel = left_dir*MAX_VELOCITY;
     }
     else if(fabs(left_vel)<MIN_VELOCITY){
-        left_vel = left_dir*MIN_VELOCITY;
+      left_vel = left_dir*MIN_VELOCITY;
     }
     if(fabs(right_vel)>MAX_VELOCITY){
-        right_vel = right_dir*MAX_VELOCITY;
+      right_vel = right_dir*MAX_VELOCITY;
     }
     else if(fabs(right_vel)<MIN_VELOCITY){
-        right_vel = right_dir*MIN_VELOCITY;
+      right_vel = right_dir*MIN_VELOCITY;
     }
 
     // Map wheel velocity to PWM
@@ -108,20 +115,6 @@ void loop(){
     lwheel_pwm_msg.data = left_dir*left_pwm;
     rwheel_pwm_msg.data = right_dir*right_pwm;
     Robot.Move(left_dir*left_pwm, right_dir*right_pwm);
-
-    //Stop the robot if not connected to ROS
-    if(!Robot.isRosConnected){
-      linearX_vel = 0;
-      angularZ_vel = 0;
-      Robot.Move(MIN_PWM, MIN_PWM);//stop motors
-    }
-
-    //Stop the robot if there are no velocity command after some time
-    if(millis() - lastCmdVelReceived > CMD_VEL_TIMEOUT){
-      linearX_vel = 0;
-      angularZ_vel = 0;
-      Robot.Move(MIN_PWM, MIN_PWM);//stop motors
-    }
 
   }
   //RESCUE MODE

@@ -3,18 +3,51 @@ Consider minimum pwm to move the robot in arduino/main.ino
 DWA planner failed to produce path, due to local costmap global frame set to odom?
 
 Control loop missed its desired rate, due to high computational cost:
-- decrease controller frequency in move_base config
-- try Jetson MAXN mode
-- try run '$ jetson clocks' to use maximum clock speed
-- set 'enable_homotopy_class_planning' to false in TEB config (requires more resources since multiple traj are optimized at once)
+	- decrease controller frequency in move_base config
+	- try Jetson MAXN mode
+	- try run '$ jetson_clocks' to use maximum clock speed
+	- set 'enable_homotopy_class_planning' to false in TEB config (requires more resources since multiple traj are optimized at once)
 
 TEB planner couldn't find feasible trajectory:
-- could caused by low 'global_plan_viapoint_sep', it might pull the robot into obstacles since it tries to stick to global plan. Try high value like 1.0 or completely disable it (-0.1).
-- decrease 'feasibility_check_no_poses' to 3 or less (not a proper fix)
+	- could caused by low 'global_plan_viapoint_sep', it might pull the robot into obstacles since it tries to stick to global plan. Try high value like 1.0 or completely disable it (-0.1).
+	- decrease 'feasibility_check_no_poses' to 3 or less (not a proper fix)
 
 Obstacles are not cleared completely in costmap:
-- increase raytrace range
-- setup costmap layer properly
-- try set 'always_send_full_costmap' to true
+	- increase raytrace range
+	- setup costmap layer properly
+	- try set 'always_send_full_costmap' to true
 
-HIGH interrupt in arduino could cause error in rosserial connection.
+HIGH interrupt using arduino due could cause error in rosserial connection.
+
+try out robot_localization package:
+- use laser_scan_matcher posewithcovariancestamped message 
+- need to disable tf publish in laser_scan_matcher or set publish_tf to false in ekf node
+- in laser_scan_matcher node:
+	- set publish_pose param to false
+	- set publish_pose_with_covariance_stamped to true
+	- remap odom_tf topic to 'odometry/wheel'
+	- remap laser_scan_matcher to 'odometry/laser'
+
+tune amcl, try diff-corrected model, refer to https://doi.org/10.1109/ICAR46387.2019.8981601
+
+Validate odometry:
+	- Check or plot in rqt graph : cmd_vel and odometry velocity for lin x and ang z
+	- monitor odometry/filtered vs odometry/wheel pose, move in square back to origin, then check coordinates, should be back at (0,0)
+	- check odometry drift with laser scan in rviz
+	- drive in square, visualize odometry in rviz
+
+Check map accuracy: try measuring map/wall length in rviz using ruler tool
+
+DWA planner missed control loop:
+	- reduce the resolution of costmaps (0.1m)
+	- reduce the width and height of the local costmap (3x3m)
+	- reduce vx_samples and vtheta_samples (4 and 10 respectively)
+	- reduce controller_frequency (5Hz)
+	- 'transform_tolerance' in amcl parameters too low so it does not match the TF publishing frequency and that causes the delay in the controller loop. Can be solved by setting the transform_tolerance to 0.3 and everything works fine.
+	- Try ncreasing the values of sim_time and a little bit of sim_granularity
+	- Try calibrate time true in urg_node
+	- set 'expected_update_rate' parameter for each observation source based on the rate at which the sensor actually publishes, check publish rate of scan 'rostopic hz /scan', For example, if we expect a scan from a laser every 0.05 seconds we might set this parameter to be 0.1 seconds to give a generous buffer and account for some amount of system latency.
+	- run move_base then check cpu load without giving goal. 'sudo tegratstats' or use top/htop command
+	- dwa_planner/publish_traj_pc check topic in rviz
+	- try TrajectoryPlannerROS
+
