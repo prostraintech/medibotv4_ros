@@ -1,7 +1,7 @@
 !!python/object/new:dynamic_reconfigure.encoding.Config
 dictitems:
-  acc_lim_theta: 4.0
-  acc_lim_x: 0.1
+  acc_lim_theta: 0.5
+  acc_lim_x: 0.05
   acc_lim_y: 0.5
   allow_init_with_backwards_motion: false
   cmd_angle_instead_rotvel: false
@@ -137,8 +137,8 @@ dictitems:
             state: []
           Robot: !!python/object/new:dynamic_reconfigure.encoding.Config
             dictitems:
-              acc_lim_theta: 4.0
-              acc_lim_x: 0.1
+              acc_lim_theta: 0.5
+              acc_lim_x: 0.05
               groups: !!python/object/new:dynamic_reconfigure.encoding.Config
                 dictitems:
                   Carlike: !!python/object/new:dynamic_reconfigure.encoding.Config
@@ -173,7 +173,7 @@ dictitems:
                 state: []
               id: 3
               is_footprint_dynamic: false
-              max_vel_theta: 0.8
+              max_vel_theta: 0.7
               max_vel_x: 0.4
               max_vel_x_backwards: 0.4
               name: Robot
@@ -239,7 +239,7 @@ dictitems:
   legacy_obstacle_association: false
   max_global_plan_lookahead_dist: 3.0
   max_number_classes: 4
-  max_vel_theta: 0.8
+  max_vel_theta: 0.7
   max_vel_x: 0.4
   max_vel_x_backwards: 0.4
   max_vel_y: 0.0
