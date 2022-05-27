@@ -9,15 +9,15 @@ topics:
 -
   name    : navigation
   topic   : nav_vel
-  timeout : 0.5
+  timeout : 0.2
   priority: 10
 -
   name    : joystick
   topic   : joy_vel
-  timeout : 0.5
+  timeout : 2.0
   priority: 100
 -
   name    : keyboard
   topic   : key_vel
-  timeout : 0.5
+  timeout : 2.0
   priority: 90

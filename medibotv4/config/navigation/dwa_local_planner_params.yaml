@@ -19,6 +19,9 @@ DWAPlannerROS:
   acc_lim_theta: 6.0 
   acc_lim_trans: 0.5
 
+  # theta_stopped_vel: 0.7
+  # trans_stopped_vel: 0.25
+
 # Goal Tolerance Parametes
   xy_goal_tolerance: 0.25
   yaw_goal_tolerance: 0.17
@@ -49,6 +52,3 @@ DWAPlannerROS:
 # Debugging
   publish_traj_pc : true
   publish_cost_grid_pc: true
-
-  theta_stopped_vel: 0.7
-  trans_stopped_vel: 0.25

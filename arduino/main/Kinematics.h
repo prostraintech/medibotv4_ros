@@ -1,4 +1,5 @@
 #pragma once
+#include "Config.h"
 #include "Motor.h"
 #include "LED.h"
 
@@ -35,7 +36,7 @@ void Kinematics::Move(int lpwm, int rpwm){
   //stop -> white if ros connected, else (yellow if ros not connected else red/estop)
   char stp_clr = this->isRosConnected>0? 'w':(this->isRosConnected==0?'y':'r');
 
-  if(lpwm==0 && rpwm==0){
+  if(abs(lpwm)<=MIN_PWM && abs(rpwm)<=MIN_PWM){
     this->LH_led.Emit(stp_clr); this->RH_led.Emit(stp_clr);
   }
   else{
