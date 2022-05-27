@@ -77,5 +77,7 @@
           args="-d $(find medibotv4_navigation)/rviz/multirobot_navigation_simulation.rviz"/>
   </group>
 
+  <node type="task_assignment_service_server.py" name="task_assignment_service_server" pkg="medibotv4" output="screen"/>
+
 </launch>
 

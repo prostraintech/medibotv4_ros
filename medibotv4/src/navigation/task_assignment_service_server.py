@@ -8,18 +8,18 @@ from std_srvs.srv import Trigger, TriggerResponse
 from move_base_msgs.msg import MoveBaseActionGoal
 
 
-class GetPath(object):
+class TaskAssign(object):
     def __init__(self):
-        _ = rospy.Service('/medibot/get_plan', Trigger , self.get_plan_srv_callback)
+        _ = rospy.Service('/medibot/task_assign', Trigger , self.task_assign_srv_callback)
         self.robot1_start = PoseWithCovarianceStamped()
         self.robot2_start = PoseWithCovarianceStamped()
         self.robot_goal = PoseStamped()
 
-        self.robot1_start_sub = rospy.Subscriber('/robot_1/amcl_pose', PoseWithCovarianceStamped, self.robot1_start_sub_callback)
-        self.robot2_start_sub = rospy.Subscriber('/robot_2/amcl_pose', PoseWithCovarianceStamped, self.robot2_start_sub_callback)
+        self.robot1_start_sub = rospy.Subscriber('/robot1/amcl_pose', PoseWithCovarianceStamped, self.robot1_start_sub_callback)
+        self.robot2_start_sub = rospy.Subscriber('/robot2/amcl_pose', PoseWithCovarianceStamped, self.robot2_start_sub_callback)
         self.goal_sub = rospy.Subscriber('/rviz_goal', PoseStamped, self.goal_sub_callback)
-        self.robot1_goal_pub = rospy.Publisher("/robot_1/move_base/goal", MoveBaseActionGoal, queue_size=10)
-        self.robot2_goal__pub = rospy.Publisher("/robot_2/move_base/goal", MoveBaseActionGoal, queue_size=10)
+        self.robot1_goal_pub = rospy.Publisher("/robot1/move_base/goal", MoveBaseActionGoal, queue_size=10)
+        self.robot2_goal_pub = rospy.Publisher("/robot2/move_base/goal", MoveBaseActionGoal, queue_size=10)
         
 
 
@@ -39,11 +39,11 @@ class GetPath(object):
         self.robot_goal = msg
 
 
-    def get_plan_srv_callback(self, request):    
+    def task_assign_srv_callback(self, request):    
         
         response = TriggerResponse()
-        rospy.wait_for_service('/robot_1/move_base/make_plan')
-        make_plan_service = rospy.ServiceProxy('/robot_1/move_base/make_plan', GetPlan)
+        rospy.wait_for_service('/robot1/move_base/make_plan')
+        make_plan_service = rospy.ServiceProxy('/robot1/move_base/make_plan', GetPlan)
         msg = GetPlanRequest()
         msg.start.header = self.robot1_start.header
         msg.start.pose = self.robot1_start.pose.pose
@@ -65,10 +65,10 @@ class GetPath(object):
                     first_time = False
                 prev_x = x
                 prev_y = y
-        rospy.loginfo("robot_1 Total Distance = "+str(total_distance_1)+" meters")
+        rospy.loginfo("robot1 Total Distance = "+str(total_distance_1)+" meters")
 
-        rospy.wait_for_service('/robot_2/move_base/make_plan')
-        make_plan_service = rospy.ServiceProxy('/robot_2/move_base/make_plan', GetPlan)
+        rospy.wait_for_service('/robot2/move_base/make_plan')
+        make_plan_service = rospy.ServiceProxy('/robot2/move_base/make_plan', GetPlan)
         msg = GetPlanRequest()
         msg.start.header = self.robot2_start.header
         msg.start.pose = self.robot2_start.pose.pose
@@ -89,17 +89,17 @@ class GetPath(object):
                     first_time = False
                 prev_x = x
                 prev_y = y
-        rospy.loginfo("robot_2 Total Distance = "+str(total_distance_2)+" meters")
+        rospy.loginfo("robot2 Total Distance = "+str(total_distance_2)+" meters")
         Goal = MoveBaseActionGoal()
         Goal.goal.target_pose.header.frame_id='map'
         Goal.goal.target_pose.pose = self.robot_goal.pose
 
         if total_distance_1 > total_distance_2:
-            response.message = "robot_2 is nearer... assign task to robot_2"
-            self.robot2_goal__pub.publish(Goal)
+            response.message = "robot2 is nearer... assign task to robot_2"
+            self.robot2_goal_pub.publish(Goal)
         else:
-            response.message = "robot_1 is nearer... assign task to robot_1"
-            self.robot1_goal__pub.publish(Goal)
+            response.message = "robot1 is nearer... assign task to robot_1"
+            self.robot1_goal_pub.publish(Goal)
 
         response.success = True
         return response
@@ -107,5 +107,5 @@ class GetPath(object):
    
 if __name__ == "__main__":
     rospy.init_node('Get_plan_service_server', log_level=rospy.INFO) 
-    spots_object = GetPath()
+    task_object = TaskAssign()
     rospy.spin() # mantain the service open.
