@@ -10,7 +10,7 @@ from move_base_msgs.msg import MoveBaseActionGoal
 
 class TaskAssign(object):
     def __init__(self):
-        _ = rospy.Service('/medibot/task_assign', Trigger , self.task_assign_srv_callback)
+        _ = rospy.Service('/medibotv4/task_assign', Trigger , self.task_assign_srv_callback)
         self.robot1_start = PoseWithCovarianceStamped()
         self.robot2_start = PoseWithCovarianceStamped()
         self.robot_goal = PoseStamped()
