@@ -17,7 +17,7 @@ class TaskAssign(object):
 
         self.robot1_start_sub = rospy.Subscriber('/robot1/amcl_pose', PoseWithCovarianceStamped, self.robot1_start_sub_callback)
         self.robot2_start_sub = rospy.Subscriber('/robot2/amcl_pose', PoseWithCovarianceStamped, self.robot2_start_sub_callback)
-        self.goal_sub = rospy.Subscriber('/rviz_goal', PoseStamped, self.goal_sub_callback)
+        self.goal_sub = rospy.Subscriber('/nav_goal', PoseStamped, self.goal_sub_callback)
         self.robot1_goal_pub = rospy.Publisher("/robot1/move_base/goal", MoveBaseActionGoal, queue_size=10)
         self.robot2_goal_pub = rospy.Publisher("/robot2/move_base/goal", MoveBaseActionGoal, queue_size=10)
         
