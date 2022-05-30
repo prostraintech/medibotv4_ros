@@ -5,7 +5,7 @@
   <!-- Arguments -->
   <arg name="cmd_vel_topic" default="/cmd_vel" />
   <arg name="odom_topic" default="odom" />
-  <arg name="use_dwa" default="true" />
+  <arg name="use_teb" default="true" />
 
   <!-- move_base -->
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
@@ -18,19 +18,19 @@
 
     <!-- GLOBAL PLANNER PARAMETERS -->
     <param name="base_global_planner" value="navfn/NavfnROS" />
-    <rosparam file="$(find medibotv4)/config/navigation/global_planner_params.yaml" command="load" /> 
-
-    <!-- DWA LOCAL PLANNER PARAMETERS --> 
-    <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" if="$(arg use_dwa)" />
-    <rosparam file="$(find medibotv4)/config/navigation/dwa_local_planner_params.yaml" command="load" if="$(arg use_dwa)" />
+    <rosparam file="$(find medibotv4)/config/navigation/global_planner_params.yaml" command="load" />
 
     <!-- TEB LOCAL PLANNER PARAMETERS -->
-    <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" unless="$(arg use_dwa)" />
-    <rosparam file="$(find medibotv4)/config/navigation/teb_local_planner_params.yaml" command="load" unless="$(arg use_dwa)"/>
+    <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" if="$(arg use_teb)" />
+    <rosparam file="$(find medibotv4)/config/navigation/teb_local_planner_params.yaml" command="load" if="$(arg use_teb)"/>
 
-    <!-- TRAJECTORY PLANNER PARAMETERS -->
-<!--     <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS" unless="$(arg use_dwa)" />
-    <rosparam file="$(find medibotv4)/config/navigation/trajectory_planner_params.yaml" command="load" unless="$(arg use_dwa)"/> -->
+    <!-- DWA LOCAL PLANNER PARAMETERS --> 
+    <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" unless="$(arg use_teb)" />
+    <rosparam file="$(find medibotv4)/config/navigation/dwa_local_planner_params.yaml" command="load" unless="$(arg use_teb)" />
+
+    <!-- BASE LOCAL PLANNER PARAMETERS -->
+<!--     <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS" unless="$(arg use_teb)" />
+    <rosparam file="$(find medibotv4)/config/navigation/trajectory_planner_params.yaml" command="load" unless="$(arg use_teb)"/> -->
 
     <!-- TOPIC REMAPPING -->
     <remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>

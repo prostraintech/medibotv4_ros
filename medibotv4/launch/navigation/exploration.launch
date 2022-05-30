@@ -1,15 +1,15 @@
 <?xml version="1.0" ?>
 
 <launch>
-  <!-- Arguments -->
+  
   <arg name="x_pos" default="0.0"/>
   <arg name="y_pos" default="0.0"/>
   <arg name="z_pos" default="0.0"/>
+  <arg name="cmd_vel_topic" default="/nav_vel"/>
+  <arg name="odom_topic" default="/odometry/filtered"/>
+  <arg name="use_teb" default="true"/>
   <arg name="open_rviz" default="false"/>
   <arg name="rvizconfig" default="navigation/medibotv4_navigation"/>
-  <arg name="move_forward_only" default="true"/>
-  <arg name="cmd_vel_topic" default="/nav_vel"/>
-  <arg name="use_dwa" default="true"/>
 
   <!-- SLAM Gmapping -->
   <include file="$(find medibotv4)/launch/mapping/gmapping.launch" />
@@ -23,9 +23,9 @@
 
   <!-- move_base -->
   <include file="$(find medibotv4)/launch/navigation/move_base.launch">
-    <arg name="move_forward_only" value="$(arg move_forward_only)"/>
     <arg name="cmd_vel_topic" value="$(arg cmd_vel_topic)"/>
-    <arg name="use_dwa" value="$(arg use_dwa)"/>
+    <arg name="odom_topic" value="$(arg odom_topic)"/>
+    <arg name="use_teb" value="$(arg use_teb)"/>
   </include>
 
     <!-- rviz -->
