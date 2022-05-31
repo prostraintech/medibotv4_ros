@@ -94,11 +94,11 @@ class TaskAssign(object):
         Goal.goal.target_pose.pose = self.robot_goal.pose
 
         if total_distance_1 > total_distance_2:
-            response.message = "robot2 is nearer... assign task to robot_2"
-            self.robot2_goal_pub.publish(Goal)
+            response.message = "robot2"
+            # self.robot2_goal_pub.publish(Goal)
         else:
-            response.message = "robot1 is nearer... assign task to robot_1"
-            self.robot1_goal_pub.publish(Goal)
+            response.message = "robot1"
+            # self.robot1_goal_pub.publish(Goal)
 
         response.success = True
         return response
