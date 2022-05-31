@@ -36,7 +36,6 @@ class TaskAssign(object):
     
     def goal_sub_callback(self, msg):
         self.robot_goal = msg
-        self.robot_goal = msg
 
 
     def task_assign_srv_callback(self, request):    
