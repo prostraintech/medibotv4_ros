@@ -36,6 +36,6 @@
 
     <node type="task_assignment_service_server.py" name="task_assignment_service_server" pkg="medibotv4" output="screen"/>
 
-    <!-- <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/> -->
+    <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/>
 
 </launch>
