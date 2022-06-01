@@ -1,11 +1,11 @@
-obstacle_range: 4.0
-raytrace_range: 4.0
+obstacle_range: 5.0
+raytrace_range: 5.0
 
 footprint: [[-0.21, 0.31], [0.215, 0.31], [0.363, 0], [0.215, -0.31], [-0.21, -0.31]]
-footprint_padding: 0.03
+footprint_padding: 0.01
 
-inflation_radius: 0.3
-cost_scaling_factor: 4.5
+inflation_radius: 1.5
+cost_scaling_factor: 3.0
 
 transform_tolerance: 0.5
 map_type: costmap

@@ -2,10 +2,10 @@
 
 <launch>
 
-  <arg name="map_name" default="gpcl_map2"/>
+  <arg name="map_name" default="gpcl_map3"/>
   <arg name="map_file" default="$(find medibotv4)/maps/$(arg map_name).yaml"/>
-  <arg name="x_pos" default="7.2"/>
-  <arg name="y_pos" default="2.0"/>
+  <arg name="x_pos" default="2.6"/>
+  <arg name="y_pos" default="2.1"/>
   <arg name="z_pos" default="1.0"/>
   <arg name="cmd_vel_topic" default="/nav_vel"/>
   <arg name="odom_topic" default="/odometry/filtered"/>
