@@ -1,5 +1,5 @@
 <launch>
-    <arg name="map_name" default="gpcl_map1"/>
+    <arg name="map_name" default="gpcl_map3"/>
     <arg name="map_file" default="$(find medibotv4)/maps/$(arg map_name).yaml"/>
     <arg name="open_rviz" default="true"/>
     <arg name="robot1_ns" default="robot1" />
