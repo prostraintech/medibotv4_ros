@@ -27,9 +27,9 @@
         <!--- AMCL -->
         <include file="$(find medibotv4)/launch/navigation/multirobot_amcl.launch">
         <arg name="robot_name" value="$(arg robot_ns)"/>
-        <arg name="initial_pose_x" value="2.1"/>
-        <arg name="initial_pose_y" value="2.6"/>
-        <arg name="initial_pose_a" value="0.0"/>
+        <arg name="initial_pose_x" value="3.93"/>
+        <arg name="initial_pose_y" value="5.17"/>
+        <arg name="initial_pose_a" value="0.97"/>
         </include>
 
         <!--move_base-->
