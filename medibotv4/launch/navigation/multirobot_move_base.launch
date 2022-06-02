@@ -19,7 +19,7 @@
     <rosparam file="$(find medibotv4)/config/navigation/global_planner_params.yaml" command="load"/>
 
     <!-- TEB LOCAL PLANNER PARAMETERS -->
-    <<param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS"/>
+    <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS"/>
     <rosparam file="$(find medibotv4)/config/navigation/teb_local_planner_params.yaml" command="load" />
     
     <!-- DWA LOCAL PLANNER PARAMETERS-->
