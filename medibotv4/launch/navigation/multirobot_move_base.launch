@@ -1,5 +1,4 @@
 <launch>
-  <!-- Launch file for move_base to run for one of multiple turtlebot3's -->
   
   <!-- Namespace and tf_prefix are assumed to be the same -->
   <arg name="robot_name"/>
@@ -8,11 +7,11 @@
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
 
     <!-- COSTMAP PARAMETERS -->
-    <rosparam file="$(find medibotv4)/config/multirobot_params/costmap_common_params.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find medibotv4)/config/multirobot_params/costmap_common_params.yaml" command="load" ns="local_costmap" />
-    <rosparam file="$(find medibotv4)/config/multirobot_params/local_costmap_params.yaml" command="load" />
-    <rosparam file="$(find medibotv4)/config/multirobot_params/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find medibotv4)/config/multirobot_params/move_base_params.yaml" command="load" />
+    <rosparam file="$(find medibotv4)/config/navigation/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find medibotv4)/config/navigation/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find medibotv4)/config/navigation/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find medibotv4)/config/navigation/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find medibotv4)/config/navigation/move_base_params.yaml" command="load" />
 
     <!-- GLOBAL PLANNER PARAMETERS -->
     <param name="base_global_planner" value="navfn/NavfnROS"/>

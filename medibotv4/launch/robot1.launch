@@ -29,7 +29,7 @@
         <arg name="robot_name" value="$(arg robot_ns)"/>
         <arg name="initial_pose_x" value="3.93"/>
         <arg name="initial_pose_y" value="5.17"/>
-        <arg name="initial_pose_a" value="0.97"/>
+        <arg name="initial_pose_a" value="0.0"/>
         </include>
 
         <!--move_base-->
