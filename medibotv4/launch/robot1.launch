@@ -1,18 +1,15 @@
 <launch>
     <arg name="robot_ns" default="robot1" />
-    <arg name="odom_topic" default="/odometry/filtered"/>
 
     <group ns="$(arg robot_ns)">
 
         <include file="$(find medibotv4)/launch/base/arduino.launch"/>
 
-        <include file="$(find medibotv4)/launch/base/multirobot_odom.launch">
+        <!-- <include file="$(find medibotv4)/launch/base/multirobot_odom.launch">
             <arg name="robot_ns" value="$(arg robot_ns)"/>
-        </include>
+        </include> -->
         
-        <include file="$(find medibotv4)/launch/base/multirobot_ekf_localization.launch">
-            <arg name="robot_ns" value="$(arg robot_ns)" />
-        </include>
+        <!-- <include file="$(find medibotv4)/launch/base/ekf_localization.launch" /> -->
 
         <include file="$(find medibotv4)/launch/base/multirobot_model.launch">
             <arg name="robot_ns"  value="$(arg robot_ns)" />
@@ -26,21 +23,18 @@
         <include file="$(find medibotv4)/launch/base/multirobot_scan_matcher.launch">
             <arg name="robot_ns" value="$(arg robot_ns)"/>
         </include>
-<!-- 
-        <include file="$(find medibotv4)/launch/base/twist_mux.launch" /> -->
 
         <!--- AMCL -->
         <include file="$(find medibotv4)/launch/navigation/multirobot_amcl.launch">
         <arg name="robot_name" value="$(arg robot_ns)"/>
-        <arg name="initial_pose_x" value="2.6"/>
-        <arg name="initial_pose_y" value="2.1"/>
+        <arg name="initial_pose_x" value="2.1"/>
+        <arg name="initial_pose_y" value="2.6"/>
         <arg name="initial_pose_a" value="0.0"/>
         </include>
 
         <!--move_base-->
         <include file="$(find medibotv4)/launch/navigation/multirobot_move_base.launch">
         <arg name="robot_name" value="$(arg robot_ns)"/>
-        <arg name="odom_topic" value="$(arg odom_topic)"/>
         </include>
 
         <node pkg="medibotv4" type="auto_clear_costmap_node" name="auto_clear_costmap_node" output="screen">
