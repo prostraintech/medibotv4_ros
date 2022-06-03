@@ -22,6 +22,6 @@ int main(int argc, char **argv){
 	while(ros::ok()){
 		clearClient.call(srv);
 		ROS_INFO("Clearing Costmap...");
-		ros::Duration(3).sleep();
+		ros::Duration(10).sleep();
 	}
 }
