@@ -1,19 +1,15 @@
 <launch>
     <arg name="robot_ns" default="robot2" />
-    <arg name="map_name" default="gpcl_map1"/>
-    <arg name="map_file" default="$(find medibotv4)/maps/$(arg map_name).yaml"/>
 
     <group ns="$(arg robot_ns)">
 
         <include file="$(find medibotv4)/launch/base/arduino.launch"/>
 
-        <include file="$(find medibotv4)/launch/base/multirobot_odom.launch">
+        <!-- <include file="$(find medibotv4)/launch/base/multirobot_odom.launch">
             <arg name="robot_ns" value="$(arg robot_ns)"/>
-        </include>
+        </include> -->
         
-        <include file="$(find medibotv4)/launch/base/multirobot_ekf_localization.launch">
-            <arg name="robot_ns" value="$(arg robot_ns)" />
-        </include>
+        <!-- <include file="$(find medibotv4)/launch/base/ekf_localization.launch" /> -->
 
         <include file="$(find medibotv4)/launch/base/multirobot_model.launch">
             <arg name="robot_ns"  value="$(arg robot_ns)" />
@@ -28,14 +24,12 @@
             <arg name="robot_ns" value="$(arg robot_ns)"/>
         </include>
 
-        <!-- <include file="$(find medibotv4)/launch/base/twist_mux.launch" /> -->
-
         <!--- AMCL -->
         <include file="$(find medibotv4)/launch/navigation/multirobot_amcl.launch">
         <arg name="robot_name" value="$(arg robot_ns)"/>
-        <arg name="initial_pose_x" value="9.2"/>
-        <arg name="initial_pose_y" value="2.0"/>
-        <arg name="initial_pose_a" value="1.0"/>
+        <arg name="initial_pose_x" value="3.93"/>
+        <arg name="initial_pose_y" value="5.17"/>
+        <arg name="initial_pose_a" value="0.0"/>
         </include>
 
         <!--move_base-->

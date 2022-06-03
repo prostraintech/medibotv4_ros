@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<launch>
+
+	<include file="$(find medibotv4_description)/launch/multirobot_gazebo.launch" />
+
+	<include file="$(find medibotv4_navigation)/launch/multirobot_navigation.launch" />
+
+	<include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/>
+
+    <node type="task_assignment_service_server.py" name="task_assignment_service_server" pkg="medibotv4" output="screen"/>
+
+	<node type="spots_service_server.py" name="spots_service_server" pkg="medibotv4"/>
+
+</launch>
