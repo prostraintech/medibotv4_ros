@@ -37,9 +37,9 @@
         <arg name="robot_name" value="$(arg robot_ns)"/>
         </include>
 
-        <node pkg="medibotv4" type="auto_clear_costmap_node" name="auto_clear_costmap_node" output="screen">
+        <!-- <node pkg="medibotv4" type="auto_clear_costmap_node" name="auto_clear_costmap_node" output="screen">
             <param name="tf_prefix"                  value="$(arg robot_ns)"/>
-        </node>
+        </node> -->
 
         <node pkg="medibotv4" type="robot_pose_publisher" name="robot_pose_publisher">
             <param name="base_frame"                  value="$(arg robot_ns)/base_link"/>
