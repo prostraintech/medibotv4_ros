@@ -5,6 +5,8 @@
 
 <include file="$(find medibotv4)/launch/base/lidar.launch" />
 
+<include file="$(find medibotv4)/launch/base/laser_filters.launch" />
+
 <include file="$(find medibotv4)/launch/base/robot_model.launch" />
 
 <include file="$(find medibotv4)/launch/base/scan_matcher.launch" />
