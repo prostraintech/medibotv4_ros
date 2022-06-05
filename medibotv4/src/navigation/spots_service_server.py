@@ -13,18 +13,23 @@ from move_base_msgs.msg import MoveBaseActionGoal
 
 class SaveSpots(object):
     def __init__(self):
+        self.robot_namespace = rospy.get_param("robot_ns", "")
+        if self.robot_namespace != "":
+            self.robot_namespace = "/" + self.robot_namespace
         self.rospack_path = rospkg.RosPack().get_path('medibotv4')
         self.file_path = '/config/navigation/spots.yaml'
+        if self.robot_namespace != "":
+            self.file_path = '/config/navigation/tasks.yaml'
         self._pose = PoseWithCovarianceStamped()
         self.detection_dict = {}
         self.readFile()
         self.writeFile()
-        _ = rospy.Service('/spots/set_spot', SetSpot , self.set_spot_srv_callback)
-        _ = rospy.Service('/spots/send_goal', SendGoal , self.send_goal_srv_callback)
-        _ = rospy.Service('/spots/get_spot', GetSpot, self.get_spot_srv_callback) 
+        _ = rospy.Service(self.robot_namespace+'/spots/set_spot', SetSpot , self.set_spot_srv_callback)
+        _ = rospy.Service(self.robot_namespace+'/spots/send_goal', SendGoal , self.send_goal_srv_callback)
+        _ = rospy.Service(self.robot_namespace+'/spots/get_spot', GetSpot, self.get_spot_srv_callback) 
 
-        self._pose_sub = rospy.Subscriber('/amcl_pose', PoseWithCovarianceStamped , self.sub_callback)      
-        self._goal_pub = rospy.Publisher("/move_base/goal", MoveBaseActionGoal, queue_size=10)
+        self._pose_sub = rospy.Subscriber(self.robot_namespace+'/amcl_pose', PoseWithCovarianceStamped , self.sub_callback)      
+        self._goal_pub = rospy.Publisher(self.robot_namespace+"/move_base/goal", MoveBaseActionGoal, queue_size=10)
         
         
     def reindent(self, s):

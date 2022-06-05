@@ -4,14 +4,16 @@ import roslib, rospy
 from move_base_msgs.msg import MoveBaseActionGoal, MoveBaseActionFeedback
 
 class CalculateDistanceTraveled(object):
-    def __init__(self):
+    def __init__(self, robot_namespace=""):
         self.total_distance = 0
         self.prev_x = 0.0
         self.prev_y = 0.0
         self.goal_point = []
         self.first_time = True
-        self.pose_subscriber = rospy.Subscriber("/move_base/feedback", MoveBaseActionFeedback, self.addPointToTotalDistance)
-        self.goal_subscriber = rospy.Subscriber("/move_base/goal", MoveBaseActionGoal, self.getGoalPoint)
+        if robot_namespace != "":
+            robot_namespace = "/" + robot_namespace
+        self.pose_subscriber = rospy.Subscriber(robot_namespace+"/move_base/feedback", MoveBaseActionFeedback, self.addPointToTotalDistance)
+        self.goal_subscriber = rospy.Subscriber(robot_namespace+"/move_base/goal", MoveBaseActionGoal, self.getGoalPoint)
 
     def distancePoints(self,x1,y1,x2,y2):
         return math.hypot(x2 - x1, y2 - y1)
