@@ -17,7 +17,7 @@ class SaveSpots(object):
         if self.robot_namespace != "":
             self.robot_namespace = "/" + self.robot_namespace
         self.rospack_path = rospkg.RosPack().get_path('medibotv4')
-        self.file_path = '/config/navigation/spots.yaml'
+        self.file_path = '/config/navigation/tasks.yaml'
         if self.robot_namespace != "":
             self.file_path = '/config/navigation/tasks.yaml'
         self._pose = PoseWithCovarianceStamped()
@@ -29,7 +29,7 @@ class SaveSpots(object):
         _ = rospy.Service(self.robot_namespace+'/spots/get_spot', GetSpot, self.get_spot_srv_callback) 
 
         self._pose_sub = rospy.Subscriber(self.robot_namespace+'/amcl_pose', PoseWithCovarianceStamped , self.sub_callback)      
-        self._goal_pub = rospy.Publisher(self.robot_namespace+"/move_base/goal", MoveBaseActionGoal, queue_size=10)
+        
         
         
     def reindent(self, s):
@@ -84,9 +84,12 @@ class SaveSpots(object):
     def set_spot_srv_callback(self, request):    
         label = request.label
         action = request.action
+        ns = request.ns
+        pose_msg = rospy.wait_for_message(ns+'/amcl_pose', PoseWithCovarianceStamped)
+        
         response = SetSpotResponse()
         if action == "add":
-            self.detection_dict[label] = self._pose
+            self.detection_dict[label] = pose_msg
             self.writeFile()
             response.message = "Added Pose for " + label   
         elif action == "remove":
@@ -113,11 +116,13 @@ class SaveSpots(object):
 
     def send_goal_srv_callback(self, request):
         label = request.label
+        ns = request.ns
         response = SendGoalResponse()
         Goal = MoveBaseActionGoal()
         Goal.goal.target_pose.header.frame_id='map'
         Goal.goal.target_pose.pose=self.detection_dict[label].pose.pose
-        self._goal_pub.publish(Goal)
+        goal_pub = rospy.Publisher(ns+"/move_base/goal", MoveBaseActionGoal, queue_size=10)
+        goal_pub.publish(Goal)
         response.message = "Goal to "+label+" is sent!"
         response.success = True
         return response

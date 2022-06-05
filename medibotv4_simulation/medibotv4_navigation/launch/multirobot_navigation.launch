@@ -40,10 +40,6 @@
       <param name="base_frame" value="$(arg first_robot)/base_link"/>
     </node>
 
-    <node type="spots_service_server.py" name="spots_service_server" pkg="medibotv4" output="screen">
-      <param name="robot_ns" value="$(arg first_robot)"/>
-    </node>
-
   </group>
 
   <group ns="$(arg second_robot)">
@@ -74,10 +70,6 @@
 
     <node pkg="medibotv4" type="robot_pose_publisher" name="robot_pose_publisher">
       <param name="base_frame" value="$(arg second_robot)/base_link"/>
-    </node>
-
-    <node type="spots_service_server.py" name="spots_service_server" pkg="medibotv4" output="screen">
-      <param name="robot_ns" value="$(arg first_robot)"/>
     </node>
     
   </group>
