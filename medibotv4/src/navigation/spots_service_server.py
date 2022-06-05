@@ -13,7 +13,7 @@ from move_base_msgs.msg import MoveBaseActionGoal
 
 class SaveSpots(object):
     def __init__(self):
-        self.robot_namespace = rospy.get_param("robot_ns", "")
+        self.robot_namespace = rospy.get_param("~robot_ns", "")
         if self.robot_namespace != "":
             self.robot_namespace = "/" + self.robot_namespace
         self.rospack_path = rospkg.RosPack().get_path('medibotv4')
