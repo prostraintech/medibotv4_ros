@@ -8,6 +8,7 @@ from medibotv4.srv import *
 from move_base_msgs.msg import MoveBaseActionResult
 from actionlib_msgs.msg import GoalStatusArray, GoalID
 from calculate_distance_traveled import CalculateDistanceTraveled
+from std_srvs.srv import Empty, EmptyRequest
 
 
 class WaypointControl(object):
@@ -35,14 +36,17 @@ class WaypointControl(object):
     def begin(self):
         for i in self.waypoints:
             cdt = CalculateDistanceTraveled() # start calculating distance traveled
+            clear_costmap_service_client = rospy.ServiceProxy('/move_base/clear_costmaps', Empty)
+            clear_costmap_service_request = EmptyRequest()
             send_goal_service_client = rospy.ServiceProxy('/spots/send_goal', SendGoal)
-            request = SendGoalRequest()
-            request.label = i
+            send_goal_service_request = SendGoalRequest()
+            send_goal_service_request.label = i
             # check if going to first spot in the list
             if i == self.waypoints[0]:
                 print("\n--------- TEST " + str(self.Ntest) + "---------")
             # call service to send goal to a waypoint
-            response = send_goal_service_client(request)
+            clear_costmap_service_response = clear_costmap_service_client(clear_costmap_service_request)
+            send_goal_service_response = send_goal_service_client(send_goal_service_request)
             print("  Moving to " + i)
             # wait until the goal is reached
             while self.robot_status != "reached":

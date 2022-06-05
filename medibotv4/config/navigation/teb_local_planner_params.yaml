@@ -13,9 +13,9 @@ TebLocalPlannerROS:
  max_global_plan_lookahead_dist: 3.0
  global_plan_prune_distance: 1
  exact_arc_length: False
- feasibility_check_no_poses: 5
+ feasibility_check_no_poses: 3
  publish_feedback: False
- global_plan_viapoint_sep: 0.2
+ global_plan_viapoint_sep: 0.1
  via_points_ordered: True
  force_reinit_new_goal_angular: 0.78
  force_reinit_new_goal_dist: 1.0   
@@ -43,9 +43,9 @@ TebLocalPlannerROS:
     
  # Obstacles
     
- min_obstacle_dist: 0.1
- inflation_dist: 1.5
- dynamic_obstacle_inflation_dist: 1.5
+ min_obstacle_dist: 0.3
+ inflation_dist: 2.0
+ dynamic_obstacle_inflation_dist: 2.0
  include_costmap_obstacles: True
  costmap_obstacles_behind_robot_dist: 0.1
  obstacle_poses_affected: 10
