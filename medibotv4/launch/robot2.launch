@@ -5,30 +5,32 @@
 
         <include file="$(find medibotv4)/launch/base/arduino.launch"/>
 
-        <!-- <include file="$(find medibotv4)/launch/base/multirobot_odom.launch">
+        <include file="$(find medibotv4)/launch/base/multirobot_lidar.launch">
             <arg name="robot_ns" value="$(arg robot_ns)"/>
-        </include> -->
-        
-        <!-- <include file="$(find medibotv4)/launch/base/ekf_localization.launch" /> -->
+        </include>
+
+        <include file="$(find medibotv4)/launch/base/multirobot_laser_filters.launch" />
 
         <include file="$(find medibotv4)/launch/base/multirobot_model.launch">
             <arg name="robot_ns"  value="$(arg robot_ns)" />
             <arg name="tf_robot" value="$(arg robot_ns)" /> 
         </include>
 
-        <include file="$(find medibotv4)/launch/base/multirobot_lidar.launch">
-            <arg name="robot_ns" value="$(arg robot_ns)"/>
-        </include>
-
         <include file="$(find medibotv4)/launch/base/multirobot_scan_matcher.launch">
             <arg name="robot_ns" value="$(arg robot_ns)"/>
         </include>
 
+        <include file="$(find medibotv4)/launch/base/multirobot_odom.launch">
+            <arg name="robot_ns" value="$(arg robot_ns)"/>
+        </include>
+
+        <include file="$(find medibotv4)/launch/base/robot2_ekf_localization.launch" />
+
         <!--- AMCL -->
         <include file="$(find medibotv4)/launch/navigation/multirobot_amcl.launch">
         <arg name="robot_name" value="$(arg robot_ns)"/>
-        <arg name="initial_pose_x" value="3.93"/>
-        <arg name="initial_pose_y" value="5.17"/>
+        <arg name="initial_pose_x" value="5.14"/>
+        <arg name="initial_pose_y" value="9.64"/>
         <arg name="initial_pose_a" value="0.0"/>
         </include>
 
