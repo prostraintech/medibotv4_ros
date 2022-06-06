@@ -19,5 +19,5 @@ def sub_callback(msg):
 
 if __name__ == "__main__":
     rospy.init_node('clear_costmap_node', log_level=rospy.INFO)    
-    _ = rospy.Subscriber(robot_namespace+'/move_base/goal', MoveBaseActionGoal, sub_callback(robot_namespace))
+    _ = rospy.Subscriber(robot_namespace+'/move_base/goal', MoveBaseActionGoal, sub_callback)
     rospy.spin() # mantain the service open.
