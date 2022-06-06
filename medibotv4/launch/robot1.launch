@@ -43,10 +43,6 @@
             <param name="tf_prefix"                  value="$(arg robot_ns)"/>
         </node> -->
 
-        <node type="clear_costmap_node.py" name="clear_costmap_node" pkg="medibotv4">
-            <param name="robot_ns" value="$(arg robot_ns)"/>
-        </node>
-
         <node pkg="medibotv4" type="robot_pose_publisher" name="robot_pose_publisher">
             <param name="base_frame"                  value="$(arg robot_ns)/base_link"/>
         </node>

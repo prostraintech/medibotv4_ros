@@ -9,6 +9,7 @@ from std_msgs.msg import Float64
 from geometry_msgs.msg import Pose
 from geometry_msgs.msg import PoseWithCovarianceStamped
 from move_base_msgs.msg import MoveBaseActionGoal
+from std_srvs.srv import Empty, EmptyRequest
 
 
 class SaveSpots(object):
@@ -27,8 +28,10 @@ class SaveSpots(object):
         _ = rospy.Service(self.robot_namespace+'/spots/set_spot', SetSpot , self.set_spot_srv_callback)
         _ = rospy.Service(self.robot_namespace+'/spots/send_goal', SendGoal , self.send_goal_srv_callback)
         _ = rospy.Service(self.robot_namespace+'/spots/get_spot', GetSpot, self.get_spot_srv_callback) 
+        _ = rospy.Subscriber('/robot1/move_base/goal', MoveBaseActionGoal, self.robot1_clear_costmap_callback)
+        _ = rospy.Subscriber('/robot2/move_base/goal', MoveBaseActionGoal, self.robot2_clear_costmap_callback)
 
-        self._pose_sub = rospy.Subscriber(self.robot_namespace+'/amcl_pose', PoseWithCovarianceStamped , self.sub_callback)      
+        self._pose_sub = rospy.Subscriber(self.robot_namespace+'/amcl_pose', PoseWithCovarianceStamped , self.amcl_pose_callback)      
         
         
         
@@ -77,8 +80,18 @@ class SaveSpots(object):
             except:
                 pass
 
+    def robot1_clear_costmap_callback(self,msg):
+        clear_costmap_service_client = rospy.ServiceProxy('/robot1/move_base/clear_costmaps', Empty)
+        clear_costmap_service_request = EmptyRequest()
+        clear_costmap_service_response = clear_costmap_service_client(clear_costmap_service_request)
 
-    def sub_callback(self, msg):
+    def robot2_clear_costmap_callback(self,msg):
+        clear_costmap_service_client = rospy.ServiceProxy('/robot2/move_base/clear_costmaps', Empty)
+        clear_costmap_service_request = EmptyRequest()
+        clear_costmap_service_response = clear_costmap_service_client(clear_costmap_service_request)
+
+
+    def amcl_pose_callback(self, msg):
         self._pose = msg
     
     def set_spot_srv_callback(self, request):    
