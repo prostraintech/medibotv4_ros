@@ -19,7 +19,7 @@
 
     <!-- TEB LOCAL PLANNER PARAMETERS -->
     <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS"/>
-    <rosparam file="$(find medibotv4)/config/multirobot_params/teb_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find medibotv4)/config/navigation/teb_local_planner_params.yaml" command="load" />
     
     <!-- DWA LOCAL PLANNER PARAMETERS-->
     <!-- <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS" />
@@ -35,6 +35,7 @@
     <param name="local_costmap/obstacle_layer/scan/sensor_frame"    value="$(arg robot_name)/lidar"/>
     <param name="local_costmap/global_frame"                        value="$(arg robot_name)/odom"/>
     <param name="local_costmap/robot_base_frame"                    value="$(arg robot_name)/base_link"/>
+    <param name="TebLocalPlannerROS/odom_topic"                     value="$(arg robot_name)/odometry/filtered"/>
 
     <!-- <param name="global_costmap/scan/sensor_frame"                  value="$(arg robot_namespace)/lidar"/>
     <param name="global_costmap/laser_scan_sensor/sensor_frame"     value="$(arg robot_name)/lidar"/>
