@@ -33,7 +33,7 @@
     <param name="global_costmap/robot_base_frame"                   value="$(arg robot_name)/base_link"/>
     <param name="local_costmap/scan/sensor_frame"                   value="$(arg robot_name)/lidar"/>
     <param name="local_costmap/obstacle_layer/scan/sensor_frame"    value="$(arg robot_name)/lidar"/>
-    <param name="local_costmap/global_frame"                        value="map"/>
+    <param name="local_costmap/global_frame"                        value="$(arg robot_name)/odom"/>
     <param name="local_costmap/robot_base_frame"                    value="$(arg robot_name)/base_link"/>
     <param name="TebLocalPlannerROS/odom_topic"                     value="$(arg robot_name)/odometry/filtered"/>
 
