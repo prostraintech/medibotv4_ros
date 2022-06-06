@@ -7,11 +7,14 @@
     <param name="serial_baud" value="115200"/>
     <param name="frame_id" value="$(arg robot_ns)/lidar"/>
     <param name="calibrate_time" value="false"/>
+    <param naem="synchronize_time" value="true"/>
     <param name="publish_intensity" value="false"/>
     <param name="publish_multiecho" value="false"/>
     <!-- 235 degree angle -->
-    <param name="angle_min" value="-2.05"/>
-    <param name="angle_max" value="2.05"/>
+    <param name="angle_min" value="-2.00"/>
+    <param name="angle_max" value="2.00"/>
+
+    <remap from="scan" to="scan_unfiltered" />
   </node>
 
   <!-- <node pkg="tf" type="static_transform_publisher" name="base_link_to_laser" args="0.344 0 0.065 0 0 0  /base_link /laser  200"/> -->

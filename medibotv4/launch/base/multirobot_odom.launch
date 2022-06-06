@@ -7,5 +7,6 @@
     <param name="publish_tf" value = "false"/>
     <param name="odom_frame_id" value = "$(arg robot_ns)/odom"/>
     <param name="base_frame_id" value = "$(arg robot_ns)/base_link"/> 
+    <remap from="odom" to="odometry/wheel"/>
   </node>
 </launch>
