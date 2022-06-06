@@ -4,3 +4,4 @@
 bool success
 string message
 string[] label
+geometry_msgs/PoseWithCovarianceStamped[] pose
