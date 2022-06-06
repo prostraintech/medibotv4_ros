@@ -24,9 +24,7 @@
             <arg name="robot_ns" value="$(arg robot_ns)"/>
         </include>
 
-        <include file="$(find medibotv4)/launch/base/multirobot_ekf_localization.launch" >
-            <arg name="robot_ns" value="$(arg robot_ns)" />
-        </include>
+        <include file="$(find medibotv4)/launch/base/robot1_ekf_localization.launch" />
 
         <!--- AMCL -->
         <include file="$(find medibotv4)/launch/navigation/multirobot_amcl.launch">
