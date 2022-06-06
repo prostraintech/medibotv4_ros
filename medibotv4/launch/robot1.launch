@@ -27,17 +27,17 @@
         <include file="$(find medibotv4)/launch/base/robot1_ekf_localization.launch" />
 
         <!--- AMCL -->
-        <include file="$(find medibotv4)/launch/navigation/multirobot_amcl.launch">
+        <!-- <include file="$(find medibotv4)/launch/navigation/multirobot_amcl.launch">
         <arg name="robot_name" value="$(arg robot_ns)"/>
         <arg name="initial_pose_x" value="3.93"/>
         <arg name="initial_pose_y" value="5.17"/>
         <arg name="initial_pose_a" value="0.0"/>
-        </include>
+        </include> -->
 
         <!--move_base-->
-        <include file="$(find medibotv4)/launch/navigation/multirobot_move_base.launch">
+        <!-- <include file="$(find medibotv4)/launch/navigation/multirobot_move_base.launch">
         <arg name="robot_name" value="$(arg robot_ns)"/>
-        </include>
+        </include> -->
 
         <!-- <node pkg="medibotv4" type="auto_clear_costmap_node" name="auto_clear_costmap_node" output="screen">
             <param name="tf_prefix"                  value="$(arg robot_ns)"/>
