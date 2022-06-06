@@ -55,14 +55,14 @@ robot2_initial_pose:
 
 robot2_start_pose:
   position: 
-    x: 6.5863371489
-    y: 9.95693103606
+    x: 6.35786781446
+    y: 8.95642035365
     z: 0.0
   orientation: 
     x: 0.0
     y: 0.0
-    z: 0.0
-    w: 0.533166950876
+    z: -0.852494397982
+    w: 0.522736359372
 
 robot1_start_pose:
   position: 

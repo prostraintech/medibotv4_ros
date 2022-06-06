@@ -121,8 +121,9 @@ class SaveSpots(object):
         response = GetSpotResponse()
         for key, value in self.detection_dict.items():
             response.label.append(key)
+            response.pose.append(value)
         response.success = True
-        response.message = "Returned spots label"
+        response.message = "Returned all spots label and pose"
         return response
 
 
