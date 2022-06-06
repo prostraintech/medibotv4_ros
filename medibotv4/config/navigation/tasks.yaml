@@ -42,6 +42,17 @@ task4:
     z: -0.718783057439
     w: 0.695234432647
 
+robot2_initial_pose:
+  position: 
+    x: -5.02879701444
+    y: 8.01818654726
+    z: 0.0
+  orientation: 
+    x: 0.0
+    y: 0.0
+    z: -0.706518804437
+    w: 0.707694269425
+
 robot2_start_pose:
   position: 
     x: 6.5863371489
@@ -63,6 +74,17 @@ robot1_start_pose:
     y: 0.0
     z: -0.841538535197
     w: 0.540197087903
+
+robot1_initial_pose:
+  position: 
+    x: 5.01181526484
+    y: 8.03522191353
+    z: 0.0
+  orientation: 
+    x: 0.0
+    y: 0.0
+    z: -0.709190196899
+    w: 0.705017208742
 
 spotD:
   position: 
