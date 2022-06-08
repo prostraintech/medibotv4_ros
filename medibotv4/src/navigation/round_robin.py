@@ -7,15 +7,15 @@ from calculate_distance_traveled import CalculateDistanceTraveled
 
 
 class RoundRobin(object):
-    def __init__(self, tasks=["spotA", "spotB","spotC", "spotD"]): # actual tasks
-    # def __init__(self, tasks=["task1", "task2","task3", "task4"]): # simulation tasks
+    # def __init__(self, tasks=["spotA", "spotB","spotC", "spotD"]): # actual tasks
+    def __init__(self, tasks=["task1", "task2","task3", "task4"]): # simulation tasks
         self.tasks = tasks
         self.robot1_tasks= []
         self.robot2_tasks= []
-        self.robot1_initial_position = "robot1_start_pose" # actual robot start pose
-        self.robot2_initial_position = "robot2_start_pose"
-        # self.robot1_initial_position = "robot1_initial_pose" # simulation robot start pose
-        # self.robot2_initial_position = "robot2_initial_pose"
+        # self.robot1_initial_position = "robot1_start_pose" # actual robot start pose
+        # self.robot2_initial_position = "robot2_start_pose"
+        self.robot1_initial_position = "robot1_initial_pose" # simulation robot start pose
+        self.robot2_initial_position = "robot2_initial_pose"
         self.tasks_status = [] # unassigned/assigned/completed
         for i in range(0, len(self.tasks)):
             self.tasks_status.append("unassigned")
@@ -131,28 +131,7 @@ class RoundRobin(object):
         self.ready_initial_position()
         print("robot at initial position")
         for i in range(0, len(self.tasks)):
-            if (i % 2) != 0: #robot2
-                cdt2 = CalculateDistanceTraveled(robot_namespace="robot2") # start calculating distance travelled
-                send_goal_service_client = rospy.ServiceProxy("/spots/send_goal", SendGoal)
-                request = SendGoalRequest()
-                request.label = self.tasks[i]
-                request.ns = "/robot2"
-                response = send_goal_service_client(request) # call service to send goal to robot1
-                print("task"+str(i+1)+":")
-                self.tasks_status[i] = "assigned"
-                print(" "+self.tasks_status[i]+" task"+str(i+1)+" to robot2")
-                print(" robot2 is moving to " + self.tasks[i])
-                # wait until the goal is reached
-                time.sleep(5)
-                while self.robot2_status != "idle":
-                    pass
-                # reached at spot
-                self.tasks_status[i] = "completed"
-                print(" Task "+str(i+1)+" "+self.tasks_status[i])
-                self.robot2_total_distance += cdt2.getTotalDistance()
-                time.sleep(2)
-
-            else: # robot1
+            if (i % 2) == 0: #robot1
                 cdt1 = CalculateDistanceTraveled(robot_namespace="robot1") # start calculating distance travelled
                 send_goal_service_client = rospy.ServiceProxy("/spots/send_goal", SendGoal)
                 request = SendGoalRequest()
@@ -175,6 +154,27 @@ class RoundRobin(object):
                 self.tasks_status[i] = "completed"
                 print(" Task "+str(i+1)+" "+self.tasks_status[i])
                 self.robot1_total_distance += cdt1.getTotalDistance()
+                time.sleep(2)
+
+            else: # robot2
+                cdt2 = CalculateDistanceTraveled(robot_namespace="robot2") # start calculating distance travelled
+                send_goal_service_client = rospy.ServiceProxy("/spots/send_goal", SendGoal)
+                request = SendGoalRequest()
+                request.label = self.tasks[i]
+                request.ns = "/robot2"
+                response = send_goal_service_client(request) # call service to send goal to robot1
+                print("task"+str(i+1)+":")
+                self.tasks_status[i] = "assigned"
+                print(" "+self.tasks_status[i]+" task"+str(i+1)+" to robot2")
+                print(" robot2 is moving to " + self.tasks[i])
+                # wait until the goal is reached
+                time.sleep(5)
+                while self.robot2_status != "idle":
+                    pass
+                # reached at spot
+                self.tasks_status[i] = "completed"
+                print(" Task "+str(i+1)+" "+self.tasks_status[i])
+                self.robot2_total_distance += cdt2.getTotalDistance()
                 time.sleep(2)
                 
             # check if final task is completed
