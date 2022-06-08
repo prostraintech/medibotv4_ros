@@ -5,29 +5,29 @@
 
         <include file="$(find medibotv4)/launch/base/arduino.launch"/>
 
-        <include file="$(find medibotv4)/launch/base/multirobot_lidar.launch">
+        <include file="$(find medibotv4)/multirobot_launch/base/multirobot_lidar.launch">
             <arg name="robot_ns" value="$(arg robot_ns)"/>
         </include>
 
-        <include file="$(find medibotv4)/launch/base/multirobot_laser_filters.launch" />
+        <include file="$(find medibotv4)/multirobot_launch/base/multirobot_laser_filters.launch" />
 
-        <include file="$(find medibotv4)/launch/base/multirobot_model.launch">
+        <include file="$(find medibotv4)/multirobot_launch/base/multirobot_model.launch">
             <arg name="robot_ns"  value="$(arg robot_ns)" />
             <arg name="tf_robot" value="$(arg robot_ns)" /> 
         </include>
 
-        <include file="$(find medibotv4)/launch/base/multirobot_scan_matcher.launch">
+        <include file="$(find medibotv4)/multirobot_launch/base/multirobot_scan_matcher.launch">
             <arg name="robot_ns" value="$(arg robot_ns)"/>
         </include>
 
-        <include file="$(find medibotv4)/launch/base/multirobot_odom.launch">
+        <include file="$(find medibotv4)/multirobot_launch/base/multirobot_odom.launch">
             <arg name="robot_ns" value="$(arg robot_ns)"/>
         </include>
 
-        <include file="$(find medibotv4)/launch/base/robot1_ekf_localization.launch" />
+        <include file="$(find medibotv4)/multirobot_launch/base/robot1_ekf_localization.launch" />
 
         <!--- AMCL -->
-        <include file="$(find medibotv4)/launch/navigation/multirobot_amcl.launch">
+        <include file="$(find medibotv4)/multirobot_launch/navigation/multirobot_amcl.launch">
         <arg name="robot_name" value="$(arg robot_ns)"/>
         <arg name="initial_pose_x" value="3.93"/>
         <arg name="initial_pose_y" value="5.17"/>
@@ -35,7 +35,7 @@
         </include>
 
         <!--move_base-->
-        <include file="$(find medibotv4)/launch/navigation/multirobot_move_base.launch">
+        <include file="$(find medibotv4)/multirobot_launch/navigation/multirobot_move_base.launch">
         <arg name="robot_name" value="$(arg robot_ns)"/>
         </include>
 
@@ -46,10 +46,6 @@
         <node pkg="medibotv4" type="robot_pose_publisher" name="robot_pose_publisher">
             <param name="base_frame"                  value="$(arg robot_ns)/base_link"/>
         </node>
-
-        <!-- <node type="spots_service_server.py" name="spots_service_server" pkg="medibotv4" output="screen">
-            <param name="robot_ns" value="$(arg robot_ns)"/>
-        </node> -->
 
     </group>
     

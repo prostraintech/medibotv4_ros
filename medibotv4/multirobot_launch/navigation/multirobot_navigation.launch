@@ -18,7 +18,7 @@
     <param name="tf_prefix" type="string" value="$(arg tf_robot)"/>
 
     <!--- AMCL -->
-    <include file="$(find medibotv4)/launch/navigation/multirobot_amcl.launch">
+    <include file="$(find medibotv4)/multirobot_launch/navigation/multirobot_amcl.launch">
       <arg name="robot_name" value="$(arg robot_name)"/>
       <arg name="initial_pose_x" value="7.2"/>
       <arg name="initial_pose_y" value="2.0"/>
@@ -26,7 +26,7 @@
     </include>
 
     <!--move_base-->
-    <include file="$(find medibotv4)/launch/navigation/multirobot_move_base.launch">
+    <include file="$(find medibotv4)/multirobot_launch/navigation/multirobot_move_base.launch">
       <arg name="robot_name" value="$(arg robot_name)"/>
     </include>
  
@@ -37,12 +37,12 @@
     <arg name="tf_robot" value="$(arg robot_name)_tf" /> 
     <param name="tf_prefix" type="string" value="$(arg tf_robot)"/>
 
-    <include file="$(find medibotv4)/launch/navigation/multirobot_amcl.launch">
+    <include file="$(find medibotv4)/multirobot_launch/navigation/multirobot_amcl.launch">
       <arg name="robot_name" value="$(arg robot_name)"/>
     </include>
 
  
-    <include file="$(find medibotv4)/launch/navigation/multirobot_move_base.launch">
+    <include file="$(find medibotv4)/multirobot_launch/navigation/multirobot_move_base.launch">
       <arg name="robot_name" value="$(arg robot_name)"/>
     </include>
     
