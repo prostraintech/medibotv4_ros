@@ -1,0 +1,25 @@
+<launch>
+    <arg name="robot1_ns" default="robot1" />
+    <arg name="robot2_ns" default="robot2" />
+
+    <group ns="$(arg robot1_ns)">
+        <node pkg="hector_trajectory_server" type="hector_trajectory_server" name="hector_trajectory_server" output="screen">
+            <param name="target_frame_name" type="string" value="map" />
+            <param name="source_frame_name" type="string" value="$(arg robot1_ns)/base_link" />
+            <param name="trajectory_update_rate" type="double" value="4" />
+            <param name="trajectory_publish_rate" type="double" value="0.25" />
+        </node>
+    </group>
+
+    <group ns="$(arg robot2_ns)">
+        <node pkg="hector_trajectory_server" type="hector_trajectory_server" name="hector_trajectory_server" output="screen">
+            <param name="target_frame_name" type="string" value="map" />
+            <param name="source_frame_name" type="string" value="$(arg robot2_ns)/base_link" />
+            <param name="trajectory_update_rate" type="double" value="4" />
+            <param name="trajectory_publish_rate" type="double" value="0.25" />
+        </node>
+    </group>
+
+    
+
+</launch>
