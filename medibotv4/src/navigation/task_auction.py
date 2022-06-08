@@ -11,8 +11,8 @@ from calculate_distance_traveled import CalculateDistanceTraveled
 
 
 class TaskAuction(object):
-    def __init__(self, task_list=["spotA", "spotB","spotC", "spotD"]):
-        get_spot_client = rospy.ServiceProxy("/spots/get_spot")
+    def __init__(self, task_list=["taskA", "taskB","taskC", "taskD", "taskE", "taskF"]):
+        get_spot_client = rospy.ServiceProxy("/spots/get_spot", GetSpot)
         request = GetSpotRequest()
         response = get_spot_client(request)
         self.tasks = {}
@@ -20,14 +20,14 @@ class TaskAuction(object):
             self.tasks[response.label[i]] = response.pose[i]
         # self.tasks['spotA'].pose =
 
-        self.robot1_initial_position = "robot1_start_pose" # actual start position
-        self.robot2_initial_position = "robot2_start_pose"
+        self.robot1_initial_position = "robot2_start_pose" # actual start position
+        self.robot2_initial_position = "start_robot2"
 
         self.task_list = task_list
         self.assigned_task_list = []
 
         self.tasks_status = [] # unassigned/assigned/completed
-        for i in range(0, len(self.tasks)):
+        for i in range(0, len(self.task_list)):
             self.tasks_status.append("unassigned") 
             self.assigned_task_list.append('')
 
@@ -56,9 +56,11 @@ class TaskAuction(object):
         self.ir1=0
         self.ir2=1
 
+        self.idle_count1 = 0
+        self.idle_count2 = 0
+
         rospy.on_shutdown(self.shutdownhook)
-        rospy.wait_for_service('/robot1/spots/send_goal') 
-        rospy.wait_for_service('/robot2/spots/send_goal')
+        rospy.wait_for_service('/spots/send_goal')
 
     def robot1_start_sub_callback(self, msg):
         self.robot1_start = msg
@@ -140,19 +142,26 @@ class TaskAuction(object):
         self.robot2_mb_cancel_pub.publish(msg)
 
     def ready_initial_position(self):
-        robot1_send_goal_client = rospy.ServiceProxy("/robot1/spots/send_goal")
-        request1 = SendGoalRequest()
-        request1.label = self.robot1_initial_position
-        response = robot1_send_goal_client(request1)
-        robot2_send_goal_client = rospy.ServiceProxy("/robot2/spots/send_goal")
-        request2 = SendGoalRequest()
-        request2.label = self.robot2_initial_position
-        response = robot2_send_goal_client(request2)
+        print("robot moving to initial position")
+        robot_send_goal_client = rospy.ServiceProxy("/spots/send_goal", SendGoal)
+        request = SendGoalRequest()
+        request.label = self.robot1_initial_position
+        request.ns = "/robot1"
+        response = robot_send_goal_client(request)
+        time.sleep(2)
+        robot_send_goal_client = rospy.ServiceProxy("/spots/send_goal", SendGoal)
+        request = SendGoalRequest()
+        request.label = self.robot2_initial_position
+        request.ns = "/robot2"
+        response = robot_send_goal_client(request)
+        time.sleep(2)
         while self.robot1_status != "idle" and self.robot2_status != "idle":
             pass
 
     def begin(self):
         self.ready_initial_position()
+        print("robot at initial position")
+
         for i in range(0, len(self.task_list)):
             rospy.wait_for_service('/robot1/move_base/make_plan')
             make_plan_service = rospy.ServiceProxy('/robot1/move_base/make_plan', GetPlan)
@@ -178,7 +187,7 @@ class TaskAuction(object):
                         first_time = False
                     prev_x = x
                     prev_y = y
-            print("robot1 path distance to "+self.task_list[i])
+            print("robot1 path distance to "+self.task_list[i]+" is "+str(total_distance_1))
 
             rospy.wait_for_service('/robot2/move_base/make_plan')
             make_plan_service = rospy.ServiceProxy('/robot2/move_base/make_plan', GetPlan)
@@ -204,21 +213,22 @@ class TaskAuction(object):
                         first_time = False
                     prev_x = x
                     prev_y = y
-            print("robot2 path distance to "+self.task_list[i])
+            print("robot2 path distance to "+self.task_list[i]+" is "+str(total_distance_2))
 
             if total_distance_1 < total_distance_2:
                 self.assigned_task_list[self.ir1] = self.task_list[i]
+                print("===>"+self.task_list[i]+' is assigned to robot1')
                 self.ir1 += 2
             else:
                 self.assigned_task_list[self.ir2] = self.task_list[i]
+                print("===>"+self.task_list[i]+' is assigned to robot2')
                 self.ir2 += 2
         
         self.ir1 = 0
         self.ir2 = 1
 
-        self.ready_initial_position()
-        print("robot at initial position")
         for i in range(0, len(self.assigned_task_list)):
+            print(self.assigned_task_list)
             if (i % 2) != 0: #robot2
                 cdt2 = CalculateDistanceTraveled(robot_namespace="robot2") # start calculating distance travelled
                 send_goal_service_client = rospy.ServiceProxy("/spots/send_goal", SendGoal)
@@ -280,7 +290,7 @@ class TaskAuction(object):
                 self.robot1_total_distance = 0.0
                 self.robot2_total_distance = 0.0
                 self.total_distance_travelled = 0.0
-                for i in range(0, len(self.tasks)):
+                for i in range(0, len(self.task_list)):
                     self.tasks_status[i] = "unassigned"
 
 
