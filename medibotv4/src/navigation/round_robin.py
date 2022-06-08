@@ -186,7 +186,7 @@ class RoundRobin(object):
                 print(" Robot1 total distance = " + str(self.robot1_total_distance) + "meters")
                 print(" Robot2 total distance = " + str(self.robot2_total_distance) + "meters")
                 print(" Total distance travelled = " + str(self.total_distance_travelled) + "meters")
-                print("\n--------------------\n")
+                print("--------------------\n")
                 self.start_time = 0.0
                 self.end_time = 0.0
                 self.robot1_total_distance = 0.0
