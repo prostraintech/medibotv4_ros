@@ -23,8 +23,8 @@ class TaskAuction(object):
         self.robot1_initial_position = "robot1_initial_pose" # simulation start position
         self.robot2_initial_position = "robot2_initial_pose"
         self.task_list = task_list
-        self.robot1_task_list = []
-        self.robot2_task_list = []
+        self.robot1_task_list = {}
+        self.robot2_task_list = {}
         self.robot1_start = PoseWithCovarianceStamped()
         self.robot2_start = PoseWithCovarianceStamped()
         self.robot_goal = PoseStamped()
@@ -207,27 +207,28 @@ class TaskAuction(object):
             print("robot2 path distance to "+self.task_list[i]+" is "+str(total_distance_2))
 
             if total_distance_1 < total_distance_2:
-                self.robot1_task_list.insert(self.ir1, self.task_list[i])
+                self.robot1_task_list[self.task_list[i]] = total_distance_1
                 print("===> "+self.task_list[i]+' is assigned to robot1')
-                self.ir1 += 1
             else:
-                self.robot2_task_list.insert(self.ir2, self.task_list[i])
+                self.robot1_task_list[self.task_list[i]] = total_distance_1
                 print("===> "+self.task_list[i]+' is assigned to robot2')
-                self.ir2 += 1
 
-        for i in range(0, len(self.robot1_task_list)): # move robot1 to assigned tasks
+        sorted_robot1_task_list = dict(sorted(self.robot1_task_list.items(), key=lambda item: item[1]))
+        sorted_robot2_task_list = dict(sorted(self.robot2_task_list.items(), key=lambda item: item[1]))
+
+        for i in sorted_robot1_task_list.keys(): # move robot1 to assigned tasks
             cdt1 = CalculateDistanceTraveled(robot_namespace="robot1") # start calculating distance travelled
             send_goal_service_client = rospy.ServiceProxy("/spots/send_goal", SendGoal)
             request = SendGoalRequest()
-            request.label = self.robot1_task_list[i]
+            request.label = i
             request.ns = "/robot1"
             # check if assigning first task
             if i == 0:
                 print("\n---------- TEST " + str(self.Ntest) + " ----------")
                 self.start_time = rospy.get_time() # start the timer
             response = send_goal_service_client(request) # call service to send goal to robot1
-            print(self.robot1_task_list[i]+":")
-            print(" robot1 is moving to " + self.robot1_task_list[i])
+            print(i+":")
+            print(" robot1 is moving to " + i)
             # wait until the goal is reached
             time.sleep(5)
             while self.robot1_status != "idle":
@@ -235,15 +236,15 @@ class TaskAuction(object):
             # reached at spot
             self.robot1_total_distance += cdt1.getTotalDistance()
 
-        for i in range(0, len(self.robot2_task_list)): # move robot2 to assigned tasks
+        for i in sorted_robot2_task_list: # move robot2 to assigned tasks
             cdt2 = CalculateDistanceTraveled(robot_namespace="robot2") # start calculating distance travelled
             send_goal_service_client = rospy.ServiceProxy("/spots/send_goal", SendGoal)
             request = SendGoalRequest()
-            request.label = self.robot2_task_list[i]
+            request.label = i
             request.ns = "/robot2"
             response = send_goal_service_client(request) # call service to send goal to robot1
             print(self.robot2_task_list[i]+":")
-            print(" robot2 is moving to " + self.robot2_task_list[i])
+            print(" robot2 is moving to " + i)
             # wait until the goal is reached
             time.sleep(5)
             while self.robot2_status != "idle":
