@@ -11,17 +11,20 @@ from calculate_distance_traveled import CalculateDistanceTraveled
 
 
 class TaskAuction(object):
-    # def __init__(self, task_list=["taskA", "taskB","taskC", "taskD", "taskE", "taskF"]):
-    def __init__(self, task_list=["task1", "task2", "task3", "task4"]):
+    def __init__(self, task_list=["taskA", "taskB","taskC", "taskD", "taskE", "taskF"]): # actual tasks
+    # def __init__(self, task_list=["task1", "task2", "task3", "task4"]): # simulation tasks
         get_spot_client = rospy.ServiceProxy("/spots/get_spot", GetSpot)
         request = GetSpotRequest()
         response = get_spot_client(request)
         self.tasks = {}
         for i in range(0,len(response.label)):
             self.tasks[response.label[i]] = response.pose[i]
-        # self.tasks['spotA'].pose =
-        self.robot1_initial_position = "robot1_initial_pose" # simulation start position
-        self.robot2_initial_position = "robot2_initial_pose"
+        self.robot1_initial_position = "robot1_clustered_start" # actual robot start pose
+        self.robot2_initial_position = "robot2_clustered_start"
+        # self.robot1_initial_position = "robot1_distributed_start" # actual robot start pose
+        # self.robot2_initial_position = "robot2_distributed_start"
+        # self.robot1_initial_position = "robot1_initial_pose" # simulation start position
+        # self.robot2_initial_position = "robot2_initial_pose"
         self.task_list = task_list
         self.robot1_task_list = {}
         self.robot2_task_list = {}
@@ -145,7 +148,7 @@ class TaskAuction(object):
         time.sleep(2)
         while self.robot1_status != "idle" and self.robot2_status != "idle":
             pass
-        time.sleep(5)
+        time.sleep(10)
         while self.robot1_status != "idle" and self.robot2_status != "idle":
             pass
 
@@ -210,22 +213,21 @@ class TaskAuction(object):
                 self.robot1_task_list[self.task_list[i]] = total_distance_1
                 print("===> "+self.task_list[i]+' is assigned to robot1')
             else:
-                self.robot1_task_list[self.task_list[i]] = total_distance_1
+                self.robot2_task_list[self.task_list[i]] = total_distance_2
                 print("===> "+self.task_list[i]+' is assigned to robot2')
 
         sorted_robot1_task_list = dict(sorted(self.robot1_task_list.items(), key=lambda item: item[1]))
         sorted_robot2_task_list = dict(sorted(self.robot2_task_list.items(), key=lambda item: item[1]))
 
+        print("\n---------- TEST " + str(self.Ntest) + " ----------")
+        self.start_time = rospy.get_time() # start the timer
+        
         for i in sorted_robot1_task_list.keys(): # move robot1 to assigned tasks
             cdt1 = CalculateDistanceTraveled(robot_namespace="robot1") # start calculating distance travelled
             send_goal_service_client = rospy.ServiceProxy("/spots/send_goal", SendGoal)
             request = SendGoalRequest()
             request.label = i
             request.ns = "/robot1"
-            # check if assigning first task
-            if i == 0:
-                print("\n---------- TEST " + str(self.Ntest) + " ----------")
-                self.start_time = rospy.get_time() # start the timer
             response = send_goal_service_client(request) # call service to send goal to robot1
             print(i+":")
             print(" robot1 is moving to " + i)
@@ -243,7 +245,7 @@ class TaskAuction(object):
             request.label = i
             request.ns = "/robot2"
             response = send_goal_service_client(request) # call service to send goal to robot1
-            print(self.robot2_task_list[i]+":")
+            print(i+":")
             print(" robot2 is moving to " + i)
             # wait until the goal is reached
             time.sleep(5)
@@ -268,8 +270,10 @@ class TaskAuction(object):
         self.total_distance_travelled = 0.0
         self.ir1 = 0
         self.ir2 = 0
-        self.robot1_task_list = []
-        self.robot2_task_list = []
+        self.robot1_task_list = {}
+        self.robot2_task_list = {}
+        sorted_robot1_task_list = {}
+        sorted_robot2_task_list = {}
 
 
 if __name__ == "__main__":

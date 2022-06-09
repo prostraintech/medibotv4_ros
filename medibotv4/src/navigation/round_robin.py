@@ -7,15 +7,17 @@ from calculate_distance_traveled import CalculateDistanceTraveled
 
 
 class RoundRobin(object):
-    # def __init__(self, tasks=["spotA", "spotB","spotC", "spotD"]): # actual tasks
-    def __init__(self, tasks=["task1", "task2","task3", "task4"]): # simulation tasks
+    def __init__(self, tasks=["taskA", "taskB","taskC", "taskD", "taskE", "taskF"]): # actual tasks
+    #def __init__(self, tasks=["task1", "task2","task3", "task4"]): # simulation tasks
         self.tasks = tasks
         self.robot1_tasks= []
         self.robot2_tasks= []
-        # self.robot1_initial_position = "robot1_start_pose" # actual robot start pose
-        # self.robot2_initial_position = "robot2_start_pose"
-        self.robot1_initial_position = "robot1_initial_pose" # simulation robot start pose
-        self.robot2_initial_position = "robot2_initial_pose"
+        self.robot1_initial_position = "robot1_clustered_start" # actual robot start pose
+        self.robot2_initial_position = "robot2_clustered_start"
+        # self.robot1_initial_position = "robot1_distributed_start" # actual robot start pose
+        # self.robot2_initial_position = "robot2_distributed_start"
+        # self.robot1_initial_position = "robot1_initial_pose" # simulation robot start pose
+        # self.robot2_initial_position = "robot2_initial_pose"
         self.tasks_status = [] # unassigned/assigned/completed
         for i in range(0, len(self.tasks)):
             self.tasks_status.append("unassigned")
@@ -124,6 +126,9 @@ class RoundRobin(object):
         request.ns = "/robot2"
         response = robot_send_goal_client(request)
         time.sleep(2)
+        while self.robot1_status != "idle" and self.robot2_status != "idle":
+            pass
+        time.sleep(10)
         while self.robot1_status != "idle" and self.robot2_status != "idle":
             pass
     
