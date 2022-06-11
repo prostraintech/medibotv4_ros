@@ -153,8 +153,8 @@ class TaskAuction(object):
             pass
 
     def begin(self):
-        self.ready_initial_position()
-        print("robot at initial position")
+        # self.ready_initial_position()
+        # print("robot at initial position")
 
         for i in range(0, len(self.task_list)):
             rospy.wait_for_service('/robot1/move_base/make_plan')
@@ -215,73 +215,80 @@ class TaskAuction(object):
             else:
                 self.robot2_task_list[self.task_list[i]] = total_distance_2
                 print("===> "+self.task_list[i]+' is assigned to robot2')
-
-        sorted_robot1_task_list = dict(sorted(self.robot1_task_list.items(), key=lambda item: item[1]))
-        sorted_robot2_task_list = dict(sorted(self.robot2_task_list.items(), key=lambda item: item[1]))
-
-        print("\n---------- TEST " + str(self.Ntest) + " ----------")
-        self.start_time = rospy.get_time() # start the timer
         
-        for i in sorted_robot1_task_list.keys(): # move robot1 to assigned tasks
-            cdt1 = CalculateDistanceTraveled(robot_namespace="robot1") # start calculating distance travelled
-            send_goal_service_client = rospy.ServiceProxy("/spots/send_goal", SendGoal)
-            request = SendGoalRequest()
-            request.label = i
-            request.ns = "/robot1"
-            response = send_goal_service_client(request) # call service to send goal to robot1
-            print(i+":")
-            print(" robot1 is moving to " + i)
-            # wait until the goal is reached
-            time.sleep(5)
-            while self.robot1_status != "idle":
-                pass
-            # reached at spot
-            self.robot1_total_distance += cdt1.getTotalDistance()
+        # sorted_robot1_task_list = {}
+        # sorted_robot2_task_list = {}
+        sorted_robot1_task_list = sorted(self.robot1_task_list.items(), key=lambda item: item[1])
+        sorted_robot2_task_list = sorted(self.robot2_task_list.items(), key=lambda item: item[1])
+        # sorted_robot1_task_list = dict(sorted(self.robot1_task_list.items(), key=lambda item: item[1]))
+        # sorted_robot2_task_list = dict(sorted(self.robot2_task_list.items(), key=lambda item: item[1
+        print(sorted_robot1_task_list)
+        print(sorted_robot2_task_list)
 
-        for i in sorted_robot2_task_list: # move robot2 to assigned tasks
-            cdt2 = CalculateDistanceTraveled(robot_namespace="robot2") # start calculating distance travelled
-            send_goal_service_client = rospy.ServiceProxy("/spots/send_goal", SendGoal)
-            request = SendGoalRequest()
-            request.label = i
-            request.ns = "/robot2"
-            response = send_goal_service_client(request) # call service to send goal to robot1
-            print(i+":")
-            print(" robot2 is moving to " + i)
-            # wait until the goal is reached
-            time.sleep(5)
-            while self.robot2_status != "idle":
-                pass
-            # reached at spot
-            self.robot2_total_distance += cdt2.getTotalDistance()
+
+        # print("\n---------- TEST " + str(self.Ntest) + " ----------")
+        # self.start_time = rospy.get_time() # start the timer
+        # for i in sorted_robot1_task_list:
+        # # for i in sorted_robot1_task_list.keys(): # move robot1 to assigned tasks
+        #     cdt1 = CalculateDistanceTraveled(robot_namespace="robot1") # start calculating distance travelled
+        #     send_goal_service_client = rospy.ServiceProxy("/spots/send_goal", SendGoal)
+        #     request = SendGoalRequest()
+        #     request.label = i[0]
+        #     request.ns = "/robot1"
+        #     response = send_goal_service_client(request) # call service to send goal to robot1
+        #     print(i[0]+":")
+        #     print(" robot1 is moving to " + i[0])
+        #     # wait until the goal is reached
+        #     time.sleep(5)
+        #     while self.robot1_status != "idle":
+        #         pass
+        #     # reached at spot
+        #     self.robot1_total_distance += cdt1.getTotalDistance()
+
+        # for i in sorted_robot2_task_list: # move robot2 to assigned tasks
+        #     cdt2 = CalculateDistanceTraveled(robot_namespace="robot2") # start calculating distance travelled
+        #     send_goal_service_client = rospy.ServiceProxy("/spots/send_goal", SendGoal)
+        #     request = SendGoalRequest()
+        #     request.label = i[0]
+        #     request.ns = "/robot2"
+        #     response = send_goal_service_client(request) # call service to send goal to robot1
+        #     print(i[0]+":")
+        #     print(" robot2 is moving to " + i[0])
+        #     # wait until the goal is reached
+        #     time.sleep(5)
+        #     while self.robot2_status != "idle":
+        #         pass
+        #     # reached at spot
+        #     self.robot2_total_distance += cdt2.getTotalDistance()
         
-        # print experimental data and reset them for next test
-        self.Ntest += 1
-        self.end_time = rospy.get_time() # end the timer
-        self.total_distance_travelled = self.robot1_total_distance + self.robot2_total_distance
-        print(" Time taken = " + str(round(self.end_time - self.start_time,2)) + "seconds")
-        print(" Robot1 total distance = " + str(self.robot1_total_distance) + "meters")
-        print(" Robot2 total distance = " + str(self.robot2_total_distance) + "meters")
-        print(" Total distance travelled = " + str(self.total_distance_travelled) + "meters")
-        print("--------------------\n")
-        self.start_time = 0.0
-        self.end_time = 0.0
-        self.robot1_total_distance = 0.0
-        self.robot2_total_distance = 0.0
-        self.total_distance_travelled = 0.0
-        self.ir1 = 0
-        self.ir2 = 0
-        self.robot1_task_list = {}
-        self.robot2_task_list = {}
-        sorted_robot1_task_list = {}
-        sorted_robot2_task_list = {}
+        # # print experimental data and reset them for next test
+        # self.Ntest += 1
+        # self.end_time = rospy.get_time() # end the timer
+        # self.total_distance_travelled = self.robot1_total_distance + self.robot2_total_distance
+        # print(" Time taken = " + str(round(self.end_time - self.start_time,2)) + "seconds")
+        # print(" Robot1 total distance = " + str(self.robot1_total_distance) + "meters")
+        # print(" Robot2 total distance = " + str(self.robot2_total_distance) + "meters")
+        # print(" Total distance travelled = " + str(self.total_distance_travelled) + "meters")
+        # print("--------------------\n")
+        # self.start_time = 0.0
+        # self.end_time = 0.0
+        # self.robot1_total_distance = 0.0
+        # self.robot2_total_distance = 0.0
+        # self.total_distance_travelled = 0.0
+        # self.ir1 = 0
+        # self.ir2 = 0
+        # self.robot1_task_list = {}
+        # self.robot2_task_list = {}
+        # sorted_robot1_task_list = {}
+        # sorted_robot2_task_list = {}
 
 
 if __name__ == "__main__":
     rospy.init_node('task_auction_node', log_level=rospy.INFO) 
     ta = TaskAuction()
     try:
-        while not rospy.is_shutdown():
-            ta.begin()
+        # while not rospy.is_shutdown():
+        ta.begin()
     except rospy.ROSInterruptException:
         pass
 

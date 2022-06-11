@@ -133,8 +133,8 @@ class RoundRobin(object):
             pass
     
     def begin(self):
-        self.ready_initial_position()
-        print("robot at initial position")
+        # self.ready_initial_position()
+        # print("robot at initial position")
         for i in range(0, len(self.tasks)):
             if (i % 2) == 0: #robot1
                 cdt1 = CalculateDistanceTraveled(robot_namespace="robot1") # start calculating distance travelled
@@ -205,8 +205,8 @@ if __name__ == "__main__":
     rospy.init_node('round_robin_node', log_level=rospy.INFO) 
     rr = RoundRobin()
     try:
-        while not rospy.is_shutdown():
-            rr.begin()
+        # while not rospy.is_shutdown():
+        rr.begin()
     except rospy.ROSInterruptException:
         pass
 
