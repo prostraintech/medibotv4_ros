@@ -27,7 +27,13 @@
 <br>
 <br>
 
+<div align = center>
+
 ## Installation
+
+</div>
+
+<br>
 
 1.  Clone the repository
 
@@ -57,7 +63,13 @@
 <br>
 <br>
 
+<div align = center>
+
 ## Simulation
+
+</div>
+
+<br>
 
 ### Single Robot
 
