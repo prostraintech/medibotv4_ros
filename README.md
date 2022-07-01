@@ -27,3 +27,11 @@ Build the packages
 - ```cd ~/catkin_ws```
 - ```catkin_make```
 - ```source ~/catkin_ws/devel/setup.bash```
+
+## Simulation:
+
+Single robot simulation:
+```roslaunch medibotv4 simulation.launch```
+
+Multirobot simulation:
+```roslaunch medibotv4 multirobot_simulation.launch```

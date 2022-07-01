@@ -1,9 +1,9 @@
 <?xml version="1.0" ?>
 <launch>
 
-	<include file="$(find medibotv4_description)/launch/multirobot_gazebo.launch" />
+	<include file="$(find medibotv4_simulation)/launch/gazebo/multirobot_gazebo.launch" />
 
-	<include file="$(find medibotv4_navigation)/launch/multirobot_navigation.launch" />
+	<include file="$(find medibotv4_simulation)/launch/navigation/multirobot_navigation.launch" />
 
 	<include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/>
 
