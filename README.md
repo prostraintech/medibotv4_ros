@@ -1,37 +1,95 @@
-# medibotv4_ros
 
-IIUM Medibot V4 ROS packages and firmware code.
+# Medibot V4   [![Badge License]][License]
 
-## Software required:
+*ROS packages and firmware code.*
 
-1. Ubuntu 18.04
-2. ROS Melodic Morenia
+<br>
 
-## Hardware required:
+## Requirements
 
-1. Advantech MIC-710AIX / Jetson Xavier NX (robot computer)
-2. Arduino Due (base controller)
-3. Hokuyo UST-05LA (lidar)
-4. 2 x Motors with Encoders
+### Software
 
-## Installation:
+- Ubuntu 18.04
+- ROS Melodic Morenia
 
-Clone the repository
-- ```cd ~/catkin_ws/src```
-- ```git clone https://github.com/zulhafiz-zulkifli/medibotv4_ros.git``` 
+<br>
 
-Install all packages dependencies 
-- ```rosdep install medibotv4 -y``` 
+### Hardware
 
-Build the packages 
-- ```cd ~/catkin_ws```
-- ```catkin_make```
-- ```source ~/catkin_ws/devel/setup.bash```
+- Advantech MIC-710AIX / Jetson Xavier NX (robot computer)
 
-## Simulation:
+- Arduino Due (base controller)
 
-Single robot simulation:
-```roslaunch medibotv4 simulation.launch```
+- Hokuyo UST-05LA (lidar)
 
-Multirobot simulation:
-```roslaunch medibotv4 multirobot_simulation.launch```
+- 2 x Motors with Encoders
+
+<br>
+<br>
+
+<div align = center>
+
+## Installation
+
+</div>
+
+<br>
+
+1.  Clone the repository
+
+    ```shell
+    cd ~/catkin_ws/src &&
+    git clone https://github.com/zulhafiz-zulkifli/medibotv4_ros.git
+    ```
+    
+    <br>
+    
+2.  Install packages dependencies 
+
+    ```shell
+    rosdep install medibotv4 -y
+    ```
+    
+    <br>
+
+3. Build the packages 
+    
+    ```shell
+    cd ~/catkin_ws &&
+    catkin_make &&
+    source ~/catkin_ws/devel/setup.bash
+    ```
+    
+<br>
+<br>
+
+<div align = center>
+
+## Simulation
+
+</div>
+
+<br>
+
+### Single Robot
+
+```shell
+roslaunch medibotv4 simulation.launch
+```
+
+<br>
+
+### Multi Robot
+
+```shell
+roslaunch medibotv4 multirobot_simulation.launch
+```
+
+<br>
+
+
+<!----------------------------------------------------------------------------->
+
+[Badge License]: https://img.shields.io/badge/License-Unknown-808080.svg?style=for-the-badge
+
+[License]: #
