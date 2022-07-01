@@ -1,9 +1,8 @@
 
-# Medibot V4   [![Badge License]][License]
+# IIUM Medibot V4   [![Badge License]][License]
 
 *ROS packages and firmware code.*
 
-<br>
 
 ## Requirements
 
@@ -11,8 +10,6 @@
 
 - Ubuntu 18.04
 - ROS Melodic Morenia
-
-<br>
 
 ### Hardware
 
@@ -24,16 +21,8 @@
 
 - 2 x Motors with Encoders
 
-<br>
-<br>
-
-<div align = center>
 
 ## Installation
-
-</div>
-
-<br>
 
 1.  Clone the repository
 
@@ -42,15 +31,11 @@
     git clone https://github.com/zulhafiz-zulkifli/medibotv4_ros.git
     ```
     
-    <br>
-    
 2.  Install packages dependencies 
 
     ```shell
     rosdep install medibotv4 -y
     ```
-    
-    <br>
 
 3. Build the packages 
     
@@ -59,17 +44,8 @@
     catkin_make &&
     source ~/catkin_ws/devel/setup.bash
     ```
-    
-<br>
-<br>
-
-<div align = center>
 
 ## Simulation
-
-</div>
-
-<br>
 
 ### Single Robot
 
@@ -77,19 +53,14 @@
 roslaunch medibotv4 simulation.launch
 ```
 
-<br>
-
 ### Multi Robot
 
 ```shell
 roslaunch medibotv4 multirobot_simulation.launch
 ```
 
-<br>
-
 
 <!----------------------------------------------------------------------------->
 
-[Badge License]: https://img.shields.io/badge/License-Unknown-808080.svg?style=for-the-badge
-
-[License]: #
+[Badge License]: https://img.shields.io/badge/License-BSD_3--Clause-blue.svg?style=for-the-badge
+[License]: LICENSE
