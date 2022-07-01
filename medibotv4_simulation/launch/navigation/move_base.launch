@@ -9,11 +9,11 @@
 
  
     <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
-<!--     <rosparam file="$(find medibotv4_navigation)/param/costmap_common_params.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find medibotv4_navigation)/param/costmap_common_params.yaml" command="load" ns="local_costmap" />
-    <rosparam file="$(find medibotv4_navigation)/param/local_costmap_params.yaml"  command="load" />
-    <rosparam file="$(find medibotv4_navigation)/param/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find medibotv4_navigation)/param/move_base_params.yaml" command="load" /> -->
+<!--     <rosparam file="$(find medibotv4_simulation)/param/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find medibotv4_simulation)/param/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find medibotv4_simulation)/param/local_costmap_params.yaml"  command="load" />
+    <rosparam file="$(find medibotv4_simulation)/param/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find medibotv4_simulation)/param/move_base_params.yaml" command="load" /> -->
 
 
     <rosparam file="$(find medibotv4)/config/temp/costmap_common_params.yaml" command="load" ns="global_costmap"/>
@@ -24,7 +24,7 @@
 
 
 
-    <rosparam file="$(find medibotv4_navigation)/param/global_planner_params.yaml" command="load" />
-    <rosparam file="$(find medibotv4_navigation)/param/teb_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find medibotv4_simulation)/param/global_planner_params.yaml" command="load" />
+    <rosparam file="$(find medibotv4_simulation)/param/teb_local_planner_params.yaml" command="load" />
   </node>
 </launch>

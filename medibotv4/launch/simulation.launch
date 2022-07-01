@@ -7,12 +7,8 @@
 
 	<include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/>
 
-	<node pkg="tf2_web_republisher" type="tf2_web_republisher" name="tf2_web_republisher"/>
-
 	<node type="robot_pose_publisher" name="robot_pose_publisher" pkg="medibotv4"/>
 
 	<node type="spots_service_server.py" name="spots_service_server" pkg="medibotv4"/>
-
-	<node pkg="capabilities" name="capability_server" type="capability_server" output="screen" required="true"/>
 
 </launch>

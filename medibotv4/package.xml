@@ -4,7 +4,7 @@
   <version>0.0.0</version>
   <description>The medibotv4 package</description>
   <maintainer email="zulh2605@gmail.com">Zulhafiz Zulkifli</maintainer>
-  <license>TODO</license>
+  <license>BSD</license>
 
   <build_depend>message_generation</build_depend>
   <exec_depend>message_runtime</exec_depend>
@@ -44,6 +44,5 @@
       capabilities/NavigationProvider.yaml
     </capability_provider>
   </export>
-
 
 </package>
