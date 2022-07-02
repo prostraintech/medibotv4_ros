@@ -1,6 +1,0 @@
-<?xml version="1.0" ?>
-<launch>
-
-	<include file="$(find medibotv4)/launch/mapping/gmapping.launch" />
-
-</launch>

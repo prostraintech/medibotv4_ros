@@ -26,23 +26,7 @@
   <depend>teleop_twist_keyboard</depend>
   <depend>twist_mux</depend>
   <depend>laser_scan_matcher</depend>
-  <depend>capabilities</depend>
   <depend>rosbridge_server</depend>
   <depend>robot_localization</depend>
-
-  <export>
-    <capability_interface>
-      capabilities/GmappingInterface.yaml
-    </capability_interface>
-    <capability_provider>
-      capabilities/GmappingProvider.yaml
-    </capability_provider>
-    <capability_interface>
-      capabilities/NavigationInterface.yaml
-    </capability_interface>
-    <capability_provider>
-      capabilities/NavigationProvider.yaml
-    </capability_provider>
-  </export>
 
 </package>

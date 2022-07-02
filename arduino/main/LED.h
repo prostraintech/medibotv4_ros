@@ -1,3 +1,6 @@
+/*
+   LED.h - Initialize LED pins and control LED color
+*/
 #pragma once
 class LED{
 public:
@@ -24,7 +27,8 @@ void LED::initLEDPins(){
   pinMode(this->B, OUTPUT);
   LED::Emit('w');
 }
-	
+
+// Light up LED using character color code
 void LED::Emit(char colour){
 	int R, G, B;
 	switch(colour){
@@ -44,6 +48,7 @@ void LED::Emit(char colour){
 	digitalWrite(this->B, 255-B);
 }
 
+// Light up LED using rgb color code
 void LED::Emit(int r, int g, int b){
   digitalWrite(this->R, 255-r);
   digitalWrite(this->G, 255-g);

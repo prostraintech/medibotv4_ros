@@ -1,3 +1,9 @@
+/*
+   Kinematics.h 
+   - Use instances of Motor.h and LED.h classes
+   - Operate left and right motors simultaneously
+   - Control left and right LEDs based on the movement, ROS connection, and emergency stop
+*/
 #pragma once
 #include "Config.h"
 #include "Motor.h"
@@ -31,6 +37,7 @@ void Kinematics::Move(int lpwm, int rpwm){
   //add "-" sign to invert direction if needed
   this->LH_motor.Rotate(-lpwm);
   this->RH_motor.Rotate(rpwm);
+  
   //move -> blue
   char mv_clr = 'b'; 
   //stop -> white if ros connected, else (yellow if ros not connected else red/estop)

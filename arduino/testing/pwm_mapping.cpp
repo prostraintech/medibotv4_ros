@@ -1,3 +1,8 @@
+/*
+   pwm_mapping.cpp - wheel velocity to motor pwm mapping test
+   for normal and inverted pwm range
+*/
+
 #include <iostream>
 #include <math.h> 
 using namespace std;
@@ -35,7 +40,7 @@ int main()
     cout<<"mapped_pwm = "<<mapped_pwm<<endl;
     cout<<"input to motor = mapped_pwm = "<<mapped_pwm*dir<<endl;
     
-    //should get the same input to motor for both
+    //should get the same input to motor for both normal and inverted pwm
 
     return 0;
 }

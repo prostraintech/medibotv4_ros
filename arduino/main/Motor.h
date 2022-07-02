@@ -1,3 +1,9 @@
+/*
+   Motor.h 
+   - Initialize motor pins and control motor status, speed and direction
+   - Initialize encoder pins for the respective motor and track encoder ticks
+
+*/
 #pragma once
 class Motor{
   public:
@@ -42,6 +48,8 @@ Motor::Motor(int D1, int D2, int D3, int ENA, int ENB){
   this->ENB = ENB;
   //Motor::initEncoderPins();
 }
+
+// MOTOR FUNCTIONS
 
 void Motor::initMotorPins(){
   pinMode(this->D1, OUTPUT);
@@ -94,6 +102,8 @@ int Motor::protectOutput(int val){
   (val>150)? val = 150 : val;
   return val;
 }
+
+// ENCODER FUNCTIONS
 
 void Motor::initEncoderPins(){
   pinMode(this->ENA, INPUT_PULLUP);

@@ -1,3 +1,11 @@
+/*
+   Main.ino - ROS base controller / firmware 
+   - Convert velocity from ROS to appropriate motor commands
+   - Switch between REMOTE and RESCUE mode:
+     - REMOTE mode: allow ROS control via remote teleop or autonomous navigation (requires rosserial connection)
+     - RESCUE mode: allow manual control using medibot control pendant
+   - Emergency stop function
+*/
 //----------------------------------------------------------------------------------//
 #include <ros.h>
 #include <std_msgs/Int16.h>

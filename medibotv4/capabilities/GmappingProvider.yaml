@@ -1,5 +1,0 @@
-name: GmappingProvider
-spec_version: 1
-spec_type: provider
-implements: medibotv4/GmappingInterface
-launch_file: gmapping_capabilities.launch

@@ -1,3 +1,6 @@
+/*
+   Config.h - Arduino pin assignments and constants definition
+*/
 #pragma once
 //DRIVING MOTOR PINS
 #define LH_D1 5
@@ -49,16 +52,16 @@
 #define CS_LFT 48
 #define CS_RGT 49
 //GENERAL CONSTANT
-#define CMD_VEL_TIMEOUT 500
 #define PI 3.14159265359
-#define WHEEL_DIAMETER 0.32
-#define WHEEL_RADIUS 0.16
-#define MAX_RPM 1000
-#define GEAR_REDUCTION 23
-#define TICKS_PER_METER 89
-#define WHEEL_SEPARATION 0.498
-#define DISABLE_PWM 0 // disable motor driver
+#define CMD_VEL_TIMEOUT 500 // time after the last velocity command received from ROS
+#define WHEEL_DIAMETER 0.32 // wheel diameter in meters
+#define WHEEL_RADIUS 0.16 // wheel radius in meters
+#define MAX_RPM 1000 // maximum motor speed in rpm
+#define GEAR_REDUCTION 23 // motor to wheel gear reduction
+#define TICKS_PER_METER 89 // encoder ticks per meter
+#define WHEEL_SEPARATION 0.498 // distance between left and right wheels
+#define DISABLE_PWM 0 // pwm value to disable motor driver
 #define MIN_PWM 26 // 10% of 255 pwm = 26 pwm = 0 rpm
 #define MAX_PWM 229 // 90% of 255 pwm = 229 pwm = 1000 rpm
-#define STRAIGHT_PWM 75
-#define TURN_PWM 65
+#define STRAIGHT_PWM 75 // pwm for moving forward or backward (rescue mode)
+#define TURN_PWM 65 // pwm for turning left or right (rescue mode)
