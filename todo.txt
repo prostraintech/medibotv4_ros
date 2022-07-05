@@ -44,10 +44,28 @@ DWA planner missed control loop:
 	- reduce vx_samples and vtheta_samples (4 and 10 respectively)
 	- reduce controller_frequency (5Hz)
 	- 'transform_tolerance' in amcl parameters too low so it does not match the TF publishing frequency and that causes the delay in the controller loop. Can be solved by setting the transform_tolerance to 0.3 and everything works fine.
-	- Try ncreasing the values of sim_time and a little bit of sim_granularity
+	- Try increasing the values of sim_time and a little bit of sim_granularity
 	- Try calibrate time true in urg_node
 	- set 'expected_update_rate' parameter for each observation source based on the rate at which the sensor actually publishes, check publish rate of scan 'rostopic hz /scan', For example, if we expect a scan from a laser every 0.05 seconds we might set this parameter to be 0.1 seconds to give a generous buffer and account for some amount of system latency.
 	- run move_base then check cpu load without giving goal. 'sudo tegratstats' or use top/htop command
 	- dwa_planner/publish_traj_pc check topic in rviz
 	- try TrajectoryPlannerROS
 
+- create launch file for teleop twist keyboard with parameters
+
+- try removing auto clear costmap node
+
+- try x3d joystick
+
+- plot amcl pose x and y?
+
+- plot trajectory of waypoint control script
+
+- use spots service to move in square
+
+- try set publish_frequency for global costmap to 0
+
+- slam.launch
+- separate base, mapping, and navigation package
+- description.launch 
+- change arduino/main to arduino/firmware

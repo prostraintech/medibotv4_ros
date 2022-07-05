@@ -40,7 +40,7 @@
 
 ## How to Use
 
-### Robot bringup (Base controller and hardware interface
+### Robot bringup (Base controller and hardware interface)
 ```shell
 roslaunch medibotv4 bringup.launch
 ```
