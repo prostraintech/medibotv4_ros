@@ -150,8 +150,7 @@
   </group>
 
   
-  <node pkg="imu_complementary_filter" type="complementary_filter_node"
-      name="complementary_filter_gain_node" output="screen">
+  <node pkg="imu_complementary_filter" type="complementary_filter_node" name="complementary_filter_gain_node" output="screen">
     <param name="do_bias_estimation" value="true"/>
     <param name="do_adaptive_gain" value="true"/>
     <param name="use_mag" value="false"/>
@@ -166,7 +165,7 @@
     <remap from="imu/data_raw" to ="camera/imu"/>
   </node>
 
-<node pkg="tf" type="static_transform_publisher" name="base_link_to_imu" args="0 0 0 0 0 0 /base_link /camera_imu_optical_frame 30" />
+<node pkg="tf" type="static_transform_publisher" name="base_link_to_imu" args="0.5 0 0.15 0 0 0 /base_link /camera_imu_optical_frame 30" />
 
 <!--   <node pkg="imu_filter_madgwick" type="imu_filter_node" name="imu_filter_node" output="screen">
     <param name="world_frame" value="enu"/>
@@ -179,7 +178,7 @@
   </node> -->
 
 
-  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization" clear_params="true">
+<!--   <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization" clear_params="true">
     <param name="frequency" value="30"/>  
     <param name="sensor_timeout" value="0.2"/>  
     <param name="two_d_mode" value="false"/>
@@ -198,9 +197,7 @@
 
     <param name="imu0_differential" value="true"/>
 
-    <!-- <param name="imu0_remove_gravitational_acceleration" value="false"/> -->
+  </node> -->
 
-  </node>
-
-  <node type="rviz" name="rviz" pkg="rviz" args="-d $(find medibotv4)/rviz/imu.rviz" />
+<!--   <node type="rviz" name="rviz" pkg="rviz" args="-d $(find medibotv4)/rviz/imu.rviz" /> -->
 </launch>
