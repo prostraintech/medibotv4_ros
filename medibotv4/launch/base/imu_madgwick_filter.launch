@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<launch>
+  <node pkg="imu_filter_madgwick" type="imu_filter_node" name="imu_filter_node" output="screen">
+    <param name="world_frame" value="enu"/>
+    <param name="fixed_frame" value="odom"/>
+    <param name="publish_tf" value="true"/>
+
+    <param name="publish_debug_topics" value="true"/>
+
+    <remap from="imu/data_raw" to ="camera/imu"/>
+  </node>
+</launch>
