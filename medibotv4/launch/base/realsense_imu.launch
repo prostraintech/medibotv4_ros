@@ -53,19 +53,19 @@
   <arg name="enable_sync"               default="false"/>
   <arg name="align_depth"               default="false"/>
 
-  <arg name="publish_tf"                default="true"/>
+  <arg name="publish_tf"                default="false"/>
   <arg name="tf_publish_rate"           default="0"/>
 
   <arg name="filters"                   default=""/>
   <arg name="clip_distance"             default="-2"/>
   <arg name="linear_accel_cov"          default="0.01"/>
-  <arg name="initial_reset"             default="true"/>
+  <arg name="initial_reset"             default="false"/>
   <arg name="reconnect_timeout"         default="6.0"/>
   <arg name="wait_for_device_timeout"   default="-1.0"/>
   <arg name="unite_imu_method"          default="linear_interpolation"/>
   <arg name="topic_odom_in"             default="odom_in"/>
   <arg name="calib_odom_file"           default=""/>
-  <arg name="publish_odom_tf"           default="true"/>
+  <arg name="publish_odom_tf"           default="false"/>
 
   <arg name="stereo_module/exposure/1"  default="7500"/>
   <arg name="stereo_module/gain/1"      default="16"/>
@@ -158,12 +158,49 @@
     <param name="gain_acc" value="0.01"/>
     <param name="gain_mag" value="0.01"/>
     
-    <param name="fixed_frame" value="odom"/>
-    <param name="publish_tf" value="true"/>
+    <param name="fixed_frame" value="base_link"/>
+    <param name="publish_tf" value="false"/>
 
     <param name="publish_debug_topics" value="true"/>
 
     <remap from="imu/data_raw" to ="camera/imu"/>
   </node>
 
+<node pkg="tf" type="static_transform_publisher" name="base_link_to_imu" args="0 0 0 0 0 0 /base_link /camera_imu_optical_frame 30" />
+
+<!--   <node pkg="imu_filter_madgwick" type="imu_filter_node" name="imu_filter_node" output="screen">
+    <param name="world_frame" value="enu"/>
+    <param name="fixed_frame" value="odom"/>
+    <param name="publish_tf" value="true"/>
+
+    <param name="publish_debug_topics" value="true"/>
+
+    <remap from="imu/data_raw" to ="camera/imu"/>
+  </node> -->
+
+
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization" clear_params="true">
+    <param name="frequency" value="30"/>  
+    <param name="sensor_timeout" value="0.2"/>  
+    <param name="two_d_mode" value="false"/>
+
+    <param name="odom_frame" value="odom"/>
+    <param name="base_link_frame" value="base_link"/>
+    <param name="world_frame" value="odom"/>
+
+    <param name="imu0" value="/imu/data"/> 
+
+    <rosparam param="imu0_config">[false, false, false, 
+                                    true,  true,  true, 
+                                    false, false, false, 
+                                    false,  false,  false,
+                                    false, false, false]</rosparam>
+
+    <param name="imu0_differential" value="true"/>
+
+    <!-- <param name="imu0_remove_gravitational_acceleration" value="false"/> -->
+
+  </node>
+
+  <node type="rviz" name="rviz" pkg="rviz" args="-d $(find medibotv4)/rviz/imu.rviz" />
 </launch>
