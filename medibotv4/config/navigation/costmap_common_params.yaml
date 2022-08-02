@@ -10,5 +10,6 @@ cost_scaling_factor: 3.0
 transform_tolerance: 0.5
 map_type: costmap
 
-observation_sources: scan
+observation_sources: scan realsense
 scan: {sensor_frame: lidar, data_type: LaserScan, topic: scan, marking: true, clearing: true, inf_is_valid: true, expected_update_rate: 0.0}
+realsense: {sensor_frame: realsense, data_type: LaserScan, topic: scan, marking: true, clearing: true, inf_is_valid: true, expected_update_rate: 0.0}
