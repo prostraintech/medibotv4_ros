@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+<launch>
+
+<include file="$(find medibotv4)/launch/base/arduino.launch" />
+
+<include file="$(find medibotv4)/launch/base/lidar.launch" />
+
+<include file="$(find medibotv4)/launch/base/laser_filters.launch" />
+
+<include file="$(find medibotv4)/launch/base/robot_model.launch" />
+
+<include file="$(find medibotv4)/launch/base/scan_matcher.launch" />
+
+<include file="$(find medibotv4)/launch/base/odom.launch" />
+
+<include file="$(find medibotv4)/launch/base/ekf_localization.launch" />
+
+<include file="$(find medibotv4)/launch/base/realsense_camera.launch" />
+
+<include file="$(find medibotv4)/launch/base/twist_mux.launch" />
+
+<node type="spots_service_server.py" name="spots_service_server" pkg="medibotv4" output="screen"/>
+
+<node type="clear_costmap_node.py" name="clear_costmap_node" pkg="medibotv4"/>
+
+<!-- <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/> -->
+
+<node type="robot_pose_publisher" name="robot_pose_publisher" pkg="medibotv4"/>
+
+<!-- <node pkg="capabilities" name="capability_server" type="capability_server" output="screen" required="true"/> -->
+	
+
+<!-- <include file="$(find medibotv4)/launch/mapping/gmapping.launch" /> -->
+
+<!-- <include file="$(find medibotv4)/launch/navigation/exploration.launch" /> -->
+
+<!-- <include file="$(find medibotv4)/launch/navigation/navigation.launch" />  -->
+
+
+</launch>
