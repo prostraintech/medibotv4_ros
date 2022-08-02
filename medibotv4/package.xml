@@ -28,5 +28,7 @@
   <depend>laser_scan_matcher</depend>
   <depend>rosbridge_server</depend>
   <depend>robot_localization</depend>
+  <depend>imu_tools</depend>
+  <depend>depthimage_to_laserscan</depend>
 
 </package>
