@@ -33,7 +33,7 @@
 
   <arg name="color_width"         default="-1"/>
   <arg name="color_height"        default="-1"/>
-  <arg name="enable_color"        default="false"/>
+  <arg name="enable_color"        default="true"/>
 
   <arg name="fisheye_fps"         default="-1"/>
   <arg name="depth_fps"           default="-1"/>
@@ -44,7 +44,7 @@
   <arg name="enable_gyro"         default="false"/>
   <arg name="enable_accel"        default="false"/>
 
-  <arg name="enable_pointcloud"         default="false"/>
+  <arg name="enable_pointcloud"         default="true"/>
   <arg name="pointcloud_texture_stream" default="RS2_STREAM_COLOR"/>
   <arg name="pointcloud_texture_index"  default="0"/>
   <arg name="allow_no_texture_points"   default="false"/>
@@ -53,10 +53,10 @@
   <arg name="enable_sync"               default="false"/>
   <arg name="align_depth"               default="false"/>
 
-  <arg name="publish_tf"                default="false"/>
+  <arg name="publish_tf"                default="true"/>
   <arg name="tf_publish_rate"           default="0"/>
 
-  <arg name="filters"                   default=""/>
+  <arg name="filters"                   default="pointcloud"/>
   <arg name="clip_distance"             default="-2"/>
   <arg name="linear_accel_cov"          default="0.01"/>
   <arg name="initial_reset"             default="true"/>
@@ -160,7 +160,7 @@
 
     <!-- PARAMETERS: -->
     <!-- These are the default values. --> 
-    <param name="scan_height"     type="int"    value="5"/> <!-- default: 1 pixel. Number of pixel rows used to generate laser scan. -->
+    <param name="scan_height"     type="int"    value="1"/> <!-- default: 1 pixel. Number of pixel rows used to generate laser scan. -->
     <param name="scan_time"       type="double" value="0.033"/> <!-- default:0.033, 30 FPS . Time between scans. -->
     <param name="range_min"       type="double" value="0.2"/> <!--default:0.45m. Ranges less than this are considered -Inf. -->
     <param name="range_max"       type="double" value="10.0"/> <!--default: 10m. Ranges more than this are considered +Inf. -->
@@ -169,5 +169,7 @@
   </node>
 
   <node pkg="tf" type="static_transform_publisher" name="base_link_to_realsense" args="0.2 0 0.7 0 0 0  /base_link /realsense 200"/>
+
+  <node pkg="tf" type="static_transform_publisher" name="base_link_to_camera_link" args="0.2 0 0.7 0 0 0  /base_link /camera_link 200"/>
   
 </launch>
