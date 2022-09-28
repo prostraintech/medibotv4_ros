@@ -31,6 +31,6 @@
     <arg name="verbose" default="false"/>
   </include>
 
-  <include file="$(find medibotv4)/launch/base/laser_filters.launch" />
+  <include file="$(find medibotv4)/launch/base/sim_laser_filters.launch" />
 
 </launch>

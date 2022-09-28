@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<launch>
+  <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter">
+    <rosparam command="load" file="$(find medibotv4)/config/base/sim_laser_filters.yaml" />
+    <remap from="scan" to="scan_unfiltered" />
+    <remap from="scan_filtered" to="scan" />
+  </node>
+</launch>
